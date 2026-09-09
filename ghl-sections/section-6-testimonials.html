@@ -1,0 +1,242 @@
+<!--
+  ============================================================
+  PACOW — SECTION 6: TESTIMONIALS (dark section, WHITE text cards)
+  5 video tiles (16:9, YouTube/Wistia) w/ name + stars · white text cards · gold stars
+  CTA calls pacowModal('open') from Section 1.
+
+  VIDEOS: replace each placeholder div (marked VIDEO 1..5) with the embed:
+    YouTube: <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+    Wistia:  paste Wistia iframe embed.
+  Edit the name + role under each video in .pacow-tst__vmeta.
+  PHOTO testimonial: swap the .shot <img> src for a GHL-hosted URL.
+  ============================================================
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+  .pacow-tst {
+    --pc-purple:#7C3AFF; --pc-purple-hover:#6a2be0;
+    --pc-bg:#0A0A0F; --pc-white:#FDFBFF; --pc-grid:#1E1C2A;
+    --pc-gold:#F5B544; --pc-ink:#14121C; --pc-muted:rgba(253,251,255,0.58);
+    --pc-font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    position:relative; width:100vw; max-width:100vw;
+    margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw);
+    background-color:var(--pc-bg);
+    background-image:linear-gradient(to right,rgba(30,28,42,0.5) 1px,transparent 1px),linear-gradient(to bottom,rgba(30,28,42,0.5) 1px,transparent 1px);
+    background-size:36px 36px;
+    font-family:var(--pc-font); color:var(--pc-white); overflow:hidden; box-sizing:border-box;
+  }
+  .pacow-tst *,.pacow-tst *::before,.pacow-tst *::after{box-sizing:border-box;}
+  .pacow-tst::before{
+    content:''; position:absolute; top:-6%; left:50%; transform:translateX(-50%);
+    width:820px; height:520px;
+    background:radial-gradient(ellipse at center, rgba(124,58,255,0.12), transparent 65%);
+    pointer-events:none; z-index:0;
+  }
+  .pacow-tst__inner{position:relative; z-index:1; max-width:1080px; margin:0 auto; padding:56px 24px 88px;}
+
+  .pacow-tst__eyebrow{display:flex; align-items:center; justify-content:center; gap:9px; margin-bottom:14px;}
+  .pacow-tst__dot{width:8px;height:8px;background:var(--pc-purple);border-radius:50%;animation:pacow-tst-pulse 2s ease-in-out infinite;}
+  @keyframes pacow-tst-pulse{0%{box-shadow:0 0 0 0 rgba(124,58,255,.6);}70%{box-shadow:0 0 0 7px rgba(124,58,255,0);}100%{box-shadow:0 0 0 0 rgba(124,58,255,0);}}
+  .pacow-tst__eyebrow span{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--pc-muted);}
+  .pacow-tst__title{text-align:center;font-size:42px;font-weight:800;letter-spacing:-0.025em;margin:0 0 14px;}
+  .pacow-tst__sub{text-align:center;font-size:17px;color:var(--pc-muted);max-width:560px;margin:0 auto 50px;line-height:1.5;}
+
+  /* ---- Video grid (16:9) ---- */
+  .pacow-tst__videos{display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-bottom:18px;}
+  .pacow-tst__vcard{
+    display:flex; flex-direction:column;
+    background:var(--pc-white); border-radius:16px; overflow:hidden;
+    box-shadow:0 14px 40px rgba(0,0,0,0.32);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .pacow-tst__vcard:hover{transform:translateY(-3px); box-shadow:0 22px 56px rgba(124,58,255,0.30);}
+  .pacow-tst__video{
+    position:relative; aspect-ratio:16/9; background:#15131d; overflow:hidden;
+  }
+  .pacow-tst__video iframe, .pacow-tst__video video{position:absolute; inset:0; width:100%; height:100%; border:none;}
+  .pacow-tst__video wistia-player{position:absolute; inset:0; width:100%; height:100%; display:block;}
+  .pacow-tst__yt-guard-top{position:absolute; top:0; left:0; right:0; height:44px; z-index:2; background:transparent;}
+  .pacow-tst__yt-guard-corner{position:absolute; bottom:0; right:0; width:70px; height:46px; z-index:2; background:transparent;}
+  .pacow-tst__ph{position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; color:var(--pc-muted); font-size:12px; font-weight:600; letter-spacing:.04em;}
+  .pacow-tst__play{width:52px;height:52px;border-radius:50%;background:var(--pc-purple);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(124,58,255,.4);}
+  .pacow-tst__play svg{width:21px;height:21px;margin-left:3px;}
+  .pacow-tst__vmeta{display:flex; align-items:center; gap:11px; padding:18px 22px 20px;}
+  .pacow-tst__vstars{display:flex; gap:2px; margin-bottom:3px;}
+  .pacow-tst__vstars svg{width:14px;height:14px;}
+  .pacow-tst__vresult{font-size:14px;font-weight:800;color:var(--pc-purple);letter-spacing:-0.01em;margin-bottom:6px;line-height:1.2;}
+  .pacow-tst__vname{font-size:14px;font-weight:700;color:var(--pc-ink);line-height:1.2;}
+  .pacow-tst__vrole{font-size:12px;color:rgba(20,18,28,0.55);}
+
+  /* ---- White text cards ---- */
+  .pacow-tst__wall{columns:3; column-gap:18px;}
+  .pacow-tst__card{
+    break-inside:avoid; margin-bottom:18px;
+    background:var(--pc-white); border-radius:16px; padding:24px 24px 22px;
+    box-shadow:0 14px 40px rgba(0,0,0,0.32);
+    transition:transform .25s ease, box-shadow .25s ease;
+  }
+  .pacow-tst__card:hover{transform:translateY(-3px); box-shadow:0 22px 56px rgba(124,58,255,0.30);}
+  .pacow-tst__stars{display:flex; gap:3px; margin-bottom:14px;}
+  .pacow-tst__stars svg{width:17px;height:17px;}
+  .pacow-tst__result{font-size:18px; font-weight:800; letter-spacing:-0.01em; color:var(--pc-purple); margin:0 0 10px; line-height:1.2;}
+  .pacow-tst__quote{font-size:14.5px; line-height:1.55; color:rgba(20,18,28,0.82); margin:0 0 18px;}
+  .pacow-tst__person{display:flex; align-items:center; gap:11px;}
+  .pacow-tst__avatar{width:38px;height:38px;border-radius:50%;flex:0 0 38px;background:linear-gradient(135deg, var(--pc-purple), #4a1fb0);display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:700;color:#fff;overflow:hidden;}
+  .pacow-tst__avatar img{width:100%;height:100%;object-fit:cover;}
+  .pacow-tst__name{font-size:14px;font-weight:700;color:var(--pc-ink);line-height:1.2;}
+  .pacow-tst__role{font-size:12.5px;color:rgba(20,18,28,0.55);}
+
+  .pacow-tst__card--photo{padding:0; overflow:hidden;}
+  .pacow-tst__card--photo img.shot{width:100%;display:block;background:#e9e9ef;}
+  .pacow-tst__card--photo .body{padding:20px 24px 22px;}
+
+  /* ---- Trustpilot badge ---- */
+  .pacow-tst__card--tp{position:relative; padding-top:26px;}
+  .pacow-tst__tp{position:absolute; top:20px; right:22px; display:flex; align-items:center; gap:5px;}
+  .pacow-tst__tp svg{width:14px;height:14px;}
+  .pacow-tst__tp span{font-size:11.5px; font-weight:700; color:#191919; letter-spacing:-0.01em;}
+  .pacow-tst__card--tp .pacow-tst__quote{margin-bottom:4px;}
+  .pacow-tst__quote--clamp{display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden;}
+  .pacow-tst__quote--clamp.pacow-tst__quote--expanded{display:block; -webkit-line-clamp:unset; overflow:visible;}
+  .pacow-tst__more{background:none; border:none; padding:0; margin:0 0 16px; font-family:var(--pc-font); font-size:13px; font-weight:700; color:var(--pc-purple); cursor:pointer; display:inline-block;}
+  .pacow-tst__more:hover{text-decoration:underline;}
+
+  .pacow-tst__cta-wrap{text-align:center;margin-top:54px;}
+  .pacow-tst__cta{
+    display:inline-flex;align-items:center;gap:10px;background:var(--pc-purple);color:var(--pc-white);border:none;
+    border-radius:12px;padding:14px 27px;font-family:var(--pc-font);font-size:14px;font-weight:600;cursor:pointer;position:relative;overflow:hidden;
+    box-shadow:0 10px 30px rgba(124,58,255,.35);transition:background .2s ease, transform .15s ease, box-shadow .2s ease;
+    animation:pacow-tst-glow 2.6s ease-in-out infinite;
+  }
+  .pacow-tst__cta::after{content:'';position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-18deg);animation:pacow-tst-shimmer 3.4s ease-in-out infinite;pointer-events:none;}
+  @keyframes pacow-tst-glow{0%,100%{box-shadow:0 10px 30px rgba(124,58,255,.30);}50%{box-shadow:0 12px 42px rgba(124,58,255,.60);}}
+  @keyframes pacow-tst-shimmer{0%{left:-120%;}55%{left:130%;}100%{left:130%;}}
+  .pacow-tst__cta:hover{background:var(--pc-purple-hover);transform:translateY(-2px);box-shadow:0 14px 38px rgba(124,58,255,.45);animation-play-state:paused;}
+
+  @media (max-width:900px){.pacow-tst__wall{columns:2;}}
+  @media (max-width:768px){.pacow-tst{background-size:28px 28px;}.pacow-tst__inner{padding:48px 18px 64px;}.pacow-tst__title{font-size:30px;}.pacow-tst__sub{font-size:15px;margin-bottom:38px;}.pacow-tst__videos{grid-template-columns:1fr;}}
+  @media (max-width:560px){.pacow-tst__wall{columns:1;}}
+</style>
+
+<section class="pacow-tst">
+  <div class="pacow-tst__inner">
+    <div class="pacow-tst__eyebrow"><span class="pacow-tst__dot"></span><span>Real results</span></div>
+    <h2 class="pacow-tst__title">What our clients say</h2>
+    <p class="pacow-tst__sub">Education businesses scaling with Pacow - in their own words.</p>
+
+    <!-- VIDEO GRID -->
+    <div class="pacow-tst__videos">
+      <!-- VIDEO 1 -->
+      <div class="pacow-tst__vcard">
+        <div class="pacow-tst__video"><iframe src="https://www.youtube.com/embed/PejXXEeKzrI?modestbranding=1&amp;rel=0&amp;iv_load_policy=3&amp;showinfo=0" title="Client testimonial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><div class="pacow-tst__yt-guard-top"></div><div class="pacow-tst__yt-guard-corner"></div></div>
+        <div class="pacow-tst__vmeta"><div class="pacow-tst__avatar"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a6799b7b7fe5a8e31fba271.jpg" alt="Sarah Mack"></div><div style="min-width:0;"><div class="pacow-tst__vresult">$250,000 added in 60 days</div><div class="pacow-tst__vstars"><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><div class="pacow-tst__vname">Sarah Mack</div><div class="pacow-tst__vrole">CEO @ SeoulQuest</div></div></div>
+      </div>
+      <!-- VIDEO 2 -->
+      <div class="pacow-tst__vcard">
+        <div class="pacow-tst__video"><iframe src="https://www.youtube.com/embed/s5FM0bMAmPE?modestbranding=1&amp;rel=0&amp;iv_load_policy=3&amp;showinfo=0" title="Client testimonial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><div class="pacow-tst__yt-guard-top"></div><div class="pacow-tst__yt-guard-corner"></div></div>
+        <div class="pacow-tst__vmeta"><div class="pacow-tst__avatar"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a6799b519a8766aea4ff27c.jpg" alt="Julian Millidge"></div><div style="min-width:0;"><div class="pacow-tst__vresult">$71,000 added from $4k budget</div><div class="pacow-tst__vstars"><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><div class="pacow-tst__vname">Julian Millidge</div><div class="pacow-tst__vrole">CEO @ Englisher</div></div></div>
+      </div>
+      <!-- VIDEO 3 (Alex) -->
+      <div class="pacow-tst__vcard">
+        <div class="pacow-tst__video"><iframe src="https://www.youtube.com/embed/J_ZQYGPQFJc?modestbranding=1&amp;rel=0&amp;iv_load_policy=3&amp;showinfo=0" title="Client testimonial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe><div class="pacow-tst__yt-guard-top"></div><div class="pacow-tst__yt-guard-corner"></div></div>
+        <div class="pacow-tst__vmeta"><div class="pacow-tst__avatar"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a679a949b2aff3b75af507e.png" alt="Alex Willson"></div><div style="min-width:0;"><div class="pacow-tst__vresult">$170,000 added in 3 months</div><div class="pacow-tst__vstars"><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><div class="pacow-tst__vname">Alex Willson</div><div class="pacow-tst__vrole">Founder @ Lingua Verna</div></div></div>
+      </div>
+      <!-- VIDEO 4 (Eric) -->
+      <div class="pacow-tst__vcard">
+        <div class="pacow-tst__video"><script src="https://fast.wistia.com/embed/caq0twzagk.js" async type="module"></script><wistia-player media-id="caq0twzagk" aspect="1.7777777777777777" style="position:absolute;inset:0;width:100%;height:100%;"></wistia-player></div>
+        <div class="pacow-tst__vmeta"><div class="pacow-tst__avatar"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a6799b59eb8e1b1cc2a6d45.jpg" alt="Eric R."></div><div style="min-width:0;"><div class="pacow-tst__vresult">17 booked calls in 30 days</div><div class="pacow-tst__vstars"><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><div class="pacow-tst__vname">Eric R.</div><div class="pacow-tst__vrole">CEO @ Rath Tutoring</div></div></div>
+      </div>
+      <!-- VIDEO 5 (Eva) -->
+      <div class="pacow-tst__vcard">
+        <div class="pacow-tst__video"><script src="https://fast.wistia.com/player.js" async></script><script src="https://fast.wistia.com/embed/7p62yapxvr.js" async type="module"></script><wistia-player media-id="7p62yapxvr" aspect="1.7777777777777777" style="position:absolute;inset:0;width:100%;height:100%;"></wistia-player></div>
+        <div class="pacow-tst__vmeta"><div class="pacow-tst__avatar"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a6799b5d5a8878e0a9f29e8.jpg" alt="Eva V."></div><div style="min-width:0;"><div class="pacow-tst__vresult">35% increase in lead quality</div><div class="pacow-tst__vstars"><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div><div class="pacow-tst__vname">Eva V.</div><div class="pacow-tst__vrole">Comms @ IMB School</div></div></div>
+      </div>
+    </div>
+
+    <!-- TEXT WALL -->
+    <div class="pacow-tst__wall">
+
+      <!-- Trustpilot review: Alex Willson -->
+      <div class="pacow-tst__card pacow-tst__card--tp">
+        <div class="pacow-tst__tp"><svg viewBox="0 0 24 24" fill="#00B67A"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><span>Trustpilot</span></div>
+        <div class="pacow-tst__stars"><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+        <p class="pacow-tst__result">Paid back my investment in 7 days. Pacow is INCREDIBLE!</p>
+        <p class="pacow-tst__quote pacow-tst__quote--clamp">"The team at Pacow is INCREDIBLE. I literally earned my investment back in 7 days. They were so professional, so responsive, and I loved that they took the time to understand MY business and MY needs. Their approach felt so custom. Some more details on my experience are below, but this team is amazing. I wish I could give more than 5 stars!<br><br>Some background: I run a live online Arabic program for adults. Before Pacow, I'd worked with other agencies that handed me cookie-cutter funnels and generic ad copy that could've been for any business. Nobody took the time to actually understand what I sell or what needed to be unique about the messaging.<br><br>Pacow was the opposit. They learned the product, studied my audience, and built a funnel that fits the way my business actually works. The result was that I paid back my entire investment within the first 7 days of going live, and the funnel has continued to improve from there.<br><br>What stands out most is how responsive they are. My Google Chat with them feels like talking to co-founders, not contractors. I often get thoughtful replies in just minutes. They're in the trenches with me on funnel performance, automations, tweaking ad creative, and so much more. They even pushed back on my pricing (told me to raise it), and they were right!<br><br>If you want a team that treats your business like their own, these are your people!"</p>
+        <button class="pacow-tst__more" onclick="pacowTstToggle(this)">Read more</button>
+        <div class="pacow-tst__person"><div class="pacow-tst__avatar"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a679a949b2aff3b75af507e.png" alt="Alex Willson"></div><div><div class="pacow-tst__name">Alex Willson</div><div class="pacow-tst__role">Founder @ Lingua Verna</div></div></div>
+      </div>
+
+      <!-- Trustpilot review: Anna Chen Teunis -->
+      <div class="pacow-tst__card pacow-tst__card--tp">
+        <div class="pacow-tst__tp"><svg viewBox="0 0 24 24" fill="#00B67A"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><span>Trustpilot</span></div>
+        <div class="pacow-tst__stars"><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+        <p class="pacow-tst__result">Ema and Viktorija were so helpful…</p>
+        <p class="pacow-tst__quote pacow-tst__quote--clamp">"Ema and Viktorija were so helpful throughout the whole process, from setting up the funnel to helping us make advertising materials to sales coaching. Their skills and wisdom helped us achieve in just a few months what would have taken us forever to figure out ourselves. Highly recommend working with Pacow if you want to see ROI!"</p>
+        <button class="pacow-tst__more" onclick="pacowTstToggle(this)">Read more</button>
+        <div class="pacow-tst__person"><div class="pacow-tst__avatar"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a679a94881063261950ae69.png" alt="Anna Chen Teunis"></div><div><div class="pacow-tst__name">Anna Chen Teunis</div><div class="pacow-tst__role">Co-Founder @ Sigma Education</div></div></div>
+      </div>
+
+      <!-- Trustpilot review: Joe -->
+      <div class="pacow-tst__card pacow-tst__card--tp">
+        <div class="pacow-tst__tp"><svg viewBox="0 0 24 24" fill="#00B67A"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><span>Trustpilot</span></div>
+        <div class="pacow-tst__stars"><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+        <p class="pacow-tst__result">Great Experience with PACOW</p>
+        <p class="pacow-tst__quote pacow-tst__quote--clamp">"Ema and Viktorija were great to work with throughout this process. They made the ad creation, strategy, and execution processes easy to understand and complete. The ads led to significant bookings for consultations with families who were very strong candidates. I would recommend PACOW to anyone looking to dive into digital advertising."</p>
+        <button class="pacow-tst__more" onclick="pacowTstToggle(this)">Read more</button>
+        <div class="pacow-tst__person"><div class="pacow-tst__avatar"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a679a94cf7bd6509be2dc3f.jpg" alt="Joe"></div><div><div class="pacow-tst__name">Joe</div><div class="pacow-tst__role">Founder @ Slater Advising</div></div></div>
+      </div>
+
+      <!-- Trustpilot review: Mo Kaushal -->
+      <div class="pacow-tst__card pacow-tst__card--tp">
+        <div class="pacow-tst__tp"><svg viewBox="0 0 24 24" fill="#00B67A"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><span>Trustpilot</span></div>
+        <div class="pacow-tst__stars"><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+        <p class="pacow-tst__result">Pacow Media is very easy to work with…</p>
+        <p class="pacow-tst__quote pacow-tst__quote--clamp">"Pacow Media is very easy to work with due to highly responsive and collaborative owners/employees. Each week was filled with data-tracked insights and personalized recommendations on the ad campaign. If you seek personalized touch, Pacow Media is the marketing agency for you!"</p>
+        <button class="pacow-tst__more" onclick="pacowTstToggle(this)">Read more</button>
+        <div class="pacow-tst__person"><div class="pacow-tst__avatar"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a679a9457fcdd70c2f0c69d.jpg" alt="Mo Kaushal"></div><div><div class="pacow-tst__name">Mo Kaushal</div><div class="pacow-tst__role">Founder @ MK Elite Tutoring</div></div></div>
+      </div>
+
+      <div class="pacow-tst__card">
+        <div class="pacow-tst__stars"><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+        <p class="pacow-tst__result">30+ booked calls in 60 days</p>
+        <p class="pacow-tst__quote">"Pacow Media nailed lead gen from day one. The ads were sharp, on-brand, and genuinely felt like our own voice - while actually converting. Best agency experience I've had."</p>
+        <div class="pacow-tst__person"><div class="pacow-tst__avatar"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a6799b688106326194fac69.png" alt="Cole N."></div><div><div class="pacow-tst__name">Cole N.</div><div class="pacow-tst__role">COO @ Examkrackers</div></div></div>
+      </div>
+
+      <div class="pacow-tst__card">
+        <div class="pacow-tst__stars"><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+        <p class="pacow-tst__result">35% increase in lead quality</p>
+        <p class="pacow-tst__quote">"Pacow Media has been an incredible partner - professional, proactive, and committed. Ema and Viktorija bring smart ideas, drive results, and make everything seamless."</p>
+        <div class="pacow-tst__person"><div class="pacow-tst__avatar"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a6799b5cf7bd6509be217a7.jpg" alt="Eulalia R."></div><div><div class="pacow-tst__name">Eulalia R.</div><div class="pacow-tst__role">Executive Director @ IMB School</div></div></div>
+      </div>
+
+      <!-- PHOTO testimonial (swap .shot src for GHL URL) -->
+      <div class="pacow-tst__card">
+        <div class="pacow-tst__stars"><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+        <p class="pacow-tst__result">For each $1 -&gt; $6 return</p>
+        <p class="pacow-tst__quote">"As an early-stage founder, Pacow Media was a game-changer. In just 2 weeks, campaigns were live - and they built the full funnel too: ads, CRM, nurture flows, and automation. End-to-end support that let us test, learn, and grow fast."</p>
+        <div class="pacow-tst__person"><div class="pacow-tst__avatar"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a6799b59eb8e1b1cc2a6d31.png" alt="Jonjo W."></div><div><div class="pacow-tst__name">Jonjo W.</div><div class="pacow-tst__role">CEO @ Sankakoo Coding Bootcamp</div></div></div>
+      </div>
+
+      <div class="pacow-tst__card">
+        <div class="pacow-tst__stars"><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+        <p class="pacow-tst__result">44% decrease in cost-per-lead</p>
+        <p class="pacow-tst__quote">"Pacow Media has been key to scaling our marketing. Ema and Viktorija combine sharp strategy, strong creatives, and data-driven execution - improving lead quality, optimizing campaigns, and driving real results."</p>
+        <div class="pacow-tst__person"><div class="pacow-tst__avatar"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a6799b5a5647acc133e7982.png" alt="Gent U."></div><div><div class="pacow-tst__name">Gent U.</div><div class="pacow-tst__role">CMO &amp; Co-Founder @ StudiesIn</div></div></div>
+      </div>
+
+    </div>
+
+    <div class="pacow-tst__cta-wrap">
+      <button class="pacow-tst__cta" onclick="pacowModal('open')"><span style="position:relative;z-index:1;">Apply to see if you qualify -&gt;</span></button>
+    </div>
+  </div>
+</section>
+
+<script>
+  function pacowTstToggle(btn){
+    var quote = btn.previousElementSibling;
+    var expanded = quote.classList.toggle('pacow-tst__quote--expanded');
+    btn.textContent = expanded ? 'Read less' : 'Read more';
+  }
+</script>

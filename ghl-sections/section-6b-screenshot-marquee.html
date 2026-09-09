@@ -1,0 +1,127 @@
+<!--
+  ============================================================
+  PACOW — SCREENSHOT MARQUEE (goes directly after the testimonials section)
+  Auto-scrolling row of proof screenshots (DMs, texts, emails, Slack, etc).
+  - Hover (desktop) pauses the scroll.
+  - Click/tap any image to open it full-size in a lightbox; click again to close.
+  Add/remove images by editing the .pacow-mq__item list — each image appears
+  TWICE (two identical blocks back to back) so the loop is seamless. Keep both
+  copies in sync if you add or remove a screenshot.
+  ============================================================
+-->
+<style>
+  .pacow-mq{
+    position:relative; width:100vw; max-width:100vw;
+    margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw);
+    background-color:#0A0A0F;
+    background-image:linear-gradient(to right,rgba(30,28,42,0.5) 1px,transparent 1px),linear-gradient(to bottom,rgba(30,28,42,0.5) 1px,transparent 1px);
+    background-size:36px 36px;
+    font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    overflow:hidden; box-sizing:border-box; padding:8px 0 72px;
+  }
+  .pacow-mq *,.pacow-mq *::before,.pacow-mq *::after{box-sizing:border-box;}
+  .pacow-mq__inner{position:relative; z-index:1; max-width:1080px; margin:0 auto; padding:0 24px;}
+  .pacow-mq__title{text-align:center;font-size:28px;font-weight:800;letter-spacing:-0.02em;color:#FDFBFF;margin:0 0 6px;}
+  .pacow-mq__sub{text-align:center;font-size:15px;color:rgba(253,251,255,0.55);margin:0 0 34px;}
+
+  .pacow-mq__wrap{
+    position:relative; width:100vw; margin-left:calc(50% - 50vw);
+    -webkit-mask-image:linear-gradient(to right, transparent 0, #000 80px, #000 calc(100% - 80px), transparent 100%);
+    mask-image:linear-gradient(to right, transparent 0, #000 80px, #000 calc(100% - 80px), transparent 100%);
+  }
+  .pacow-mq__track{
+    display:flex; align-items:center; gap:20px; width:max-content;
+    animation:pacow-mq-scroll 46s linear infinite;
+  }
+  .pacow-mq__track:hover{animation-play-state:paused;}
+  @keyframes pacow-mq-scroll{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+  .pacow-mq__item{
+    flex:0 0 auto; height:340px; border-radius:14px; overflow:hidden;
+    box-shadow:0 14px 36px rgba(0,0,0,0.4); cursor:zoom-in;
+    transition:transform .2s ease, box-shadow .2s ease;
+    background:#15131d;
+  }
+  .pacow-mq__item:hover{transform:translateY(-4px); box-shadow:0 20px 48px rgba(124,58,255,0.28);}
+  .pacow-mq__item img{height:100%; width:auto; display:block; object-fit:cover;}
+
+  .pacow-mq__lightbox{
+    display:none; position:fixed; inset:0; z-index:9999;
+    background:rgba(6,5,10,0.92); align-items:center; justify-content:center;
+    padding:40px; cursor:zoom-out;
+  }
+  .pacow-mq__lightbox.active{display:flex;}
+  .pacow-mq__lightbox img{max-width:90vw; max-height:88vh; border-radius:14px; box-shadow:0 24px 70px rgba(0,0,0,0.6);}
+  .pacow-mq__lightbox-close{
+    position:absolute; top:22px; right:26px; width:40px; height:40px; border-radius:50%;
+    background:rgba(253,251,255,0.1); border:1px solid rgba(253,251,255,0.2); color:#FDFBFF;
+    font-size:20px; line-height:1; display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+  }
+  .pacow-mq__lightbox-close:hover{background:rgba(253,251,255,0.18);}
+
+  @media (max-width:768px){
+    .pacow-mq{padding:0 0 56px;}
+    .pacow-mq__title{font-size:24px;}
+    .pacow-mq__item{height:260px;}
+  }
+</style>
+
+<section class="pacow-mq">
+  <div class="pacow-mq__inner">
+    <h3 class="pacow-mq__title">More proof, straight from the inbox</h3>
+    <p class="pacow-mq__sub">Real messages from real clients. Click any screenshot to read it in full.</p>
+  </div>
+
+  <div class="pacow-mq__wrap">
+    <div class="pacow-mq__track">
+      <!-- Set 1 -->
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1dfb06386ede4dd566.jpg')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1dfb06386ede4dd566.jpg" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1cb7fe5a8e3128f6d6.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1cb7fe5a8e3128f6d6.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1cb7fe5a8e3128f6e0.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1cb7fe5a8e3128f6e0.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1bcf7bd6509b0fa89b.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1bcf7bd6509b0fa89b.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1bb7fe5a8e3128f6c8.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1bb7fe5a8e3128f6c8.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1b9b2aff3b75d9a8ba.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1b9b2aff3b75d9a8ba.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1bcf7bd6509b0fa88a.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1bcf7bd6509b0fa88a.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1afb06386ede4dd50e.jpg')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1afb06386ede4dd50e.jpg" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1af3037a82d5ddd921.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1af3037a82d5ddd921.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1aa5647acc136ae75d.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1aa5647acc136ae75d.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1acf7bd6509b0fa863.jpg')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1acf7bd6509b0fa863.jpg" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1aa5647acc136ae750.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1aa5647acc136ae750.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1afb06386ede4dd513.jpg')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1afb06386ede4dd513.jpg" alt="Client message screenshot"></div>
+      <!-- Set 2 (duplicate for seamless loop) -->
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1dfb06386ede4dd566.jpg')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1dfb06386ede4dd566.jpg" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1cb7fe5a8e3128f6d6.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1cb7fe5a8e3128f6d6.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1cb7fe5a8e3128f6e0.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1cb7fe5a8e3128f6e0.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1bcf7bd6509b0fa89b.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1bcf7bd6509b0fa89b.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1bb7fe5a8e3128f6c8.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1bb7fe5a8e3128f6c8.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1b9b2aff3b75d9a8ba.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1b9b2aff3b75d9a8ba.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1bcf7bd6509b0fa88a.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1bcf7bd6509b0fa88a.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1afb06386ede4dd50e.jpg')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1afb06386ede4dd50e.jpg" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1af3037a82d5ddd921.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1af3037a82d5ddd921.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1aa5647acc136ae75d.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1aa5647acc136ae75d.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1acf7bd6509b0fa863.jpg')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1acf7bd6509b0fa863.jpg" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1aa5647acc136ae750.png')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1aa5647acc136ae750.png" alt="Client message screenshot"></div>
+      <div class="pacow-mq__item" onclick="pacowMqOpen('https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1afb06386ede4dd513.jpg')"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a67bd1afb06386ede4dd513.jpg" alt="Client message screenshot"></div>
+    </div>
+  </div>
+
+  <div class="pacow-mq__lightbox" id="pacowMqLightbox" onclick="pacowMqClose()">
+    <div class="pacow-mq__lightbox-close" onclick="pacowMqClose(event)">&times;</div>
+    <img id="pacowMqLightboxImg" src="" alt="Full-size screenshot" onclick="event.stopPropagation()">
+  </div>
+</section>
+
+<script>
+  function pacowMqOpen(src){
+    var lb = document.getElementById('pacowMqLightbox');
+    var img = document.getElementById('pacowMqLightboxImg');
+    img.src = src;
+    lb.classList.add('active');
+  }
+  function pacowMqClose(e){
+    if(e) e.stopPropagation();
+    document.getElementById('pacowMqLightbox').classList.remove('active');
+    document.getElementById('pacowMqLightboxImg').src = '';
+  }
+</script>

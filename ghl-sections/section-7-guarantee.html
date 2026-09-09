@@ -1,0 +1,85 @@
+<!--
+  ============================================================
+  PACOW — SECTION 7: GUARANTEE (light background)
+  White bg + faint grid (matches stats/marquee) · brand purple eyebrow
+  Swap the badge: replace the .pacow-grt__badge <img> src with a GHL-hosted URL.
+  ============================================================
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+  .pacow-grt {
+    --pc-purple:#7C3AFF; --pc-white:#FDFBFF; --pc-ink:#0A0A0F;
+    --pc-grid-light:rgba(10,10,15,0.025);
+    --pc-muted:rgba(10,10,15,0.6);
+    --pc-font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    position:relative; width:100vw; max-width:100vw;
+    margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw);
+    background-color:var(--pc-white);
+    background-image:linear-gradient(to right,var(--pc-grid-light) 1px,transparent 1px),linear-gradient(to bottom,var(--pc-grid-light) 1px,transparent 1px);
+    background-size:32px 32px;
+    font-family:var(--pc-font); color:var(--pc-ink); overflow:hidden; box-sizing:border-box;
+    padding:76px 24px 84px;
+  }
+  .pacow-grt *,.pacow-grt *::before,.pacow-grt *::after{box-sizing:border-box;}
+  .pacow-grt__inner{position:relative; z-index:1; max-width:760px; margin:0 auto; text-align:center;}
+
+  .pacow-grt__eyebrow{
+    display:flex; align-items:center; justify-content:center; gap:9px;
+    font-size:13px; font-weight:700; letter-spacing:.1em; text-transform:uppercase;
+    color:var(--pc-purple); margin:0 0 18px;
+  }
+  .pacow-grt__dot{width:8px;height:8px;background:var(--pc-purple);border-radius:50%;animation:pacow-grt-pulse 2s ease-in-out infinite;}
+  @keyframes pacow-grt-pulse{0%{box-shadow:0 0 0 0 rgba(124,58,255,.6);}70%{box-shadow:0 0 0 7px rgba(124,58,255,0);}100%{box-shadow:0 0 0 0 rgba(124,58,255,0);}}
+  .pacow-grt__title{
+    font-size:48px; font-weight:800; letter-spacing:-0.03em; line-height:1.05;
+    color:var(--pc-ink); margin:0 0 24px;
+  }
+  .pacow-grt__lead{font-size:18px; line-height:1.55; color:rgba(10,10,15,0.78); margin:0 0 12px;}
+  .pacow-grt__lead b{color:var(--pc-ink); font-weight:700;}
+  .pacow-grt__win{font-size:18px; font-weight:700; color:var(--pc-purple); margin:0 0 40px;}
+
+  .pacow-grt__badgewrap{position:relative; width:210px; margin:0 auto; padding-bottom:30px;}
+  .pacow-grt__badge{
+    position:relative; z-index:1;
+    width:210px; height:auto; display:block;
+    animation:pacow-grt-float 4s ease-in-out infinite;
+  }
+  /* floor shadow — sits below, pulses slightly as badge floats */
+  .pacow-grt__floor{
+    position:absolute; left:50%; bottom:8px; transform:translateX(-50%);
+    width:150px; height:22px; border-radius:50%;
+    background:radial-gradient(ellipse at center, rgba(124,58,255,0.40), rgba(124,58,255,0.12) 55%, transparent 75%);
+    filter:blur(6px);
+    animation:pacow-grt-floor 4s ease-in-out infinite;
+  }
+  @keyframes pacow-grt-float{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+  @keyframes pacow-grt-floor{0%,100%{transform:translateX(-50%) scale(1); opacity:1;}50%{transform:translateX(-50%) scale(0.82); opacity:0.7;}}
+
+  /* fallback badge (purple shield) if no image — shown via the inline SVG below */
+  .pacow-grt__svgbadge{width:210px;height:auto;margin:0 auto;display:block;filter:drop-shadow(0 16px 40px rgba(124,58,255,0.30));animation:pacow-grt-float 4s ease-in-out infinite;}
+
+  @media (max-width:768px){
+    .pacow-grt{padding:56px 18px 64px; background-size:26px 26px;}
+    .pacow-grt__title{font-size:33px;}
+    .pacow-grt__lead, .pacow-grt__win{font-size:16px;}
+    .pacow-grt__svgbadge{width:158px;}
+    .pacow-grt__badgewrap{width:170px;}
+    .pacow-grt__badge{width:170px;}
+    .pacow-grt__floor{width:120px;}
+  }
+</style>
+
+<section class="pacow-grt">
+  <div class="pacow-grt__inner">
+    <p class="pacow-grt__eyebrow"><span class="pacow-grt__dot"></span>Try it risk free</p>
+    <h2 class="pacow-grt__title">No-Results, No-Pay Guarantee</h2>
+    <p class="pacow-grt__lead">If we don't generate <b>15-30 qualified booked calls in 90 days</b>, we work for free until you do.</p>
+    <p class="pacow-grt__win">We win when you win.</p>
+
+    <div class="pacow-grt__badgewrap">
+      <img class="pacow-grt__badge" src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f299773035982104e4db9.png" alt="Money Back Guarantee" />
+      <div class="pacow-grt__floor"></div>
+    </div>
+
+  </div>
+</section>

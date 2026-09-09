@@ -1,0 +1,334 @@
+<!--
+  ============================================================
+  PACOW - SECTION 4: HOW IT WORKS (INTERACTIVE STEP-THROUGH PLAYER)
+  Void-black grid · solid black phase buttons · animated progress player
+  · prev/next controls · clickable phase dots · milestone celebrations.
+  Phase 1 & 2 = DONE-FOR-YOU (badge). Phase 3 = COACHING & HANDOFF (badge).
+
+  COPY NOTE: rewritten in a Matt Shiver-style "here's exactly what
+  happens" narrative (short, plain-spoken, "we will..." phrasing,
+  ready-in-X-days beats) while keeping Pacow's real deliverables and
+  the existing dark/purple interactive UI.
+
+  Self-contained. CTA calls pacowModal('open') from Section 1.
+  ============================================================
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+  .pacow-how {
+    --pc-purple:#7C3AFF; --pc-purple-hover:#6a2be0;
+    --pc-bg:#0A0A0F; --pc-white:#FDFBFF; --pc-grid:#1E1C2A;
+    --pc-gold:#F5B544; --pc-green:#16A34A;
+    --pc-muted:rgba(253,251,255,0.60);
+    --pc-font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    position:relative; width:100vw; max-width:100vw;
+    margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw);
+    background-color:var(--pc-bg);
+    background-image:linear-gradient(to right,rgba(30,28,42,0.5) 1px,transparent 1px),linear-gradient(to bottom,rgba(30,28,42,0.5) 1px,transparent 1px);
+    background-size:36px 36px;
+    font-family:var(--pc-font); color:var(--pc-white); overflow:hidden; box-sizing:border-box;
+  }
+  .pacow-how *,.pacow-how *::before,.pacow-how *::after{box-sizing:border-box;}
+  .pacow-how::before{
+    content:''; position:absolute; top:-6%; left:50%; transform:translateX(-50%);
+    width:760px; height:520px;
+    background:radial-gradient(ellipse at center, rgba(124,58,255,0.13), transparent 65%);
+    pointer-events:none; z-index:0;
+  }
+  .pacow-how__inner{position:relative; z-index:1; max-width:920px; margin:0 auto; padding:56px 24px 88px;}
+
+  .pacow-how__eyebrow{display:flex; align-items:center; justify-content:center; gap:9px; margin-bottom:14px;}
+  .pacow-how__dot{width:8px;height:8px;background:var(--pc-purple);border-radius:50%;animation:pacow-how-pulse 2s ease-in-out infinite;}
+  @keyframes pacow-how-pulse{0%{box-shadow:0 0 0 0 rgba(124,58,255,.6);}70%{box-shadow:0 0 0 7px rgba(124,58,255,0);}100%{box-shadow:0 0 0 0 rgba(124,58,255,0);}}
+  .pacow-how__eyebrow span{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--pc-muted);}
+  .pacow-how__title{text-align:center;font-size:42px;font-weight:800;letter-spacing:-0.025em;margin:0 0 14px;}
+  .pacow-how__sub{text-align:center;font-size:17px;color:var(--pc-muted);max-width:620px;margin:0 auto 44px;line-height:1.5;}
+
+  /* ── Phase buttons (SOLID BLACK) ── */
+  .pacow-how__tabs{display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:18px;}
+  .pacow-how__tab{
+    position:relative; text-align:left; cursor:pointer;
+    background:#000000;
+    border:1px solid rgba(255,255,255,0.12);
+    border-radius:16px; padding:18px 20px;
+    transition:border-color .25s ease, transform .2s ease, box-shadow .25s ease;
+    overflow:hidden;
+  }
+  .pacow-how__tab:hover{border-color:rgba(124,58,255,0.55); transform:translateY(-2px);}
+  .pacow-how__tab.is-active{
+    border-color:var(--pc-purple);
+    box-shadow:0 0 30px rgba(124,58,255,0.28), inset 0 0 0 1px rgba(124,58,255,0.4);
+  }
+  .pacow-how__tab.is-active::before{
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(ellipse at top left, rgba(124,58,255,0.18), transparent 70%);
+    pointer-events:none;
+  }
+  .pacow-how__tab-top{position:relative; display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .pacow-how__tab-num{
+    width:34px;height:34px;border-radius:10px;flex:0 0 34px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:14px;font-weight:800;color:var(--pc-white);
+    background:rgba(255,255,255,0.06); border:1px solid rgba(124,58,255,0.4);
+    transition:background .25s ease, color .25s ease;
+  }
+  .pacow-how__tab.is-active .pacow-how__tab-num{background:var(--pc-purple);color:#fff;border-color:var(--pc-purple);}
+  .pacow-how__tab-week{position:relative; font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--pc-muted);}
+  .pacow-how__tab-name{position:relative; font-size:16px;font-weight:700;letter-spacing:-0.01em;color:var(--pc-white);line-height:1.25;}
+  /* tiny DFY / coaching tag on the button */
+  .pacow-how__tab-tag{
+    position:relative; display:inline-block; margin-top:8px;
+    font-size:10.5px; font-weight:700; letter-spacing:.04em; text-transform:uppercase;
+    padding:3px 9px; border-radius:30px;
+  }
+  .pacow-how__tab-tag--dfy{color:#a47cff; background:rgba(124,58,255,0.14); border:1px solid rgba(124,58,255,0.35);}
+  .pacow-how__tab-tag--coach{color:#5DCAA5; background:rgba(22,163,74,0.14); border:1px solid rgba(22,163,74,0.4);}
+
+  /* ── Player progress bar ── */
+  .pacow-how__player{display:flex;align-items:center;gap:14px;margin:0 0 26px;}
+  .pacow-how__pbtn{
+    flex:0 0 auto; width:42px;height:42px;border-radius:12px;
+    background:#000000;border:1px solid rgba(255,255,255,0.14);
+    color:var(--pc-white);font-size:18px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:border-color .2s ease, background .2s ease, opacity .2s ease;
+  }
+  .pacow-how__pbtn:hover{border-color:rgba(124,58,255,0.6);background:#161320;}
+  .pacow-how__pbtn:disabled{opacity:0.3;cursor:not-allowed;}
+  .pacow-how__track{position:relative; flex:1; height:6px; background:rgba(255,255,255,0.08); border-radius:40px;}
+  .pacow-how__track-fill{position:absolute;left:0;top:0;height:100%;width:33.33%;background:linear-gradient(to right,var(--pc-purple),#a47cff);border-radius:40px;transition:width .45s cubic-bezier(0.4,0,0.2,1);}
+  .pacow-how__nodes{position:absolute;top:50%;left:0;width:100%;transform:translateY(-50%);display:flex;justify-content:space-between;padding:0 2px;}
+  .pacow-how__nodebtn{
+    width:16px;height:16px;border-radius:50%;cursor:pointer;
+    background:#000000;border:2px solid rgba(255,255,255,0.25);
+    transition:border-color .25s ease, background .25s ease, transform .2s ease;
+  }
+  .pacow-how__nodebtn:hover{transform:scale(1.25);}
+  .pacow-how__nodebtn.done{background:var(--pc-purple);border-color:var(--pc-purple);}
+  .pacow-how__nodebtn.current{background:#fff;border-color:var(--pc-purple);transform:scale(1.3);box-shadow:0 0 0 4px rgba(124,58,255,0.25);}
+
+  /* ── Panels ── */
+  .pacow-how__panel{display:none; animation:pacow-how-fade .4s ease;}
+  .pacow-how__panel.is-active{display:block;}
+  @keyframes pacow-how-fade{from{opacity:0;transform:translateY(12px) scale(0.99);}to{opacity:1;transform:translateY(0) scale(1);}}
+
+  .pacow-how__card{
+    background:var(--pc-white);
+    border:1px solid rgba(255,255,255,0.6);
+    border-radius:20px; padding:32px 34px 34px;
+    box-shadow:0 18px 50px rgba(0,0,0,0.4);
+  }
+  .pacow-how__card-head{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:6px;}
+  .pacow-how__card-titlewrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .pacow-how__card-title{font-size:24px; font-weight:800; letter-spacing:-0.02em; color:#14121C; margin:0;}
+  /* DFY / coaching badge on the card */
+  .pacow-how__badge{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:11.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;
+    padding:6px 12px;border-radius:30px;white-space:nowrap;
+  }
+  .pacow-how__badge--dfy{color:#fff;background:var(--pc-purple);}
+  .pacow-how__badge--coach{color:#fff;background:var(--pc-green);}
+  .pacow-how__badge svg{width:13px;height:13px;}
+  .pacow-how__card-week{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--pc-purple);background:rgba(124,58,255,0.12);padding:6px 12px;border-radius:30px;white-space:nowrap;}
+  .pacow-how__card-lead{font-size:16px;line-height:1.6;color:rgba(20,18,28,0.66);margin:8px 0 24px;}
+
+  .pacow-how__list{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:1fr 1fr; gap:16px 28px;}
+  .pacow-how__li{display:flex; align-items:flex-start; gap:12px;}
+  .pacow-how__li-ic{
+    flex:0 0 34px; width:34px; height:34px; border-radius:10px;
+    background:rgba(124,58,255,0.10); display:flex;align-items:center;justify-content:center;
+  }
+  .pacow-how__li-ic svg{width:18px;height:18px;display:block;}
+  .pacow-how__li-body{padding-top:1px;}
+  .pacow-how__li-h{font-size:15.5px;font-weight:700;color:#14121C;line-height:1.3;margin:0 0 2px;}
+  .pacow-how__li-s{font-size:13.5px;line-height:1.45;color:rgba(20,18,28,0.6);margin:0;}
+  .pacow-how__li-s b{color:var(--pc-purple);font-weight:700;}
+
+  /* ── Milestone banner ── */
+  .pacow-how__milestone{
+    display:flex; align-items:center; justify-content:center; gap:12px;
+    margin:22px 0 0; padding:16px 22px;
+    border-radius:14px; font-size:16px; font-weight:800; letter-spacing:-0.01em;
+    background:rgba(124,58,255,0.16); border:1px dashed rgba(124,58,255,0.5);
+    color:#0A0A0F; text-align:center;
+  }
+  .pacow-how__milestone--grad{background:rgba(22,163,74,0.16); border-color:rgba(22,163,74,0.6); color:#0A0A0F;}
+  .pacow-how__milestone .mi{font-size:20px; animation:pacow-how-bounce 1.8s ease-in-out infinite;}
+  @keyframes pacow-how-bounce{0%,100%{transform:translateY(0) rotate(0);}25%{transform:translateY(-4px) rotate(-8deg);}50%{transform:translateY(0) rotate(0);}75%{transform:translateY(-4px) rotate(8deg);}}
+
+  .pacow-how__cta-wrap{text-align:center; margin-top:44px;}
+  .pacow-how__cta{
+    display:inline-flex;align-items:center;gap:10px;
+    background:var(--pc-purple);color:var(--pc-white);border:none;
+    border-radius:12px;padding:14px 27px;font-family:var(--pc-font);
+    font-size:14px;font-weight:600;cursor:pointer;position:relative;overflow:hidden;
+    box-shadow:0 10px 30px rgba(124,58,255,.35);
+    transition:background .2s ease, transform .15s ease, box-shadow .2s ease;
+    animation:pacow-how-glow 2.6s ease-in-out infinite;
+  }
+  .pacow-how__cta::after{content:'';position:absolute;top:0;left:-120%;width:60%;height:100%;
+    background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);
+    transform:skewX(-18deg);animation:pacow-how-shimmer 3.4s ease-in-out infinite;pointer-events:none;}
+  @keyframes pacow-how-glow{0%,100%{box-shadow:0 10px 30px rgba(124,58,255,.30);}50%{box-shadow:0 12px 42px rgba(124,58,255,.60);}}
+  @keyframes pacow-how-shimmer{0%{left:-120%;}55%{left:130%;}100%{left:130%;}}
+  .pacow-how__cta:hover{background:var(--pc-purple-hover);transform:translateY(-2px);box-shadow:0 14px 38px rgba(124,58,255,.45);animation-play-state:paused;}
+
+  @media (max-width:768px){
+    .pacow-how{background-size:28px 28px;}
+    .pacow-how__inner{padding:56px 16px 64px;}
+    .pacow-how__title{font-size:30px;}
+    .pacow-how__sub{font-size:15px;margin-bottom:34px;}
+    .pacow-how__tabs{grid-template-columns:1fr; gap:8px;}
+    .pacow-how__tab{padding:14px 16px;}
+    .pacow-how__card{padding:24px 20px 26px;}
+    .pacow-how__card-title{font-size:20px;}
+    .pacow-how__list{grid-template-columns:1fr; gap:14px;}
+    .pacow-how__milestone{font-size:14.5px;}
+  }
+</style>
+
+<section class="pacow-how">
+  <div class="pacow-how__inner">
+    <div class="pacow-how__eyebrow"><span class="pacow-how__dot"></span><span>Exactly what happens next</span></div>
+    <h2 class="pacow-how__title">How it works</h2>
+    <p class="pacow-how__sub">Three phases, laid out plainly so you know exactly what we do, what you do, and when your ads go live. Step through the journey below.</p>
+
+    <!-- Phase buttons -->
+    <div class="pacow-how__tabs">
+      <button class="pacow-how__tab is-active" data-phase="1" onclick="pacowHow(1)">
+        <div class="pacow-how__tab-top"><span class="pacow-how__tab-num">01</span><span class="pacow-how__tab-week">Before we spend a dollar</span></div>
+        <div class="pacow-how__tab-name">We build the foundations together</div>
+        <span class="pacow-how__tab-tag pacow-how__tab-tag--dfy">Done for you</span>
+      </button>
+      <button class="pacow-how__tab" data-phase="2" onclick="pacowHow(2)">
+        <div class="pacow-how__tab-top"><span class="pacow-how__tab-num">02</span><span class="pacow-how__tab-week">Live within 14 days</span></div>
+        <div class="pacow-how__tab-name">We make your ads and launch with you</div>
+        <span class="pacow-how__tab-tag pacow-how__tab-tag--dfy">Done for you</span>
+      </button>
+      <button class="pacow-how__tab" data-phase="3" onclick="pacowHow(3)">
+        <div class="pacow-how__tab-top"><span class="pacow-how__tab-num">03</span><span class="pacow-how__tab-week">The next 90 days</span></div>
+        <div class="pacow-how__tab-name">We optimize with you, every week</div>
+        <span class="pacow-how__tab-tag pacow-how__tab-tag--coach">Coaching</span>
+      </button>
+    </div>
+
+    <!-- Player -->
+    <div class="pacow-how__player">
+      <button class="pacow-how__pbtn" id="pacowHowPrev" onclick="pacowHowMove(-1)" aria-label="Previous phase">&larr;</button>
+      <div class="pacow-how__track">
+        <div class="pacow-how__track-fill" id="pacowHowFill"></div>
+        <div class="pacow-how__nodes">
+          <span class="pacow-how__nodebtn current" data-node="1" onclick="pacowHow(1)"></span>
+          <span class="pacow-how__nodebtn" data-node="2" onclick="pacowHow(2)"></span>
+          <span class="pacow-how__nodebtn" data-node="3" onclick="pacowHow(3)"></span>
+        </div>
+      </div>
+      <button class="pacow-how__pbtn" id="pacowHowNext" onclick="pacowHowMove(1)" aria-label="Next phase">&rarr;</button>
+    </div>
+
+    <!-- ── PANEL 1: We Will Build the Foundations Together ── -->
+    <div class="pacow-how__panel is-active" data-panel="1">
+      <div class="pacow-how__card">
+        <div class="pacow-how__card-head">
+          <div class="pacow-how__card-titlewrap">
+            <h3 class="pacow-how__card-title">We build the foundations together</h3>
+            <span class="pacow-how__badge pacow-how__badge--dfy"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Done for you</span>
+          </div>
+          <span class="pacow-how__card-week">Before we spend a dollar</span>
+        </div>
+        <p class="pacow-how__card-lead">Before a single dollar goes to ads, we make sure everything is set up to convert. We audit your offer and messaging, review your organic strategy, identify where your best leads will come from, and decide the right ad strategy for your business. Some partners are ready in a few days. Others need a week or two - either way, we tell you exactly what needs to happen and help you get it done fast.</p>
+        <ul class="pacow-how__list">
+          <li class="pacow-how__li"><span class="pacow-how__li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"></rect><path d="M9 12l2 2 4-4"></path></svg></span><div class="pacow-how__li-body"><p class="pacow-how__li-h">Offer &amp; messaging audit</p><p class="pacow-how__li-s">We find what's actually holding back conversions.</p></div></li>
+          <li class="pacow-how__li"><span class="pacow-how__li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l5-3v10l-5-3z"></path><rect x="3" y="6" width="12" height="12" rx="2"></rect></svg></span><div class="pacow-how__li-body"><p class="pacow-how__li-h">1:1 onboarding call</p><p class="pacow-how__li-s">We map your whole launch plan with Ema &amp; Viktorija.</p></div></li>
+          <li class="pacow-how__li"><span class="pacow-how__li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span><div class="pacow-how__li-body"><p class="pacow-how__li-h">Private Slack channel</p><p class="pacow-how__li-s">A direct line to our team from day one.</p></div></li>
+          <li class="pacow-how__li"><span class="pacow-how__li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7l10-4 10 4-10 4z"></path><path d="M6 10v5c0 1 3 2 6 2s6-1 6-2v-5"></path></svg></span><div class="pacow-how__li-body"><p class="pacow-how__li-h">Ad accounts &amp; tracking</p><p class="pacow-how__li-s">We connect everything - accounts, pixels, GrowthOS&trade;.</p></div></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── PANEL 2: We Make Your Ads and Launch With You ── -->
+    <div class="pacow-how__panel" data-panel="2">
+      <div class="pacow-how__card">
+        <div class="pacow-how__card-head">
+          <div class="pacow-how__card-titlewrap">
+            <h3 class="pacow-how__card-title">We make your ads and launch with you</h3>
+            <span class="pacow-how__badge pacow-how__badge--dfy"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Done for you</span>
+          </div>
+          <span class="pacow-how__card-week">Live within 14 days</span>
+        </div>
+        <p class="pacow-how__card-lead">Once your foundations are locked in, you meet with our copywriting team. Within 2-4 days your ad scripts, copy, and creative direction are ready. You film using our scripts and guidance and send the footage back - we handle all the editing, and we build every static and carousel ad too. Then we jump on a launch call together and go live with 15-20 ads across different angles and formats. Traffic starts flowing, data starts coming in, and your ads are live within 14 days of that copywriting call.</p>
+        <ul class="pacow-how__list">
+          <li class="pacow-how__li"><span class="pacow-how__li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10l5-3v10l-5-3z"></path><rect x="3" y="6" width="12" height="12" rx="2"></rect></svg></span><div class="pacow-how__li-body"><p class="pacow-how__li-h">Scripts, video &amp; edit - done for you</p><p class="pacow-how__li-s">You film, we write, direct, and edit.</p></div></li>
+          <li class="pacow-how__li"><span class="pacow-how__li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"></rect><path d="M3 9h18M8 18v2M16 18v2"></path></svg></span><div class="pacow-how__li-body"><p class="pacow-how__li-h">Static &amp; carousel ads - done for you</p><p class="pacow-how__li-s">Every angle and format, designed and built.</p></div></li>
+          <li class="pacow-how__li"><span class="pacow-how__li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h10M4 18h6"></path><path d="M18 13l3 3-3 3"></path></svg></span><div class="pacow-how__li-body"><p class="pacow-how__li-h">Funnels &amp; sales process - done for you</p><p class="pacow-how__li-s">Landing pages, booking flow, call scripts.</p></div></li>
+          <li class="pacow-how__li"><span class="pacow-how__li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6 4 4 6-8"></path><path d="M18 7h2v2"></path></svg></span><div class="pacow-how__li-body"><p class="pacow-how__li-h">Launch call, 1-on-1</p><p class="pacow-how__li-s">We go live together - 15-20 ads, multiple angles.</p></div></li>
+        </ul>
+        <div class="pacow-how__milestone"><span class="mi">🚀</span> Ads live within 14 days of your copywriting call</div>
+      </div>
+    </div>
+
+    <!-- ── PANEL 3: We Optimize With You For 90 Days ── -->
+    <div class="pacow-how__panel" data-panel="3">
+      <div class="pacow-how__card">
+        <div class="pacow-how__card-head">
+          <div class="pacow-how__card-titlewrap">
+            <h3 class="pacow-how__card-title">We optimize with you, every week</h3>
+            <span class="pacow-how__badge pacow-how__badge--coach"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l4 4 14-14"></path></svg>Coaching</span>
+          </div>
+          <span class="pacow-how__card-week">The next 90 days</span>
+        </div>
+        <p class="pacow-how__card-lead">This is where the system gets dialed in. Every week we review your performance together - we show you how to read the data, when to scale, when to cut an ad, and how to fix lead quality issues. If your ads start to fatigue, we write new ones for you - unlimited, no extra charge. By the end you know how to run your ads, you know how to read the data, and you know exactly what to do when performance changes. You are not dependent on us or any agency, ever again.</p>
+        <ul class="pacow-how__list">
+          <li class="pacow-how__li"><span class="pacow-how__li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg></span><div class="pacow-how__li-body"><p class="pacow-how__li-h">Weekly performance reviews</p><p class="pacow-how__li-s">1:1 with Ema, all the way to graduation.</p></div></li>
+          <li class="pacow-how__li"><span class="pacow-how__li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M7 14l3-3 2 2 4-5"></path></svg></span><div class="pacow-how__li-body"><p class="pacow-how__li-h">Live performance dashboard</p><p class="pacow-how__li-s">CPL, CTR &amp; booked calls, always visible.</p></div></li>
+          <li class="pacow-how__li"><span class="pacow-how__li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.5 5 5.5.8-4 4 1 5.5L12 16l-5 2.3 1-5.5-4-4 5.5-.8z"></path></svg></span><div class="pacow-how__li-body"><p class="pacow-how__li-h">Unlimited ad rewrites</p><p class="pacow-how__li-s">If an ad fatigues, we write a new one - free.</p></div></li>
+          <li class="pacow-how__li"><span class="pacow-how__li-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14l9-5-9-5-9 5z"></path><path d="M6 11v4c0 1.5 3 3 6 3s6-1.5 6-3v-4"></path></svg></span><div class="pacow-how__li-body"><p class="pacow-how__li-h">You learn to run it yourself</p><p class="pacow-how__li-s">Guided until you're fully independent.</p></div></li>
+        </ul>
+        <div class="pacow-how__milestone pacow-how__milestone--grad"><span class="mi">🎓</span> Graduation - you run the system yourself, no agency required</div>
+      </div>
+    </div>
+
+    <div class="pacow-how__cta-wrap">
+      <button class="pacow-how__cta" onclick="pacowModal('open')"><span style="position:relative;z-index:1;">Apply to see if you qualify &rarr;</span></button>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  var TOTAL = 3;
+  var cur = 1;
+
+  function render(){
+    var root = document.querySelector('.pacow-how');
+    if(!root) return;
+    root.querySelectorAll('.pacow-how__tab').forEach(function(t){
+      t.classList.toggle('is-active', t.getAttribute('data-phase') === String(cur));
+    });
+    root.querySelectorAll('.pacow-how__panel').forEach(function(p){
+      p.classList.toggle('is-active', p.getAttribute('data-panel') === String(cur));
+    });
+    var fill = document.getElementById('pacowHowFill');
+    if(fill) fill.style.width = (cur * (100/TOTAL)) + '%';
+    root.querySelectorAll('.pacow-how__nodebtn').forEach(function(n){
+      var v = parseInt(n.getAttribute('data-node'),10);
+      n.classList.toggle('done', v < cur);
+      n.classList.toggle('current', v === cur);
+    });
+    var prev = document.getElementById('pacowHowPrev');
+    var next = document.getElementById('pacowHowNext');
+    if(prev) prev.disabled = (cur === 1);
+    if(next) next.disabled = (cur === TOTAL);
+  }
+
+  window.pacowHow = function(n){ cur = n; render(); };
+  window.pacowHowMove = function(dir){
+    var t = cur + dir;
+    if(t < 1) t = 1; if(t > TOTAL) t = TOTAL;
+    cur = t; render();
+  };
+
+  render();
+})();
+</script>

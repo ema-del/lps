@@ -1,0 +1,132 @@
+<!--
+  ============================================================
+  PACOW — SECTION 8: FAQ (dark, accordion)
+  Void-black grid · purple eyebrow w/ pulse · expandable items
+  First item open by default. Pure CSS/JS, self-contained.
+  CTA at bottom calls pacowModal('open') from Section 1.
+  ============================================================
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+  .pacow-faq {
+    --pc-purple:#7C3AFF; --pc-purple-hover:#6a2be0;
+    --pc-bg:#0A0A0F; --pc-white:#FDFBFF; --pc-grid:#1E1C2A;
+    --pc-ink:#14121C; --pc-muted:rgba(253,251,255,0.58);
+    --pc-font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    position:relative; width:100vw; max-width:100vw;
+    margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw);
+    background-color:var(--pc-bg);
+    background-image:linear-gradient(to right,rgba(30,28,42,0.5) 1px,transparent 1px),linear-gradient(to bottom,rgba(30,28,42,0.5) 1px,transparent 1px);
+    background-size:36px 36px;
+    font-family:var(--pc-font); color:var(--pc-white); overflow:hidden; box-sizing:border-box;
+  }
+  .pacow-faq *,.pacow-faq *::before,.pacow-faq *::after{box-sizing:border-box;}
+  .pacow-faq::before{
+    content:''; position:absolute; top:-6%; left:50%; transform:translateX(-50%);
+    width:760px; height:480px;
+    background:radial-gradient(ellipse at center, rgba(124,58,255,0.12), transparent 65%);
+    pointer-events:none; z-index:0;
+  }
+  .pacow-faq__inner{position:relative; z-index:1; max-width:780px; margin:0 auto; padding:56px 24px 88px;}
+
+  .pacow-faq__eyebrow{display:flex; align-items:center; justify-content:center; gap:9px; margin-bottom:14px;}
+  .pacow-faq__dot{width:8px;height:8px;background:var(--pc-purple);border-radius:50%;animation:pacow-faq-pulse 2s ease-in-out infinite;}
+  @keyframes pacow-faq-pulse{0%{box-shadow:0 0 0 0 rgba(124,58,255,.6);}70%{box-shadow:0 0 0 7px rgba(124,58,255,0);}100%{box-shadow:0 0 0 0 rgba(124,58,255,0);}}
+  .pacow-faq__eyebrow span{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--pc-muted);}
+  .pacow-faq__title{text-align:center;font-size:42px;font-weight:800;letter-spacing:-0.025em;margin:0 0 12px;}
+  .pacow-faq__sub{text-align:center;font-size:17px;color:var(--pc-muted);margin:0 auto 46px;}
+
+  .pacow-faq__list{display:flex; flex-direction:column; gap:14px;}
+  .pacow-faq__item{
+    background:var(--pc-white);
+    border:1px solid rgba(10,10,15,0.08);
+    border-radius:14px; overflow:hidden;
+    box-shadow:0 6px 20px rgba(0,0,0,0.05);
+    transition:border-color .25s ease, box-shadow .25s ease;
+  }
+  .pacow-faq__item[open]{border-color:rgba(124,58,255,0.5); box-shadow:0 12px 34px rgba(124,58,255,0.16);}
+  .pacow-faq__q{
+    list-style:none; cursor:pointer;
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    padding:20px 24px; font-size:17px; font-weight:700; color:var(--pc-ink);
+  }
+  .pacow-faq__q::-webkit-details-marker{display:none;}
+  .pacow-faq__icon{
+    flex:0 0 26px; width:26px; height:26px; border-radius:8px;
+    background:rgba(124,58,255,0.15); position:relative;
+    transition:transform .3s ease, background .25s ease;
+  }
+  .pacow-faq__item[open] .pacow-faq__icon{background:var(--pc-purple); transform:rotate(45deg);}
+  .pacow-faq__icon::before,.pacow-faq__icon::after{
+    content:''; position:absolute; top:50%; left:50%; background:var(--pc-purple); border-radius:2px;
+  }
+  .pacow-faq__icon::before{width:12px; height:2px; transform:translate(-50%,-50%);}
+  .pacow-faq__icon::after{width:2px; height:12px; transform:translate(-50%,-50%);}
+  .pacow-faq__item[open] .pacow-faq__icon::before,
+  .pacow-faq__item[open] .pacow-faq__icon::after{background:#fff;}
+
+  .pacow-faq__a{padding:0 24px 22px; font-size:15.5px; line-height:1.6; color:rgba(10,10,15,0.7);}
+  .pacow-faq__a b{color:var(--pc-ink); font-weight:700;}
+
+  .pacow-faq__cta-wrap{text-align:center; margin-top:46px;}
+  .pacow-faq__cta{
+    display:inline-flex;align-items:center;gap:10px;background:var(--pc-purple);color:var(--pc-white);border:none;
+    border-radius:12px;padding:14px 27px;font-family:var(--pc-font);font-size:14px;font-weight:600;cursor:pointer;position:relative;overflow:hidden;
+    box-shadow:0 10px 30px rgba(124,58,255,.35);transition:background .2s ease, transform .15s ease, box-shadow .2s ease;
+    animation:pacow-faq-glow 2.6s ease-in-out infinite;
+  }
+  .pacow-faq__cta::after{content:'';position:absolute;top:0;left:-120%;width:60%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-18deg);animation:pacow-faq-shimmer 3.4s ease-in-out infinite;pointer-events:none;}
+  @keyframes pacow-faq-glow{0%,100%{box-shadow:0 10px 30px rgba(124,58,255,.30);}50%{box-shadow:0 12px 42px rgba(124,58,255,.60);}}
+  @keyframes pacow-faq-shimmer{0%{left:-120%;}55%{left:130%;}100%{left:130%;}}
+  .pacow-faq__cta:hover{background:var(--pc-purple-hover);transform:translateY(-2px);box-shadow:0 14px 38px rgba(124,58,255,.45);animation-play-state:paused;}
+
+  @media (max-width:768px){
+    .pacow-faq{background-size:28px 28px;}
+    .pacow-faq__inner{padding:48px 16px 64px;}
+    .pacow-faq__title{font-size:30px;}
+    .pacow-faq__sub{font-size:15px;margin-bottom:34px;}
+    .pacow-faq__q{font-size:15.5px;padding:18px 18px;}
+    .pacow-faq__a{font-size:14.5px;padding:0 18px 20px;}
+  }
+</style>
+
+<section class="pacow-faq">
+  <div class="pacow-faq__inner">
+    <div class="pacow-faq__eyebrow"><span class="pacow-faq__dot"></span><span>Still not sure?</span></div>
+    <h2 class="pacow-faq__title">Frequently Asked Questions</h2>
+    <p class="pacow-faq__sub">You've got questions, we've got answers :)</p>
+
+    <div class="pacow-faq__list">
+
+      <details class="pacow-faq__item" open>
+        <summary class="pacow-faq__q">Who is this for?<span class="pacow-faq__icon"></span></summary>
+        <div class="pacow-faq__a">This is for <b>education brands</b> (course creators, tutoring, test prep, admissions, online education, coaches, etc.) that are already making <b>$10k+/month</b>, or are ready to seriously invest in paid media now or in the very near future.</div>
+      </details>
+
+      <details class="pacow-faq__item">
+        <summary class="pacow-faq__q">What happens on the free Growth Call?<span class="pacow-faq__icon"></span></summary>
+        <div class="pacow-faq__a">We review your current student acquisition setup, identify what's blocking growth, and map a clear path to <b>10-20+ new students per month</b> using paid acquisition and automations. If we're not a fit, we'll tell you - no pitch, no pressure.</div>
+      </details>
+
+      <details class="pacow-faq__item">
+        <summary class="pacow-faq__q">How is this different from other providers?<span class="pacow-faq__icon"></span></summary>
+        <div class="pacow-faq__a">We don't just "run ads." We build a <b>complete student acquisition system</b> designed specifically for how education buyers think (parents vs students, trust, long decision cycles). Most providers treat education like e-commerce - that's why results stall.</div>
+      </details>
+
+      <details class="pacow-faq__item">
+        <summary class="pacow-faq__q">How long does it take to see results?<span class="pacow-faq__icon"></span></summary>
+        <div class="pacow-faq__a">Most partners see <b>qualified leads within 14 days</b> after launch. Scaling and optimization happen progressively as data comes in.</div>
+      </details>
+
+      <details class="pacow-faq__item">
+        <summary class="pacow-faq__q">How much does this cost?<span class="pacow-faq__icon"></span></summary>
+        <div class="pacow-faq__a">This is <b>not a few hundred dollars</b>. We work with serious education brands, so investments are typically <b>in the thousands</b>, depending on your goals, market, and setup. Exact details are discussed on the Growth Call once we confirm fit :)</div>
+      </details>
+
+    </div>
+
+    <div class="pacow-faq__cta-wrap">
+      <button class="pacow-faq__cta" onclick="pacowModal('open')"><span style="position:relative;z-index:1;">Apply to see if you qualify -&gt;</span></button>
+    </div>
+  </div>
+</section>

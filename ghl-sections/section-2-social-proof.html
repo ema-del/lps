@@ -1,0 +1,209 @@
+<!--
+  ============================================================
+  PACOW — SECTION 2: SOCIAL PROOF / TIERED SPOTLIGHT + EXPANDABLE GRID
+  Light background · faint grid · Pacow violet accent
+  ROW 1 = spotlight (partners 1, 2, 5, 8 — large)
+  ROW 2 = quiet grid: 12 shown, rest hidden behind "show more" toggle
+  No external JS — pure CSS checkbox toggle (works in GHL).
+
+  Partner 1 feature cell uses ZERO padding (image is pre-padded).
+  To feature different brands: swap the 4 URLs in .pacow-sp__spotlight.
+  ============================================================
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+  .pacow-sp {
+    --pc-purple:#7C3AFF; --pc-white:#FDFBFF; --pc-ink:#0A0A0F;
+    --pc-grid-light:rgba(10,10,15,0.025);
+    --pc-line:rgba(10,10,15,0.07);
+    --pc-font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    position:relative; width:100vw; max-width:100vw;
+    margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw);
+    background-color:var(--pc-white);
+    background-image:linear-gradient(to right,var(--pc-grid-light) 1px,transparent 1px),linear-gradient(to bottom,var(--pc-grid-light) 1px,transparent 1px);
+    background-size:32px 32px;
+    font-family:var(--pc-font); overflow:hidden; box-sizing:border-box;
+    padding:64px 24px;
+  }
+  .pacow-sp *,.pacow-sp *::before,.pacow-sp *::after{box-sizing:border-box;}
+
+  .pacow-sp__inner{width:100%; max-width:980px; margin:0 auto;}
+
+  .pacow-sp__label{
+    text-align:center; color:var(--pc-ink);
+    font-size:19px; font-weight:700; letter-spacing:0.02em; text-transform:uppercase;
+    margin:0 0 8px;
+  }
+  .pacow-sp__label .num{color:var(--pc-purple);}
+  .pacow-sp__sub{
+    text-align:center; color:rgba(10,10,15,0.45);
+    font-size:13px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase;
+    margin:0 0 40px;
+  }
+
+  /* ---------- SPOTLIGHT ROW ---------- */
+  .pacow-sp__spotlight{
+    display:grid; grid-template-columns:repeat(4,1fr);
+    gap:18px; margin-bottom:30px;
+  }
+  .pacow-sp__feature{
+    display:flex; align-items:center; justify-content:center;
+    min-height:118px; padding:22px 18px;
+    background:#fff;
+    border:1px solid var(--pc-line);
+    border-radius:16px;
+    box-shadow:0 10px 30px -18px rgba(124,58,255,0.35), 0 2px 8px rgba(10,10,15,0.04);
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    overflow:hidden;
+  }
+  /* Partner 1: image is already padded -> fill bubble, zero padding/gap */
+  .pacow-sp__feature--flush{padding:0; margin:0;}
+  .pacow-sp__feature--flush img{
+    height:100%; max-height:none; width:100%; max-width:100%;
+    object-fit:cover; display:block; margin:0; padding:0;
+    transform:scale(1.35); transform-origin:center;
+  }
+  .pacow-sp__feature:hover{
+    transform:translateY(-4px);
+    border-color:rgba(124,58,255,0.4);
+    box-shadow:0 18px 40px -16px rgba(124,58,255,0.45), 0 4px 12px rgba(10,10,15,0.06);
+  }
+  .pacow-sp__feature img{
+    height:62px; max-height:62px; width:auto; max-width:200px;
+    object-fit:contain; display:block;
+  }
+
+  /* divider with centered caption */
+  .pacow-sp__divider{
+    display:flex; align-items:center; gap:18px;
+    margin:0 0 30px; color:rgba(10,10,15,0.35);
+    font-size:11px; font-weight:700; letter-spacing:0.16em; text-transform:uppercase;
+  }
+  .pacow-sp__divider::before,.pacow-sp__divider::after{
+    content:""; flex:1; height:1px; background:var(--pc-line);
+  }
+
+  /* ---------- QUIET GRID ---------- */
+  .pacow-sp__grid{
+    display:grid; grid-template-columns:repeat(6,1fr);
+    gap:12px 10px;
+  }
+  .pacow-sp__cell{
+    display:flex; align-items:center; justify-content:center;
+    min-height:74px; padding:14px 12px;
+    border-radius:12px;
+    transition:background .2s ease;
+  }
+  .pacow-sp__cell:hover{background:rgba(124,58,255,0.05);}
+  .pacow-sp__cell img{
+    height:34px; max-height:34px; width:auto; max-width:130px;
+    object-fit:contain; display:block;
+    opacity:0.62; filter:grayscale(100%);
+    transition:opacity .25s ease, filter .25s ease;
+  }
+  .pacow-sp__cell:hover img{opacity:1; filter:grayscale(0%);}
+
+  /* ---------- SHOW MORE (pure-CSS toggle) ---------- */
+  .pacow-sp__toggle{position:absolute; opacity:0; pointer-events:none;}
+  .pacow-sp__more{
+    display:grid; grid-template-columns:repeat(6,1fr); gap:12px 10px;
+    max-height:0; overflow:hidden; opacity:0;
+    transition:max-height .45s ease, opacity .35s ease, margin .35s ease;
+  }
+  .pacow-sp__toggle:checked ~ .pacow-sp__more{
+    max-height:1200px; opacity:1; margin-top:12px;
+  }
+  .pacow-sp__btnwrap{text-align:center; margin-top:30px;}
+  .pacow-sp__btn{
+    display:inline-flex; align-items:center; gap:9px;
+    cursor:pointer; user-select:none;
+    font-family:var(--pc-font); font-size:14px; font-weight:700;
+    letter-spacing:0.03em; color:var(--pc-purple);
+    background:rgba(124,58,255,0.07);
+    border:1px solid rgba(124,58,255,0.28);
+    padding:12px 26px; border-radius:999px;
+    transition:background .2s ease, border-color .2s ease, transform .15s ease;
+  }
+  .pacow-sp__btn:hover{background:rgba(124,58,255,0.13); border-color:rgba(124,58,255,0.5);}
+  .pacow-sp__btn:active{transform:scale(0.97);}
+  .pacow-sp__btn .chev{transition:transform .3s ease;}
+  .pacow-sp__btn .txt-less{display:none;}
+  .pacow-sp__toggle:checked ~ .pacow-sp__btnwrap .pacow-sp__btn .chev{transform:rotate(180deg);}
+  .pacow-sp__toggle:checked ~ .pacow-sp__btnwrap .pacow-sp__btn .txt-more{display:none;}
+  .pacow-sp__toggle:checked ~ .pacow-sp__btnwrap .pacow-sp__btn .txt-less{display:inline;}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    .pacow-sp__grid,.pacow-sp__more{grid-template-columns:repeat(4,1fr);}
+  }
+  @media (max-width:768px){
+    .pacow-sp{padding:48px 16px; background-size:26px 26px;}
+    .pacow-sp__label{font-size:15px;}
+    .pacow-sp__sub{font-size:11px; margin:0 0 30px;}
+    .pacow-sp__spotlight{grid-template-columns:repeat(2,1fr); gap:14px;}
+    .pacow-sp__feature{min-height:96px; padding:18px 14px;}
+    .pacow-sp__feature--flush{padding:0;}
+    .pacow-sp__feature img{height:50px; max-height:50px; max-width:150px;}
+    .pacow-sp__grid,.pacow-sp__more{grid-template-columns:repeat(3,1fr);}
+    .pacow-sp__cell{min-height:62px; padding:10px;}
+    .pacow-sp__cell img{height:28px; max-height:28px; max-width:100px;}
+  }
+  @media (max-width:430px){
+    .pacow-sp__grid,.pacow-sp__more{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+<section class="pacow-sp">
+  <div class="pacow-sp__inner">
+    <p class="pacow-sp__label"><span class="num">35+</span> education legends already trust us</p>
+    <p class="pacow-sp__sub">Featured partners</p>
+
+    <!-- SPOTLIGHT ROW — partners 1, 2, 5, 8 -->
+    <div class="pacow-sp__spotlight">
+      <div class="pacow-sp__feature pacow-sp__feature--flush"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a2a7e9201817220451b27f4.png" alt="Featured partner 1" loading="lazy" /></div>
+      <div class="pacow-sp__feature"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f1968027d0d5be15a8009.png" alt="Featured partner 2" loading="lazy" /></div>
+      <div class="pacow-sp__feature"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f196a098539f7181d062f.png" alt="Featured partner 5" loading="lazy" /></div>
+      <div class="pacow-sp__feature"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f196ae2e735bbc367ade8.png" alt="Featured partner 8" loading="lazy" /></div>
+    </div>
+
+    <!-- CSS toggle controls the "show more" reveal -->
+    <input type="checkbox" id="pacowSpToggle" class="pacow-sp__toggle" />
+
+    <!-- HIDDEN GRID — all 25 logos, revealed only on toggle -->
+    <div class="pacow-sp__more">
+<div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f196b9e7a0d5a8b32d31d.png" alt="Education partner 3" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f196a73035982104cd0ad.png" alt="Education partner 4" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f196a73035982104cd0a3.png" alt="Education partner 6" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f196abce897da752006d2.webp" alt="Education partner 7" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f196a2e08098a07df777b.svg" alt="Education partner 9" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f1969b5bad2bee0183625.png" alt="Education partner 10" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f1969b5bad2bee0183613.webp" alt="Education partner 11" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f19692e08098a07df7761.png" alt="Education partner 12" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f19682e08098a07df774b.png" alt="Education partner 13" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f19686103bdfedd8f780c.webp" alt="Education partner 14" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f19682e08098a07df773d.png" alt="Education partner 15" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f19672e08098a07df772b.png" alt="Education partner 16" loading="lazy" /></div>
+
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f1968027d0d5be15a8008.png" alt="Education partner 17" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f1967027d0d5be15a7ffa.png" alt="Education partner 18" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f1967098539f7181d05bb.png" alt="Education partner 19" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f19669e7a0d5a8b32d2ab.png" alt="Education partner 20" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f1966e2e735bbc367ad7e.png" alt="Education partner 21" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f196673035982104cd04f.png" alt="Education partner 22" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f19662e08098a07df7709.png" alt="Education partner 23" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f1965e2e735bbc367ad53.png" alt="Education partner 24" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f1965098539f7181d0586.png" alt="Education partner 25" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f19651b531ff70a889685.png" alt="Education partner 26" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f1965bce897da75200646.png" alt="Education partner 27" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f19659e7a0d5a8b32d27f.png" alt="Education partner 28" loading="lazy" /></div>
+      <div class="pacow-sp__cell"><img src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f19656103bdfedd8f77ac.svg" alt="Education partner 29" loading="lazy" /></div>
+    </div>
+
+    <div class="pacow-sp__btnwrap">
+      <label for="pacowSpToggle" class="pacow-sp__btn">
+        <span class="txt-more">See all 35+ partners</span>
+        <span class="txt-less">Show less</span>
+        <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </label>
+    </div>
+  </div>
+</section>
