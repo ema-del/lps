@@ -55,3 +55,14 @@ every later section's CTA button calls.
 
 Everything else (social proof, who-this-is-for, key stats, testimonials,
 marquee, guarantee, FAQ) is unchanged from the original page content.
+
+## Follow-up pass
+
+5. **CTA copy changed.** Every button across every section now reads
+   **"Book a Free Strategy Call"** (was "Apply to see if you qualify"). It
+   still calls the same `pacowModal('open')` bridge, so the button opens the
+   same qualifier survey — only the label changed.
+6. **"Watch this" line added above the hero video** (Section 1), Matt
+   Shiver-style: *"Watch this free training, then book your free Strategy
+   Call"*, styled as a small purple line with a play icon, sitting between
+   the subhead and the VSL.

@@ -2,7 +2,7 @@
   ============================================================
   PACOW - VSL HERO + BRANDED POPUP WRAPPING GHL SURVEY  [iframe]
   ============================================================
-  The "Apply to see if you qualify" button opens your branded modal.
+  The "Book a Free Strategy Call" button opens your branded modal.
   Inside the modal is the GHL SURVEY (iframe). The survey runs itself -
   its own questions, auto-advance, submit, and redirect (all set in GHL).
 
@@ -165,6 +165,12 @@
     margin: 0 auto 38px; max-width: 560px;
   }
   .pacow-hero__subhead b { color: var(--pc-white); font-weight: 600; }
+  .pacow-hero__watch {
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    font-size: 14.5px; font-weight: 700; color: var(--pc-purple);
+    letter-spacing: 0.01em; margin: 0 auto 16px;
+  }
+  .pacow-hero__watch svg { width: 17px; height: 17px; flex: 0 0 17px; }
 
   /* -- Video -- */
   .pacow-hero__video {
@@ -331,6 +337,8 @@
     .pacow-hero__headline { font-size: 36px; margin-bottom: 22px; }
     .pacow-hero__badge { font-size: 11px; padding: 7px 12px; }
     .pacow-hero__hl-mark { padding: 0 8px; border-radius: 8px; }
+    .pacow-hero__watch { font-size: 12.5px; gap: 6px; margin-bottom: 12px; }
+    .pacow-hero__watch svg { width: 14px; height: 14px; flex: 0 0 14px; }
     .pacow-hero__video { border-radius: 18px; }
     .pacow-hero__cta { padding: 13px 22px; font-size: 14px; }
     .pacow-hero__proof { max-width: 100%; padding: 9px 14px 9px 9px; }
@@ -371,6 +379,12 @@
       Using <b>GrowthOS<span class="pacow-hero__tm">&trade;</span></b> - Meta &amp; Instagram ads systems
     </p>
 
+    <!-- Watch prompt (above the video) -->
+    <p class="pacow-hero__watch">
+      <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"></circle><polygon points="10 8 16 12 10 16"></polygon></svg>
+      Watch this free training, then book your free Strategy Call
+    </p>
+
     <!-- Video (Wistia VSL - adapts quality to each viewer's connection) -->
     <div class="pacow-hero__video">
       <wistia-player media-id="w4rtqundn7" aspect="1.7777777777777777"></wistia-player>
@@ -378,7 +392,7 @@
 
     <!-- Primary CTA -->
     <div class="pacow-hero__cta-wrap">
-      <button class="pacow-hero__cta" onclick="pacowModal('open')"><span style="position:relative;z-index:1;">Apply to see if you qualify &rarr;</span></button>
+      <button class="pacow-hero__cta" onclick="pacowModal('open')"><span style="position:relative;z-index:1;">Book a Free Strategy Call &rarr;</span></button>
       <div><span class="pacow-hero__spots"><span class="pacow-hero__spots-dot"></span>Only 3 spots left this month</span></div>
 
       <!-- Mini proof strip -->
