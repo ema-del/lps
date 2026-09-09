@@ -1,0 +1,79 @@
+<!-- ============================================================
+  Button School — Hero Headline section
+  Paste this whole block into a single GHL "Custom Code" element.
+  Self-contained: no <!DOCTYPE>/<html>/<head>/<body> wrapper — GHL
+  already provides those on the real page.
+
+  IMPORTANT: never put a `body { ... }` rule inside a section's
+  <style> tag. This snippet's <style> is parsed as if it were in
+  the page's real <head> even though it's pasted into the body, so
+  a `body` selector styles the ACTUAL page <body> — not something
+  scoped to this component. That previously turned every section
+  on the page into unwrapped flex children of one row
+  (body { display:flex } with no flex-wrap), which is what caused
+  the whole page to render "zoomed out" and shifted sideways on
+  mobile. Vertical/horizontal centering here is done on
+  `.bsc-headline-section` itself instead — safely scoped.
+============================================================= -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&display=swap');
+
+  .bsc-headline-section,
+  .bsc-headline-section *,
+  .bsc-headline-section *::before,
+  .bsc-headline-section *::after {
+    box-sizing: border-box;
+  }
+
+  .bsc-headline-section {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    background: transparent;
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    overflow-wrap: break-word;
+  }
+
+  .bsc-headline-text {
+    margin: 0;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(20px, 3.6vw, 55px);
+    line-height: 1.25;
+    color: #ffffff;
+    max-width: min(1350px, 100%);
+    overflow-wrap: break-word;
+    word-break: break-word;
+  }
+
+  .bsc-headline-text .bsc-hl {
+    position: relative;
+    display: inline-block;
+  }
+
+  .bsc-headline-text .bsc-hl::before {
+    content: '';
+    position: absolute;
+    bottom: -0.12em;
+    left: 0;
+    right: 0;
+    height: 0.07em;
+    min-height: 3px;
+    background: #15ebeb;
+    border-radius: 2px;
+  }
+
+  @media (max-width: 480px) {
+    .bsc-headline-section { padding: 24px 20px; }
+    .bsc-headline-text { font-size: clamp(16px, 6vw, 28px); }
+  }
+</style>
+
+<section class="bsc-headline-section">
+  <h1 class="bsc-headline-text">Master AI Coding as a Designer in Just <span class="bsc-hl">6 Weeks</span> -<br>Or Get Every Dollar <span class="bsc-hl">Back</span></h1>
+</section>
