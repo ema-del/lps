@@ -1,0 +1,518 @@
+<!-- ============================================================
+  Button School — Testimonials Carousel section
+  Paste this whole block into a single GHL "Custom Code" element.
+  Self-contained: styles + markup + script, no external dependencies
+  besides the Google Fonts @import below (works inside GHL).
+  Class prefix: bsa- (do not reuse elsewhere on the same page).
+============================================================= -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&display=swap');
+
+  /* Reset is scoped to this section only — never touch `*` globally,
+     it will wreck spacing on every other section on the page. */
+  .bsa-reviews-section,
+  .bsa-reviews-section *,
+  .bsa-reviews-section *::before,
+  .bsa-reviews-section *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  .bsa-reviews-section {
+    --bsa-navy:    #121111;
+    --bsa-pink:    #15ebeb;
+    --bsa-white:   #ffffff;
+    --bsa-light:   #f4f8fa;
+    --bsa-gray:    #6b7280;
+    --bsa-border:  #d1dde3;
+    --bsa-pink-lt: #e6fdfd;
+    --bsa-radius:  6px;
+    --bsa-font:    'Fraunces', serif;
+    --bsa-gap:     18px;
+
+    background: transparent;
+    padding: 0 20px;
+    font-family: var(--bsa-font);
+  }
+
+  .bsa-carousel-outer {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 52px;
+  }
+
+  .bsa-carousel-track-wrap { overflow: hidden; }
+
+  .bsa-carousel-track {
+    display: flex;
+    gap: var(--bsa-gap);
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    align-items: stretch;
+  }
+
+  /* CARD */
+  .bsa-review-card {
+    min-width: calc((100% - (var(--bsa-gap) * 2)) / 3);
+    background: var(--bsa-white);
+    border-radius: var(--bsa-radius);
+    border: 1px solid var(--bsa-border);
+    border-top: 3px solid var(--bsa-navy);
+    padding: 20px 22px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    box-shadow: 0 2px 10px rgba(18,17,17,0.07);
+    position: relative;
+    transition: box-shadow 0.2s;
+  }
+
+  .bsa-review-card:hover {
+    box-shadow: 0 6px 24px rgba(18,17,17,0.15);
+  }
+
+  .bsa-review-card::before {
+    content: '\201C';
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--bsa-pink);
+    opacity: 0.35;
+    font-family: Georgia, serif;
+    pointer-events: none;
+  }
+
+  .bsa-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .bsa-cohort-tag {
+    background: var(--bsa-pink-lt);
+    color: var(--bsa-navy);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 9px;
+    border-radius: 999px;
+  }
+
+  .bsa-card-quote {
+    font-size: 0.8rem;
+    font-weight: 300;
+    color: var(--bsa-navy);
+    line-height: 1.65;
+    letter-spacing: 0.02em;
+  }
+
+  .bsa-card-quote.bsa-clamped {
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .bsa-card-quote.bsa-expanded {
+    display: block;
+    -webkit-line-clamp: unset;
+    overflow: visible;
+  }
+
+  .bsa-read-more-btn {
+    background: none;
+    border: none;
+    color: var(--bsa-navy);
+    font-family: var(--bsa-font);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 0;
+    text-align: left;
+    width: fit-content;
+    border-bottom: 2px solid var(--bsa-pink);
+  }
+
+  .bsa-read-more-btn:hover { opacity: 0.75; }
+
+  .bsa-card-reviewer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--bsa-border);
+    margin-top: auto;
+  }
+
+  .bsa-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--bsa-navy);
+    color: var(--bsa-pink);
+    font-size: 0.72rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: 0.04em;
+  }
+
+  .bsa-reviewer-info { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+
+  .bsa-reviewer-name {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--bsa-navy);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .bsa-reviewer-meta {
+    font-size: 0.64rem;
+    font-weight: 300;
+    color: var(--bsa-gray);
+    line-height: 1.4;
+  }
+
+  /* ARROWS */
+  .bsa-arrow-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1.5px solid var(--bsa-pink);
+    background: var(--bsa-white);
+    color: var(--bsa-navy);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s, color 0.2s;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+    z-index: 10;
+  }
+
+  .bsa-arrow-btn:hover {
+    background: var(--bsa-pink);
+    border-color: var(--bsa-pink);
+    color: var(--bsa-navy);
+    transform: translateY(-50%) scale(1.08);
+  }
+
+  .bsa-arrow-btn:active { transform: translateY(-50%) scale(0.95); }
+
+  .bsa-arrow-btn svg {
+    width: 17px; height: 17px;
+    fill: none; stroke: currentColor;
+    stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  .bsa-arrow-btn.bsa-prev { left: 0; }
+  .bsa-arrow-btn.bsa-next { right: 0; }
+
+  /* DOTS */
+  .bsa-carousel-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .bsa-dots { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: center; }
+
+  .bsa-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--bsa-border);
+    cursor: pointer;
+    transition: background 0.2s, transform 0.2s, width 0.25s;
+    border: none; padding: 0;
+  }
+
+  .bsa-dot.active {
+    background: var(--bsa-pink);
+    width: 22px;
+    border-radius: 4px;
+  }
+
+  /* FOOTER */
+  .bsa-reviews-footer {
+    text-align: center;
+    margin-top: 20px;
+    color: var(--bsa-gray);
+    font-size: 0.72rem;
+    font-weight: 300;
+    letter-spacing: 0.06em;
+  }
+
+  .bsa-reviews-footer strong { color: var(--bsa-pink); font-weight: 600; }
+
+  @media (max-width: 900px) {
+    .bsa-review-card { min-width: calc((100% - var(--bsa-gap)) / 2); }
+  }
+
+  @media (max-width: 560px) {
+    .bsa-carousel-outer { padding: 0 44px; }
+    .bsa-review-card { min-width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .bsa-carousel-track { transition: none; }
+  }
+</style>
+
+<section class="bsa-reviews-section">
+
+  <div class="bsa-carousel-outer">
+
+    <button class="bsa-arrow-btn bsa-prev" id="bsaPrev" aria-label="Previous review">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+
+    <div class="bsa-carousel-track-wrap">
+      <div class="bsa-carousel-track" id="bsaTrack">
+
+        <!-- CARD 1 — Cristina -->
+        <div class="bsa-review-card">
+          <div class="bsa-card-top"><span class="bsa-cohort-tag">Cohort 1</span></div>
+          <p class="bsa-card-quote bsa-clamped" id="bsaQ1">Before I joined this course, coding felt completely overwhelming for me, I had no experience at all. But the course is very well structured and builds step by step. It's very satisfying to finish with something that actually works and is live, not just a concept you kind of understood but never really tried. Now I also feel much more confident using other AI tools, even the ones we didn't cover in the course.</p>
+          <button class="bsa-read-more-btn" data-target="bsaQ1">Read More</button>
+          <div class="bsa-card-reviewer">
+            <div class="bsa-avatar">CR</div>
+            <div class="bsa-reviewer-info">
+              <span class="bsa-reviewer-name">Cristina</span>
+              <span class="bsa-reviewer-meta">Lead Product Designer · Future Workshops</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2 — Laima -->
+        <div class="bsa-review-card">
+          <div class="bsa-card-top"><span class="bsa-cohort-tag">Cohort 1</span></div>
+          <p class="bsa-card-quote bsa-clamped" id="bsaQ2">The hardest part is knowing where to start and how to iterate with intent without overthinking. The course makes that much clearer — especially the idea of committing early once something small works and building from there. It's useful not just for getting started, but also for debugging and developing your own process over time. It gave me a clearer way to approach building things, not just more tools.</p>
+          <button class="bsa-read-more-btn" data-target="bsaQ2">Read More</button>
+          <div class="bsa-card-reviewer">
+            <div class="bsa-avatar">LA</div>
+            <div class="bsa-reviewer-info">
+              <span class="bsa-reviewer-name">Laima</span>
+              <span class="bsa-reviewer-meta">Product Designer · Self-Employed</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3 — Swathi -->
+        <div class="bsa-review-card">
+          <div class="bsa-card-top"><span class="bsa-cohort-tag">Cohort 2</span></div>
+          <p class="bsa-card-quote bsa-clamped" id="bsaQ3">I came into this course as a designer who avoided the terminal. Six weeks later I deployed a full-stack capstone: a client booking app with an owner dashboard, PostgreSQL, auth, and transactional email, live on Netlify. I learned to scope ruthlessly, deploy early, and use Cursor as a collaborator, not just a chatbot. I still think like a designer, but now I understand how to make an idea buildable before I polish pixels.</p>
+          <button class="bsa-read-more-btn" data-target="bsaQ3">Read More</button>
+          <div class="bsa-card-reviewer">
+            <div class="bsa-avatar">SW</div>
+            <div class="bsa-reviewer-info">
+              <span class="bsa-reviewer-name">Swathi</span>
+              <span class="bsa-reviewer-meta">Manager, Product Design · Lattice</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4 — Nikki -->
+        <div class="bsa-review-card">
+          <div class="bsa-card-top"><span class="bsa-cohort-tag">Cohort 2</span></div>
+          <p class="bsa-card-quote bsa-clamped" id="bsaQ4">Before taking this course, I was afraid of using the terminal because I thought I might break something. Now after 6 weeks of learning and delivering my capstone project, I feel much more comfortable navigating through code and having conversations with developers I previously struggled to follow. I now feel I have enough technical knowledge to better understand developers' needs and collaborate more effectively with them.</p>
+          <button class="bsa-read-more-btn" data-target="bsaQ4">Read More</button>
+          <div class="bsa-card-reviewer">
+            <div class="bsa-avatar">NI</div>
+            <div class="bsa-reviewer-info">
+              <span class="bsa-reviewer-name">Nikki</span>
+              <span class="bsa-reviewer-meta">Design Manager, Product Platform · Docplanner</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 5 — Muddyum -->
+        <div class="bsa-review-card">
+          <div class="bsa-card-top"><span class="bsa-cohort-tag">Cohort 1</span></div>
+          <p class="bsa-card-quote bsa-clamped" id="bsaQ5">This course is genuinely designed with product designers in mind. The moment I pushed my first piece of code and watched my app deploy, something shifted. Getting comfortable with branching, pull requests, and actually changing things myself — that's when it stopped feeling like someone else's world and started feeling like mine. I came in as a designer. I left empowered.</p>
+          <button class="bsa-read-more-btn" data-target="bsaQ5">Read More</button>
+          <div class="bsa-card-reviewer">
+            <div class="bsa-avatar">MU</div>
+            <div class="bsa-reviewer-info">
+              <span class="bsa-reviewer-name">Muddyum</span>
+              <span class="bsa-reviewer-meta">Senior Product Designer · Consultant</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 6 — Saskia -->
+        <div class="bsa-review-card">
+          <div class="bsa-card-top"><span class="bsa-cohort-tag">Cohort 1</span></div>
+          <p class="bsa-card-quote bsa-clamped" id="bsaQ6">This course helped me expand my methodology in a very real way. I'm using Figma less and moving closer to the mindset of actual behaviors, outcomes, and design intent. Yes, AI generates a lot of code in minutes, but then your work begins — reading it, questioning it, understanding what's really happening. This is not about passively accepting generated output; it's about developing sharper judgment and a more deliberate relationship with your code.</p>
+          <button class="bsa-read-more-btn" data-target="bsaQ6">Read More</button>
+          <div class="bsa-card-reviewer">
+            <div class="bsa-avatar">SA</div>
+            <div class="bsa-reviewer-info">
+              <span class="bsa-reviewer-name">Saskia</span>
+              <span class="bsa-reviewer-meta">Branding & UI/UX Designer · Freelance</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 7 — Andrea -->
+        <div class="bsa-review-card">
+          <div class="bsa-card-top"><span class="bsa-cohort-tag">Cohort 2</span></div>
+          <p class="bsa-card-quote bsa-clamped" id="bsaQ7">A fantastic, hands-on, and incredibly practical course. It's a lot packed into a short time frame, but when you finish you'll be so much more than a "vibe coder." Nevan teaches students to be intentional and develop a basic understanding of code so that they're in the driver's seat, not the LLM. I've learned skills I can immediately put to use at my company. 100% would recommend!</p>
+          <button class="bsa-read-more-btn" data-target="bsaQ7">Read More</button>
+          <div class="bsa-card-reviewer">
+            <div class="bsa-avatar">AN</div>
+            <div class="bsa-reviewer-info">
+              <span class="bsa-reviewer-name">Andrea</span>
+              <span class="bsa-reviewer-meta">Product Designer · Wilhelmsen Ships Service</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 8 — Yamini -->
+        <div class="bsa-review-card">
+          <div class="bsa-card-top"><span class="bsa-cohort-tag">Cohort 3</span></div>
+          <p class="bsa-card-quote" id="bsaQ8">A great hands-on course for designers that helps them come at par with developers and technology in the fast changing AI era. Designing at speed of code and delivering alongside engineering is a great takeaway from this course.</p>
+          <div class="bsa-card-reviewer">
+            <div class="bsa-avatar">YA</div>
+            <div class="bsa-reviewer-info">
+              <span class="bsa-reviewer-name">Yamini</span>
+              <span class="bsa-reviewer-meta">Senior Product Designer</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /track -->
+    </div><!-- /track-wrap -->
+
+    <button class="bsa-arrow-btn bsa-next" id="bsaNext" aria-label="Next review">
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+
+  </div><!-- /carousel-outer -->
+
+  <div class="bsa-carousel-controls">
+    <div class="bsa-dots" id="bsaDots"></div>
+  </div>
+
+  <p class="bsa-reviews-footer">
+    Reviews from <strong>Button School</strong> alumni · Individual experiences vary
+  </p>
+
+</section>
+
+<script>
+  (function () {
+    const track    = document.getElementById('bsaTrack');
+    const prevBtn  = document.getElementById('bsaPrev');
+    const nextBtn  = document.getElementById('bsaNext');
+    const dotsWrap = document.getElementById('bsaDots');
+    const wrap     = track.parentElement;
+    const cards    = Array.from(track.querySelectorAll('.bsa-review-card'));
+    const total    = cards.length;
+    let current    = 0;
+    let autoTimer  = null;
+
+    function getVisible() {
+      const w = window.innerWidth;
+      if (w <= 560) return 1;
+      if (w <= 900) return 2;
+      return 3;
+    }
+
+    function maxIndex() { return Math.max(0, total - getVisible()); }
+
+    function cardStep() {
+      if (!cards.length) return 0;
+      const gap = parseInt(getComputedStyle(track).gap) || 18;
+      return cards[0].offsetWidth + gap;
+    }
+
+    function buildDots() {
+      dotsWrap.innerHTML = '';
+      const pages = maxIndex() + 1;
+      for (let i = 0; i < pages; i++) {
+        const d = document.createElement('button');
+        d.className = 'bsa-dot' + (i === current ? ' active' : '');
+        d.setAttribute('aria-label', 'Go to position ' + (i + 1));
+        d.addEventListener('click', () => { resetAuto(); goTo(i); });
+        dotsWrap.appendChild(d);
+      }
+    }
+
+    function goTo(index) {
+      current = Math.min(Math.max(index, 0), maxIndex());
+      track.style.transform = 'translateX(-' + (cardStep() * current) + 'px)';
+      dotsWrap.querySelectorAll('.bsa-dot').forEach((d, i) => d.classList.toggle('active', i === current));
+      prevBtn.style.opacity = current === 0 ? '0.4' : '1';
+      nextBtn.style.opacity = current >= maxIndex() ? '0.4' : '1';
+    }
+
+    prevBtn.addEventListener('click', () => { resetAuto(); goTo(current - 1); });
+    nextBtn.addEventListener('click', () => { resetAuto(); goTo(current + 1); });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft')  { resetAuto(); goTo(current - 1); }
+      if (e.key === 'ArrowRight') { resetAuto(); goTo(current + 1); }
+    });
+
+    let touchX = 0;
+    wrap.addEventListener('touchstart', (e) => { touchX = e.changedTouches[0].screenX; }, { passive: true });
+    wrap.addEventListener('touchend',   (e) => {
+      const diff = touchX - e.changedTouches[0].screenX;
+      if (Math.abs(diff) > 40) { resetAuto(); goTo(diff > 0 ? current + 1 : current - 1); }
+    }, { passive: true });
+
+    const section = document.querySelector('.bsa-reviews-section');
+    section.addEventListener('mouseenter', () => clearInterval(autoTimer));
+    section.addEventListener('mouseleave', startAuto);
+
+    function startAuto() { autoTimer = setInterval(() => goTo(current >= maxIndex() ? 0 : current + 1), 5000); }
+    function resetAuto() { clearInterval(autoTimer); startAuto(); }
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        current = 0;
+        track.style.transition = 'none';
+        buildDots();
+        goTo(0);
+        setTimeout(() => { track.style.transition = ''; }, 50);
+      }, 150);
+    });
+
+    document.querySelectorAll('.bsa-read-more-btn').forEach(btn => {
+      const targetId = btn.getAttribute('data-target');
+      const quoteEl  = document.getElementById(targetId);
+      if (quoteEl) quoteEl.classList.add('bsa-clamped');
+
+      btn.addEventListener('click', () => {
+        if (!quoteEl) return;
+        const isExpanded = quoteEl.classList.toggle('bsa-expanded');
+        quoteEl.classList.toggle('bsa-clamped', !isExpanded);
+        btn.textContent = isExpanded ? 'Read Less' : 'Read More';
+      });
+    });
+
+    buildDots();
+    goTo(0);
+    startAuto();
+  })();
+</script>
