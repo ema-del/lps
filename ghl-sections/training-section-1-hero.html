@@ -1,0 +1,295 @@
+<!--
+  ============================================================
+  PACOW (TRAINING FUNNEL) — SECTION 1: HERO + NATIVE GHL FORM (iframe)
+  Dark void-black grid · purple accents · video + host left, GHL form right.
+  NO bridge, NO custom form — the native GHL form iframe is embedded directly
+  and runs itself (validation, phone country picker, submit, redirect).
+  We only style the branded card/frame around it.
+
+  ── SETUP ───────────────────────────────────────────────────
+  - GHL form already wired: inline-jt0v1lv8yrT3xwHThqKv
+  - form_embed.js loaded at bottom (auto-resizes the iframe).
+  - Redirect / thank-you is set INSIDE GHL (form settings).
+  - Video wired to the provided MP4.
+  - NEW: clicking the gif opens a popup modal with the SAME native
+    GHL form (a second iframe instance, its own id so it doesn't
+    conflict with the inline one). Inline form on the right is
+    untouched.
+  ============================================================
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+  .pacow-tr {
+    --pc-purple:#7C3AFF; --pc-purple-hover:#6a2be0;
+    --pc-bg:#0A0A0F; --pc-white:#FDFBFF; --pc-grid:#1E1C2A;
+    --pc-muted:rgba(253,251,255,0.55);
+    --pc-font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    position:relative; width:100vw; max-width:100vw;
+    margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw);
+    background-color:var(--pc-bg);
+    background-image:linear-gradient(to right,rgba(30,28,42,0.5) 1px,transparent 1px),linear-gradient(to bottom,rgba(30,28,42,0.5) 1px,transparent 1px);
+    background-size:36px 36px;
+    font-family:var(--pc-font); color:var(--pc-white); overflow:hidden; box-sizing:border-box;
+  }
+  .pacow-tr *,.pacow-tr *::before,.pacow-tr *::after{box-sizing:border-box;}
+  .pacow-tr::before{
+    content:''; position:absolute; top:-8%; left:50%; transform:translateX(-50%);
+    width:900px; height:560px;
+    background:radial-gradient(ellipse at center, rgba(124,58,255,0.16), transparent 65%);
+    pointer-events:none; z-index:0;
+  }
+  .pacow-tr__inner{position:relative; z-index:1; max-width:1120px; margin:0 auto; padding:28px 24px 72px;}
+
+  .pacow-tr__nav{display:flex; align-items:center; justify-content:flex-start; margin-bottom:46px;}
+  .pacow-tr__logo{height:24px; width:auto; display:block;}
+
+  .pacow-tr__badge{
+    display:inline-flex; align-items:center; gap:9px;
+    background:var(--pc-white); color:#14121C;
+    border-radius:40px; padding:8px 15px;
+    font-size:13px; font-weight:600; margin:0 0 34px;
+  }
+  .pacow-tr__badge-dot{width:8px;height:8px;background:var(--pc-purple);border-radius:50%;display:inline-block;animation:pacow-tr-pulse 2s ease-in-out infinite;}
+  @keyframes pacow-tr-pulse{0%{box-shadow:0 0 0 0 rgba(124,58,255,.6);}70%{box-shadow:0 0 0 7px rgba(124,58,255,0);}100%{box-shadow:0 0 0 0 rgba(124,58,255,0);}}
+  .pacow-tr__headline{
+    text-align:center; font-size:54px; line-height:1.08; font-weight:800; letter-spacing:-0.03em;
+    margin:0 auto 22px; max-width:920px;
+  }
+  .pacow-tr__hl-mark{background:var(--pc-purple); color:var(--pc-white); border-radius:12px; padding:0 14px; box-decoration-break:clone; -webkit-box-decoration-break:clone;}
+  .pacow-tr__pen{position:relative; white-space:nowrap; color:var(--pc-white);}
+  .pacow-tr__pen::after{
+    content:''; position:absolute; left:0; right:0; bottom:-0.12em; height:0.16em;
+    background:var(--pc-purple); border-radius:40px;
+    box-shadow:0 0 14px rgba(124,58,255,0.6);
+    transform:scaleX(0); transform-origin:left center;
+    animation:pacow-tr-draw 0.7s cubic-bezier(0.4,0,0.2,1) 0.4s forwards;
+  }
+  @keyframes pacow-tr-draw{to{transform:scaleX(1);}}
+  .pacow-tr__subhead{text-align:center; font-size:18px; color:var(--pc-muted); max-width:640px; margin:0 auto 52px; line-height:1.5;}
+  .pacow-tr__subhead b{color:var(--pc-white); font-weight:600;}
+
+  .pacow-tr__grid{display:grid; grid-template-columns:1.05fr 0.95fr; gap:40px; align-items:center;}
+
+  /* left: video + host */
+  .pacow-tr__videowrap{position:relative;}
+  .pacow-tr__video{
+    position:relative; z-index:1; width:100%;
+    border-radius:22px; overflow:hidden;
+    box-shadow:
+      0 0 60px rgba(124,58,255,0.55),
+      0 0 120px rgba(124,58,255,0.35),
+      0 30px 90px rgba(0,0,0,0.45),
+      0 0 0 1px rgba(124,58,255,0.25);
+    font-size:0;
+    cursor:pointer;
+  }
+  .pacow-tr__video video{display:block; width:100%; height:auto;}
+  .pacow-tr__video img{display:block; width:100%; height:auto;}
+
+  /* play button overlay on the gif to signal it's clickable */
+  .pacow-tr__playbtn{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    z-index:2; width:74px; height:74px; border-radius:50%;
+    background:rgba(10,10,15,0.55);
+    border:1.5px solid rgba(253,251,255,0.7);
+    display:flex; align-items:center; justify-content:center;
+    backdrop-filter:blur(2px);
+    box-shadow:0 0 0 0 rgba(124,58,255,0.55);
+    animation:pacow-tr-playpulse 2.2s ease-in-out infinite;
+    transition:transform .18s ease, background .18s ease;
+    pointer-events:none;
+  }
+  .pacow-tr__videowrap:hover .pacow-tr__playbtn{transform:translate(-50%,-50%) scale(1.08); background:rgba(124,58,255,0.75);}
+  .pacow-tr__playbtn svg{width:26px; height:26px; margin-left:4px;}
+  @keyframes pacow-tr-playpulse{
+    0%{box-shadow:0 0 0 0 rgba(124,58,255,.55);}
+    70%{box-shadow:0 0 0 16px rgba(124,58,255,0);}
+    100%{box-shadow:0 0 0 0 rgba(124,58,255,0);}
+  }
+
+  .pacow-tr__host{display:flex; align-items:center; justify-content:center; gap:11px; margin-top:18px;}
+  .pacow-tr__host-img{width:48px; height:48px; border-radius:50%; object-fit:cover; border:2px solid var(--pc-purple); box-shadow:0 0 0 4px rgba(124,58,255,0.18), 0 0 18px rgba(124,58,255,0.55);}
+  .pacow-tr__host-cap{font-size:13px; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--pc-muted);}
+
+  /* right: branded card wrapping the native GHL form iframe */
+  .pacow-tr__formwrap{
+    background:#0E0D16; border:1px solid rgba(124,58,255,0.22);
+    border-radius:18px; padding:22px 18px 18px;
+    box-shadow:0 28px 90px rgba(0,0,0,0.5);
+  }
+  .pacow-tr__formtop{text-align:center; font-size:15px; font-weight:700; color:var(--pc-white); margin:0 0 16px;}
+  .pacow-tr__formhold{
+    position:relative; border-radius:12px; overflow:hidden;
+    background:#0E0D16;
+  }
+  .pacow-tr__formhold iframe{
+    width:100%; border:none; display:block; background:transparent;
+    height:auto;
+  }
+
+  /* ── POPUP MODAL (opens on gif click) ───────────────────── */
+  .pacow-tr__modal-overlay{
+    display:none; position:fixed; inset:0; z-index:9999;
+    background:rgba(6,5,10,0.78);
+    backdrop-filter:blur(3px);
+    align-items:center; justify-content:center;
+    padding:24px;
+    opacity:0;
+    transition:opacity .22s ease;
+  }
+  .pacow-tr__modal-overlay.pacow-tr--open{display:flex;}
+  .pacow-tr__modal-overlay.pacow-tr--visible{opacity:1;}
+  .pacow-tr__modal{
+    position:relative; width:100%; max-width:460px;
+    background:#0E0D16; border:1px solid rgba(124,58,255,0.28);
+    border-radius:20px; padding:26px 20px 20px;
+    box-shadow:0 0 0 1px rgba(124,58,255,0.15), 0 40px 120px rgba(0,0,0,0.6), 0 0 80px rgba(124,58,255,0.25);
+    transform:translateY(14px) scale(0.98); opacity:0;
+    transition:transform .28s cubic-bezier(0.16,1,0.3,1), opacity .28s ease;
+  }
+  .pacow-tr__modal-overlay.pacow-tr--visible .pacow-tr__modal{transform:translateY(0) scale(1); opacity:1;}
+  .pacow-tr__modal-close{
+    position:absolute; top:12px; right:12px; z-index:2;
+    width:32px; height:32px; border-radius:50%;
+    background:rgba(253,251,255,0.08); border:1px solid rgba(253,251,255,0.18);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--pc-white);
+    transition:background .15s ease, transform .15s ease;
+  }
+  .pacow-tr__modal-close:hover{background:rgba(124,58,255,0.35); transform:rotate(90deg);}
+  .pacow-tr__modal-close svg{width:14px; height:14px;}
+  .pacow-tr__modal-top{text-align:center; font-size:16px; font-weight:700; color:var(--pc-white); margin:0 0 16px; padding-right:20px;}
+  .pacow-tr__modal-formhold{position:relative; border-radius:12px; overflow:hidden; background:#0E0D16;}
+  .pacow-tr__modal-formhold iframe{width:100%; border:none; display:block; background:transparent; height:auto;}
+
+  @media (max-width:900px){
+    .pacow-tr__grid{grid-template-columns:1fr; gap:30px;}
+    .pacow-tr__headline{font-size:38px;}
+  }
+  @media (max-width:768px){
+    .pacow-tr{background-size:28px 28px;}
+    .pacow-tr__inner{padding:24px 18px 56px;}
+    .pacow-tr__headline{font-size:31px;}
+    .pacow-tr__subhead{font-size:16px; margin-bottom:38px;}
+    .pacow-tr__hl-mark{padding:0 8px; border-radius:8px;}
+    .pacow-tr__formwrap{padding:18px 12px 14px;}
+    .pacow-tr__playbtn{width:60px; height:60px;}
+    .pacow-tr__playbtn svg{width:22px; height:22px;}
+    .pacow-tr__modal{padding:22px 16px 16px;}
+  }
+</style>
+
+<section class="pacow-tr">
+  <div class="pacow-tr__inner">
+
+    <!-- nav -->
+    <div class="pacow-tr__nav">
+      <img class="pacow-tr__logo" src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f11e6b5bad2bee0178341.png" alt="Pacow" width="auto" height="24" decoding="async" fetchpriority="high" />
+    </div>
+
+    <!-- headline -->
+    <div style="text-align:center;">
+      <span class="pacow-tr__badge"><span class="pacow-tr__badge-dot"></span>Education brands &amp; course creators</span>
+    </div>
+    <h1 class="pacow-tr__headline">Discover how we can get you <span class="pacow-tr__pen">10-20+ students</span> every single month</h1>
+    <p class="pacow-tr__subhead">Powered by GrowthOS™ - Meta ads, automated sales funnels, and AI bots.</p>
+
+    <!-- two columns -->
+    <div class="pacow-tr__grid">
+
+      <!-- left: video + host (gif is clickable, opens popup form) -->
+      <div>
+        <div class="pacow-tr__videowrap">
+          <div class="pacow-tr__video" onclick="pacowTrOpenModal()" role="button" tabindex="0" aria-label="Open sign-up form" onkeydown="if(event.key==='Enter'){pacowTrOpenModal();}">
+            <img
+              src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a26a6cff607d4002bcad797.gif"
+              alt="Pacow training preview"
+              style="display:block;width:100%;height:auto;background:#0A0A0F;"
+              decoding="async" />
+            <div class="pacow-tr__playbtn" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 4.5v15l13-7.5-13-7.5z" fill="#FDFBFF"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="pacow-tr__host">
+          <img class="pacow-tr__host-img" src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1ffd6a85f563c78d76ad7e.png" alt="Viktorija" width="48" height="48" loading="lazy" decoding="async" />
+          <span class="pacow-tr__host-cap">Viktorija, Co-Founder of Pacow Media</span>
+        </div>
+      </div>
+
+      <!-- right: NATIVE GHL FORM (iframe, runs itself) — unchanged -->
+      <div class="pacow-tr__formwrap">
+        <p class="pacow-tr__formtop">Instant access to the free training in 30 sec!</p>
+        <div class="pacow-tr__formhold">
+          <iframe
+            src="https://links.pacowmedia.com/widget/form/jt0v1lv8yrT3xwHThqKv"
+            id="inline-jt0v1lv8yrT3xwHThqKv"
+            data-layout="{'id':'INLINE'}"
+            data-trigger-type="alwaysShow"
+            data-trigger-value=""
+            data-activation-type="alwaysActivated"
+            data-activation-value=""
+            data-deactivation-type="neverDeactivate"
+            data-deactivation-value=""
+            data-form-name="(Ads) Opt-In - OFFICIAL"
+            data-layout-iframe-id="inline-jt0v1lv8yrT3xwHThqKv"
+            data-form-id="jt0v1lv8yrT3xwHThqKv"
+            title="(Ads) Opt-In - OFFICIAL"></iframe>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ── POPUP MODAL: opens when the gif is clicked, same GHL form as a second iframe instance ── -->
+<div class="pacow-tr__modal-overlay" id="pacowTrModalOverlay" onclick="if(event.target===this){pacowTrCloseModal();}">
+  <div class="pacow-tr__modal">
+    <div class="pacow-tr__modal-close" onclick="pacowTrCloseModal()" role="button" tabindex="0" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M6 6l12 12M18 6L6 18"/>
+      </svg>
+    </div>
+    <p class="pacow-tr__modal-top">Instant access to the free training in 30 sec!</p>
+    <div class="pacow-tr__modal-formhold">
+      <iframe
+        src="https://links.pacowmedia.com/widget/form/jt0v1lv8yrT3xwHThqKv"
+        id="popup-jt0v1lv8yrT3xwHThqKv"
+        data-layout="{'id':'INLINE'}"
+        data-trigger-type="alwaysShow"
+        data-trigger-value=""
+        data-activation-type="alwaysActivated"
+        data-activation-value=""
+        data-deactivation-type="neverDeactivate"
+        data-deactivation-value=""
+        data-form-name="(Ads) Opt-In - OFFICIAL"
+        data-layout-iframe-id="popup-jt0v1lv8yrT3xwHThqKv"
+        data-form-id="jt0v1lv8yrT3xwHThqKv"
+        title="(Ads) Opt-In - OFFICIAL"></iframe>
+    </div>
+  </div>
+</div>
+
+<script>
+  function pacowTrOpenModal(){
+    var overlay = document.getElementById('pacowTrModalOverlay');
+    overlay.classList.add('pacow-tr--open');
+    document.body.style.overflow = 'hidden';
+    requestAnimationFrame(function(){
+      requestAnimationFrame(function(){ overlay.classList.add('pacow-tr--visible'); });
+    });
+  }
+  function pacowTrCloseModal(){
+    var overlay = document.getElementById('pacowTrModalOverlay');
+    overlay.classList.remove('pacow-tr--visible');
+    document.body.style.overflow = '';
+    setTimeout(function(){ overlay.classList.remove('pacow-tr--open'); }, 220);
+  }
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape'){ pacowTrCloseModal(); }
+  });
+</script>
+
+<script src="https://links.pacowmedia.com/js/form_embed.js"></script>
