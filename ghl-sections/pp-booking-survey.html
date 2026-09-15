@@ -22,6 +22,20 @@
       personalized page serves one stranger's data to everyone.
     - Never send traffic to a URL containing contact merge tags or contact_id.
 
+  CONTACT HANDOFF FROM THE OPT-IN FORM (first name / email / phone):
+  In GHL > Sites > Forms > "Free Training Opt-In Form" > Settings > On Submit >
+  Redirect to URL, use:
+
+    https://YOURDOMAIN.com/YOUR-SURVEY-PAGE?pp_fn={{contact.first_name}}&pp_em={{contact.email}}&pp_ph={{contact.phone}}
+
+  Those pp_* params are accepted here ONLY if this browser tab carries a fresh
+  sessionStorage stamp from the opt-in page (set by pp-free-act-roadmap-optin.html).
+  A stranger opening a forwarded copy of that URL has no stamp, so the params are
+  discarded and the survey renders blank. That is the whole point: the contact
+  data rides the visitor's own tab, never the account's sticky-contact store.
+  The params are stripped from the address bar on arrival and the values are held
+  in sessionStorage for 30 minutes so a refresh still prefills.
+
   Safe to run alongside the opt-in section on the same page — both scripts are
   self-contained IIFEs and the URL scrub is idempotent.
 
@@ -130,11 +144,82 @@
     'postal_code','zip','country'
   ];
 
-  // Fields we send back EMPTY to beat sticky-contact prefill.
+  // Fields we control on the widget src. Anything not handed off stays EMPTY,
+  // which is what beats sticky-contact prefill.
   var BLANK_FIELDS = ['full_name','first_name','last_name','name','email','phone'];
 
+  // ---- HANDOFF FROM THE OPT-IN FORM ---------------------------------------
+  // The opt-in page stamps sessionStorage.pp_optin_at. GHL redirects here with
+  // ?pp_fn=&pp_em=&pp_ph= (merge tags, see the header comment). We accept those
+  // params ONLY if this tab carries a fresh stamp — a stranger opening a
+  // forwarded link has no stamp, so the params are dropped, not prefilled.
+  var HANDOFF_MAX_AGE_MS = 30 * 60 * 1000;   // 30 minutes
+  var SESSION_FLAG  = 'pp_optin_at';
+  var HANDOFF_STORE = 'pp_handoff';
+
+  // page-URL param -> survey field name
+  var HANDOFF_MAP = { pp_fn:'first_name', pp_em:'email', pp_ph:'phone' };
+
+  // Surveys that use one "full name" field instead of first/last: copy the
+  // first name across so it still prefills. Set false if yours splits them.
+  var MIRROR_NAME = true;
+
   function isPrefillParam(key) {
-    return PREFILL_PARAMS.indexOf(String(key).toLowerCase()) !== -1;
+    var k = String(key).toLowerCase();
+    return PREFILL_PARAMS.indexOf(k) !== -1 || HANDOFF_MAP.hasOwnProperty(k);
+  }
+
+  // '+' decodes to a space in a query string, so a leading + on an E.164 phone
+  // is lost in transit. Put it back.
+  function normalizePhone(v) {
+    var s = String(v || '').trim();
+    if (/^\d{11,15}$/.test(s)) s = '+' + s;
+    return s;
+  }
+
+  function sessionIsOurs() {
+    try {
+      var t = parseInt(sessionStorage.getItem(SESSION_FLAG), 10);
+      return !!t && (Date.now() - t) < HANDOFF_MAX_AGE_MS;
+    } catch (e) { return false; }
+  }
+
+  function readUrlHandoff() {
+    var out = null;
+    try {
+      var sp = new URL(window.location.href).searchParams;
+      Object.keys(HANDOFF_MAP).forEach(function (k) {
+        var v = sp.get(k);
+        if (v && v.trim()) { out = out || {}; out[HANDOFF_MAP[k]] = v.trim(); }
+      });
+      if (out && out.phone) out.phone = normalizePhone(out.phone);
+    } catch (e) {}
+    return out;
+  }
+
+  function saveHandoff(data) {
+    try {
+      sessionStorage.setItem(HANDOFF_STORE, JSON.stringify({ at: Date.now(), data: data }));
+    } catch (e) {}
+  }
+
+  function loadHandoff() {
+    try {
+      var o = JSON.parse(sessionStorage.getItem(HANDOFF_STORE) || 'null');
+      if (!o || !o.at || (Date.now() - o.at) > HANDOFF_MAX_AGE_MS) {
+        sessionStorage.removeItem(HANDOFF_STORE);
+        return null;
+      }
+      return o.data || null;
+    } catch (e) { return null; }
+  }
+
+  // URL params are trusted only with a fresh same-tab stamp. Stored handoff is
+  // the fallback so a refresh of THIS page still prefills after the scrub.
+  function resolveHandoff() {
+    var fromUrl = readUrlHandoff();
+    if (fromUrl && sessionIsOurs()) { saveHandoff(fromUrl); return fromUrl; }
+    return loadHandoff();
   }
 
   // 1) Strip contact params off the page URL so form_embed.js never sees them.
@@ -159,7 +244,10 @@
     ['localStorage', 'sessionStorage'].forEach(function (store) {
       try {
         var s = window[store];
-        Object.keys(s).forEach(function (k) { if (STICKY_KEY.test(k)) s.removeItem(k); });
+        Object.keys(s).forEach(function (k) {
+          if (k.indexOf('pp_') === 0) return;      // our own handoff keys
+          if (STICKY_KEY.test(k)) s.removeItem(k);
+        });
       } catch (e) {}
     });
     try {
@@ -175,32 +263,46 @@
     } catch (e) {}
   }
 
-  // 3) Build a one-time-use src: blank fields + cache buster.
-  function freshSrc() {
+  // 3) Build a one-time-use src: handed-off fields filled, everything else
+  //    explicitly EMPTY, plus a cache buster.
+  function freshSrc(prefill) {
+    var data = prefill || {};
+    if (MIRROR_NAME && data.first_name) {
+      if (!data.full_name) data.full_name = data.first_name;
+      if (!data.name)      data.name      = data.first_name;
+    }
     var parts = [];
     if (BLOCK_PREFILL) {
-      BLANK_FIELDS.forEach(function (f) { parts.push(encodeURIComponent(f) + '='); });
+      BLANK_FIELDS.forEach(function (f) {
+        parts.push(encodeURIComponent(f) + '=' + encodeURIComponent(data[f] || ''));
+      });
     }
     parts.push('_nc=' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8));
     return BASE_URL + '?' + parts.join('&');
   }
 
-  function loadWidget() {
+  function loadWidget(prefill) {
     var frame = document.getElementById(IFRAME_ID);
     if (!frame) return;
-    frame.setAttribute('src', freshSrc());
+    frame.setAttribute('src', freshSrc(prefill));
   }
+
+  // Resolve the handoff BEFORE scrubbing, then take the params off the URL.
+  var handoff = BLOCK_PREFILL ? resolveHandoff() : readUrlHandoff();
 
   if (BLOCK_PREFILL) {
     scrubPageUrl();
     clearStickyStorage();
   }
-  loadWidget();
+  loadWidget(handoff);
 
   // 4) Back/forward (bfcache) restores the old iframe with whatever was in it.
   //    Force a clean one.
   window.addEventListener('pageshow', function (evt) {
-    if (evt.persisted) { if (BLOCK_PREFILL) { clearStickyStorage(); } loadWidget(); }
+    if (evt.persisted) {
+      if (BLOCK_PREFILL) { clearStickyStorage(); }
+      loadWidget(BLOCK_PREFILL ? loadHandoff() : null);
+    }
   });
 })();
 </script>

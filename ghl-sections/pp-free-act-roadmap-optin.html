@@ -165,7 +165,10 @@
     ['localStorage', 'sessionStorage'].forEach(function (store) {
       try {
         var s = window[store];
-        Object.keys(s).forEach(function (k) { if (STICKY_KEY.test(k)) s.removeItem(k); });
+        Object.keys(s).forEach(function (k) {
+          if (k.indexOf('pp_') === 0) return;      // our own handoff keys
+          if (STICKY_KEY.test(k)) s.removeItem(k);
+        });
       } catch (e) {}
     });
     try {
@@ -197,10 +200,18 @@
     frame.setAttribute('src', freshSrc());
   }
 
+  // 5) Stamp this TAB so the booking page can tell a real continuation of this
+  //    visit apart from a stranger opening a forwarded link. sessionStorage is
+  //    per-tab and per-origin, so it cannot travel with a shared URL.
+  function stampSession() {
+    try { sessionStorage.setItem('pp_optin_at', String(Date.now())); } catch (e) {}
+  }
+
   if (BLOCK_PREFILL) {
     scrubPageUrl();
     clearStickyStorage();
   }
+  stampSession();
   loadForm();
 
   // 4) Back/forward (bfcache) restores the old iframe with whatever was in it.
