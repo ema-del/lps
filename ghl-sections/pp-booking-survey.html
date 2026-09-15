@@ -1,0 +1,208 @@
+<!--
+  PP — ACT Diagnostic Call Booking (GHL section)
+
+  Same anti-sticky hardening as pp-free-act-roadmap-optin.html, adapted for a
+  SURVEY widget (/widget/survey/ instead of /widget/form/, and the iframe id is
+  the bare survey id with no "inline-" prefix).
+
+  Why: GHL sticky contact was prefilling one visitor's details for the next
+  visitor. Three delivery paths, all closed below:
+    1. URL params — form_embed.js reads the PAGE url and pipes contact params into
+       the widget. A forwarded GHL email link or a merge-tag ad URL carrying
+       ?contact_id=/?email=/?ce= prefills THAT person for everyone who opens it.
+       -> scrubbed off the URL before form_embed.js loads.
+    2. Cached / bfcache-restored iframe holding the last render.
+       -> src is built in JS with a cache-buster and rebuilt on bfcache restore.
+    3. Sticky-contact prefill. -> contact fields are sent explicitly EMPTY.
+
+  ALSO DO THIS IN THE GHL DASHBOARD (code alone can't turn these off):
+    - Sites > Surveys > (this survey) > Settings/Options > turn OFF sticky contact.
+    - Sites > Funnels/Websites > (this funnel) > Settings > uncheck "Sticky Contact".
+    - Behind Cloudflare/any CDN: bypass cache for this page path. A cached
+      personalized page serves one stranger's data to everyone.
+    - Never send traffic to a URL containing contact merge tags or contact_id.
+
+  Safe to run alongside the opt-in section on the same page — both scripts are
+  self-contained IIFEs and the URL scrub is idempotent.
+
+  Section prefix: pp-book
+-->
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&display=swap');
+
+  .pp-book-section *, .pp-book-section *::before, .pp-book-section *::after { box-sizing:border-box; margin:0; padding:0; }
+  .pp-book-section {
+    --pp-navy:#002365; --pp-gold:#988a39;
+    --pp-bg:#f5f7fb; --pp-gray:#64748b; --pp-border:#e2e8f0;
+    --pp-font:'Raleway', sans-serif;
+    background:var(--pp-bg);
+    padding:56px 20px 48px;
+    font-family:var(--pp-font);
+  }
+  .pp-book-outer { max-width:640px; margin:0 auto; text-align:center; }
+  .pp-book-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    background:#e9eef8; color:var(--pp-navy);
+    font-size:0.75rem; font-weight:700; letter-spacing:0.1em;
+    text-transform:uppercase;
+    padding:8px 18px; border-radius:999px; margin-bottom:20px;
+  }
+  .pp-book-headline {
+    color:var(--pp-navy); font-size:clamp(1.6rem, 3.4vw, 2.3rem);
+    font-weight:800; letter-spacing:-0.01em; line-height:1.2;
+    margin-bottom:14px;
+  }
+  .pp-book-sub {
+    color:#475569; font-size:1rem; font-weight:400;
+    line-height:1.6; max-width:480px; margin:0 auto 36px;
+  }
+  .pp-book-card {
+    background:#fff; border-radius:14px; overflow:hidden;
+    box-shadow:0 8px 32px rgba(0,35,101,0.10);
+    border-top:4px solid;
+    border-image:linear-gradient(90deg, var(--pp-navy), var(--pp-gold)) 1;
+  }
+  .pp-book-card-inner { padding:32px 28px 28px; }
+  .pp-book-form-wrap iframe { display:block; width:100%; min-height:520px; border:none; }
+  .pp-book-privacy {
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    color:var(--pp-gray); font-size:0.8rem; font-weight:400;
+    margin-top:24px;
+  }
+  .pp-book-privacy svg { width:14px; height:14px; flex-shrink:0; }
+
+  @media (max-width:768px) { .pp-book-section { padding:40px 16px 36px; } .pp-book-card-inner { padding:20px 14px 18px; } }
+  @media (max-width:390px) { .pp-book-card-inner { padding:16px 10px 14px; } }
+</style>
+
+<section class="pp-book-section">
+  <div class="pp-book-outer">
+    <div class="pp-book-badge">📋 Book Your Call</div>
+    <h1 class="pp-book-headline">Free ACT Diagnostic Call with Personalized Prep</h1>
+    <p class="pp-book-sub">
+      Complete the short form below and book your free diagnostic call with our team today.
+    </p>
+    <div class="pp-book-card">
+      <div class="pp-book-card-inner">
+        <div class="pp-book-form-wrap">
+          <!-- NOTE: no src= here on purpose. It is set by the script below so every
+               pageview gets a fresh, un-prefilled, un-cached survey. -->
+          <iframe
+            style="border:none;width:100%;min-height:520px;"
+            scrolling="no"
+            id="6ZoD2y2lkZKyvafMoINd"
+            title="survey">
+          </iframe>
+          <noscript>
+            <iframe src="https://links.pacowmedia.com/widget/survey/6ZoD2y2lkZKyvafMoINd"
+                    style="border:none;width:100%;min-height:520px;"
+                    scrolling="no" title="survey"></iframe>
+          </noscript>
+        </div>
+      </div>
+    </div>
+    <div class="pp-book-privacy">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      FREE, no-risk ACT diagnostic call, your information is 100% secure and never shared
+    </div>
+  </div>
+</section>
+
+<!-- Anti-sticky bridge. MUST stay above the form_embed.js tag: it scrubs the URL
+     before GHL's script gets a chance to read it. -->
+<script>
+(function () {
+  var WIDGET_ID = '6ZoD2y2lkZKyvafMoINd';
+  var BASE_URL  = 'https://links.pacowmedia.com/widget/survey/' + WIDGET_ID;
+  var IFRAME_ID = WIDGET_ID; // surveys use the bare id, forms use 'inline-' + id
+
+  // Set to false if you ever WANT this page to prefill from the URL
+  // (e.g. a known-contact page). Leave true for cold traffic.
+  var BLOCK_PREFILL = true;
+
+  // Query params GHL can turn into a prefilled contact. Compared lowercase.
+  var PREFILL_PARAMS = [
+    'contact_id','contactid','contact','ce','cs','session','session_id',
+    'email','e','phone','p','number',
+    'name','full_name','fullname','first_name','firstname','fname',
+    'last_name','lastname','lname','company_name','address1','city','state',
+    'postal_code','zip','country'
+  ];
+
+  // Fields we send back EMPTY to beat sticky-contact prefill.
+  var BLANK_FIELDS = ['full_name','first_name','last_name','name','email','phone'];
+
+  function isPrefillParam(key) {
+    return PREFILL_PARAMS.indexOf(String(key).toLowerCase()) !== -1;
+  }
+
+  // 1) Strip contact params off the page URL so form_embed.js never sees them.
+  function scrubPageUrl() {
+    try {
+      var url = new URL(window.location.href);
+      var dirty = false;
+      Array.from(url.searchParams.keys()).forEach(function (k) {
+        if (isPrefillParam(k)) { url.searchParams.delete(k); dirty = true; }
+      });
+      if (dirty && window.history && window.history.replaceState) {
+        window.history.replaceState({}, document.title, url.pathname + url.search + url.hash);
+      }
+    } catch (e) {}
+  }
+
+  // 2) Drop any sticky-contact leftovers this browser is holding on OUR domain.
+  //    Deliberately narrow so analytics / attribution cookies are left alone.
+  var STICKY_KEY = /(sticky|contact|prefill|lead_?connector|ghl_?form|ghl_?survey|survey_?data|form_?data)/i;
+
+  function clearStickyStorage() {
+    ['localStorage', 'sessionStorage'].forEach(function (store) {
+      try {
+        var s = window[store];
+        Object.keys(s).forEach(function (k) { if (STICKY_KEY.test(k)) s.removeItem(k); });
+      } catch (e) {}
+    });
+    try {
+      var host = location.hostname;
+      document.cookie.split(';').forEach(function (c) {
+        var name = c.split('=')[0].trim();
+        if (!name || !STICKY_KEY.test(name)) return;
+        var expire = '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+        document.cookie = name + expire;
+        document.cookie = name + expire + '; domain=' + host;
+        document.cookie = name + expire + '; domain=.' + host.replace(/^www\./, '');
+      });
+    } catch (e) {}
+  }
+
+  // 3) Build a one-time-use src: blank fields + cache buster.
+  function freshSrc() {
+    var parts = [];
+    if (BLOCK_PREFILL) {
+      BLANK_FIELDS.forEach(function (f) { parts.push(encodeURIComponent(f) + '='); });
+    }
+    parts.push('_nc=' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8));
+    return BASE_URL + '?' + parts.join('&');
+  }
+
+  function loadWidget() {
+    var frame = document.getElementById(IFRAME_ID);
+    if (!frame) return;
+    frame.setAttribute('src', freshSrc());
+  }
+
+  if (BLOCK_PREFILL) {
+    scrubPageUrl();
+    clearStickyStorage();
+  }
+  loadWidget();
+
+  // 4) Back/forward (bfcache) restores the old iframe with whatever was in it.
+  //    Force a clean one.
+  window.addEventListener('pageshow', function (evt) {
+    if (evt.persisted) { if (BLOCK_PREFILL) { clearStickyStorage(); } loadWidget(); }
+  });
+})();
+</script>
+
+<script src="https://links.pacowmedia.com/js/form_embed.js"></script>
