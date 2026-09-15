@@ -1,0 +1,214 @@
+<!--
+  PP — Free ACT Roadmap Opt-In (GHL section)
+
+  WHAT CHANGED / WHY:
+  The form was showing a *previous, unrelated* visitor's name + email. That is GHL's
+  "sticky contact" prefill. It reaches a new visitor three ways, and all three are
+  handled below:
+
+    1. URL params. GHL's form_embed.js reads the PAGE url and pipes contact params
+       into the iframe. Any link that carries ?contact_id=/?email=/?ce= (a forwarded
+       GHL email link, a shared link, an ad URL built from a merge-tag link) prefills
+       the form with THAT person for everyone who opens it. -> we scrub those params
+       off the URL before form_embed.js loads.
+    2. Cached iframe. A hardcoded src can be served from cache / restored from
+       bfcache with the last render's values still in it. -> src is built in JS with
+       a cache-buster, and rebuilt on bfcache restore.
+    3. Sticky-contact prefill. -> the field params are sent explicitly EMPTY, which
+       overrides the sticky values.
+
+  ALSO DO THIS IN THE GHL DASHBOARD (code alone can't turn these off):
+    - Sites > Funnels/Websites > (this funnel) > Settings > uncheck "Sticky Contact".
+    - The form itself: Sites > Forms > (Free Training Opt-In Form) > Settings/Options,
+      turn OFF sticky contact / prefill on the form.
+    - If this page sits behind Cloudflare or any CDN, do NOT cache the HTML page
+      (bypass cache rule for this path). A cached personalized page serves one
+      stranger's data to everyone.
+    - Never send traffic to a URL containing contact merge tags or contact_id.
+
+  Section prefix: pp-optin
+-->
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;600;700;800&display=swap');
+
+  .pp-optin-section *, .pp-optin-section *::before, .pp-optin-section *::after { box-sizing:border-box; margin:0; padding:0; }
+  .pp-optin-section {
+    --pp-navy:#002365; --pp-gold:#988a39; --pp-gold-lt:#f7f5e9;
+    --pp-gray:#6b7280; --pp-border:#d7dceb;
+    --pp-font:'Raleway', sans-serif;
+    background:#fff; padding:48px 20px; font-family:var(--pp-font);
+  }
+  .pp-optin-outer { max-width:560px; margin:0 auto; text-align:center; }
+  .pp-optin-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--pp-gold-lt); border:1px solid var(--pp-gold);
+    color:var(--pp-navy); font-weight:700; font-size:0.78rem;
+    letter-spacing:0.06em; text-transform:uppercase;
+    padding:6px 16px; border-radius:999px; margin-bottom:16px;
+  }
+  .pp-optin-headline {
+    color:var(--pp-navy); font-size:clamp(1.5rem, 3vw, 2.1rem);
+    font-weight:800; letter-spacing:-0.01em; margin-bottom:14px;
+  }
+  .pp-optin-subcopy {
+    color:#334155; font-size:1rem; font-weight:400;
+    line-height:1.6; margin-bottom:28px;
+  }
+  .pp-optin-form-wrap {
+    background:#fff; border:1px solid var(--pp-border); border-radius:12px;
+    box-shadow:0 4px 24px rgba(0,35,101,0.08); padding:12px; margin-bottom:18px;
+  }
+  .pp-optin-form-wrap iframe { display:block; width:100%; min-height:673px; border:none; border-radius:8px; }
+  .pp-optin-privacy {
+    display:flex; align-items:center; justify-content:center; gap:6px;
+    color:var(--pp-gray); font-size:0.78rem; font-weight:400;
+  }
+  .pp-optin-privacy svg { width:13px; height:13px; flex-shrink:0; }
+
+  @media (max-width:768px) { .pp-optin-section { padding:36px 16px; } }
+  @media (max-width:390px) { .pp-optin-form-wrap { padding:8px; } }
+</style>
+
+<section class="pp-optin-section">
+  <div class="pp-optin-outer">
+
+    <div class="pp-optin-badge">🎁 Free ACT Roadmap</div>
+
+    <h2 class="pp-optin-headline">Get instant access</h2>
+
+    <p class="pp-optin-subcopy">
+      Drop your info below. We'll send you a breakdown of how the system works.
+    </p>
+
+    <div class="pp-optin-form-wrap">
+      <!-- NOTE: no src= here on purpose. It is set by the script below so every
+           pageview gets a fresh, un-prefilled, un-cached form. -->
+      <iframe
+        style="width:100%;height:673px;border:none;border-radius:8px"
+        id="inline-JabmLWmxZlogUudHpLIM"
+        data-layout="{'id':'INLINE'}"
+        data-trigger-type="alwaysShow"
+        data-trigger-value=""
+        data-activation-type="alwaysActivated"
+        data-activation-value=""
+        data-deactivation-type="neverDeactivate"
+        data-deactivation-value=""
+        data-form-name="Free Training Opt-In Form✅✅"
+        data-height="673"
+        data-layout-iframe-id="inline-JabmLWmxZlogUudHpLIM"
+        data-form-id="JabmLWmxZlogUudHpLIM"
+        title="Free Training Opt-In Form✅✅">
+      </iframe>
+      <noscript>
+        <iframe src="https://links.pacowmedia.com/widget/form/JabmLWmxZlogUudHpLIM"
+                style="width:100%;height:673px;border:none;border-radius:8px"
+                title="Free Training Opt-In Form"></iframe>
+      </noscript>
+    </div>
+
+    <div class="pp-optin-privacy">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      Your info stays private. Always.
+    </div>
+
+  </div>
+</section>
+
+<!-- Anti-sticky bridge. MUST stay above the form_embed.js tag: it scrubs the URL
+     before GHL's script gets a chance to read it. -->
+<script>
+(function () {
+  var FORM_ID   = 'JabmLWmxZlogUudHpLIM';
+  var BASE_URL  = 'https://links.pacowmedia.com/widget/form/' + FORM_ID;
+  var IFRAME_ID = 'inline-' + FORM_ID;
+
+  // Set to false if you ever WANT this page to prefill from the URL
+  // (e.g. a logged-in / known-contact page). Leave true for cold traffic.
+  var BLOCK_PREFILL = true;
+
+  // Query params GHL can turn into a prefilled contact. Compared lowercase.
+  var PREFILL_PARAMS = [
+    'contact_id','contactid','contact','ce','cs','session','session_id',
+    'email','e','phone','p','number',
+    'name','full_name','fullname','first_name','firstname','fname',
+    'last_name','lastname','lname','company_name','address1','city','state',
+    'postal_code','zip','country'
+  ];
+
+  // Fields we send back EMPTY to beat sticky-contact prefill.
+  var BLANK_FIELDS = ['full_name','first_name','last_name','name','email','phone'];
+
+  function isPrefillParam(key) {
+    return PREFILL_PARAMS.indexOf(String(key).toLowerCase()) !== -1;
+  }
+
+  // 1) Strip contact params off the page URL so form_embed.js never sees them.
+  function scrubPageUrl() {
+    try {
+      var url = new URL(window.location.href);
+      var dirty = false;
+      Array.from(url.searchParams.keys()).forEach(function (k) {
+        if (isPrefillParam(k)) { url.searchParams.delete(k); dirty = true; }
+      });
+      if (dirty && window.history && window.history.replaceState) {
+        window.history.replaceState({}, document.title, url.pathname + url.search + url.hash);
+      }
+    } catch (e) {}
+  }
+
+  // 2) Drop any sticky-contact leftovers this browser is holding on OUR domain.
+  //    Deliberately narrow so analytics / attribution cookies are left alone.
+  var STICKY_KEY = /(sticky|contact|prefill|lead_?connector|ghl_?form|form_?data)/i;
+
+  function clearStickyStorage() {
+    ['localStorage', 'sessionStorage'].forEach(function (store) {
+      try {
+        var s = window[store];
+        Object.keys(s).forEach(function (k) { if (STICKY_KEY.test(k)) s.removeItem(k); });
+      } catch (e) {}
+    });
+    try {
+      var host = location.hostname;
+      document.cookie.split(';').forEach(function (c) {
+        var name = c.split('=')[0].trim();
+        if (!name || !STICKY_KEY.test(name)) return;
+        var expire = '=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/';
+        document.cookie = name + expire;
+        document.cookie = name + expire + '; domain=' + host;
+        document.cookie = name + expire + '; domain=.' + host.replace(/^www\./, '');
+      });
+    } catch (e) {}
+  }
+
+  // 3) Build a one-time-use src: blank fields + cache buster.
+  function freshSrc() {
+    var parts = [];
+    if (BLOCK_PREFILL) {
+      BLANK_FIELDS.forEach(function (f) { parts.push(encodeURIComponent(f) + '='); });
+    }
+    parts.push('_nc=' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8));
+    return BASE_URL + '?' + parts.join('&');
+  }
+
+  function loadForm() {
+    var frame = document.getElementById(IFRAME_ID);
+    if (!frame) return;
+    frame.setAttribute('src', freshSrc());
+  }
+
+  if (BLOCK_PREFILL) {
+    scrubPageUrl();
+    clearStickyStorage();
+  }
+  loadForm();
+
+  // 4) Back/forward (bfcache) restores the old iframe with whatever was in it.
+  //    Force a clean one.
+  window.addEventListener('pageshow', function (evt) {
+    if (evt.persisted) { if (BLOCK_PREFILL) { clearStickyStorage(); } loadForm(); }
+  });
+})();
+</script>
+
+<script src="https://links.pacowmedia.com/js/form_embed.js"></script>
