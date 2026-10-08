@@ -655,8 +655,17 @@
   var modal, box, lastFocus, handlerLoaded = false;
 
   function formUrl() {
-    /* pass along ?email= etc. from the page link so JotForm can prefill matching fields */
-    var q = window.location.search ? window.location.search.slice(1) : '';
+    /* prefill: ?email= / utm_* from the page link, plus the name/email/phone the visitor
+       typed into the /access form (saved in their browser). The page link wins on conflicts. */
+    var params = new URLSearchParams(window.location.search);
+    try {
+      var lead = JSON.parse(localStorage.getItem('ips_lead') || 'null');
+      if (lead && Date.now() - (lead.t || 0) < 30 * 864e5) {
+        var add = { 'firstName': lead.firstName, 'email': lead.email, 'phoneNumber[area]': lead.area, 'phoneNumber[phone]': lead.phone };
+        for (var k in add) if (add[k] && !params.has(k)) params.set(k, add[k]);
+      }
+    } catch (err) {}
+    var q = params.toString();
     return 'https://form.jotform.com/' + JOTFORM_ID + (q ? '?' + q : '');
   }
 

@@ -99,6 +99,30 @@
 })();
 </script>
 <script>
+/* IPS: when the AC form is submitted, remember name/email/phone in this browser
+   so the JotForm on /training can prefill them (same website, so it can read them). */
+(function () {
+  document.addEventListener('submit', function (e) {
+    var form = e.target;
+    if (!form || form.id !== '_form_57_') return;
+    try {
+      var val = function (sel) { var el = form.querySelector(sel); return el ? String(el.value || '').trim() : ''; };
+      var full = val('#fullname');
+      var lead = { firstName: full.split(/\s+/)[0] || '', email: val('#email'), area: '', phone: '', t: Date.now() };
+      var tel = form.querySelector('#phone');
+      var iti = tel && window.intlTelInput && window.intlTelInput.getInstance ? window.intlTelInput.getInstance(tel) : null;
+      var num = iti ? iti.getNumber() : val('#phone');            /* e.g. +12015550123 */
+      var cc = iti && iti.getSelectedCountryData ? String(iti.getSelectedCountryData().dialCode || '') : '';
+      var digits = String(num || '').replace(/\D/g, '');
+      if (cc && digits.indexOf(cc) === 0) digits = digits.slice(cc.length);
+      if (cc === '1' && digits.length === 10) { lead.area = digits.slice(0, 3); lead.phone = digits.slice(3); }
+      else if (digits) { lead.area = cc; lead.phone = digits; }   /* country code without '+': a '+' turns into a space in the form link */
+      localStorage.setItem('ips_lead', JSON.stringify(lead));
+    } catch (err) { /* storage blocked: the form still submits normally */ }
+  }, true);
+})();
+</script>
+<script>
 /* IPS: put the AC form in its slot if the Embed block stripped it, then start it */
 (function () {
   var FORM_HTML = "<form method=\"POST\" action=\"https://violetsleepbabysleep.activehosted.com/proc.php\" id=\"_form_57_\" class=\"_form _form_57 _inline-form  _dark\" novalidate data-styles-version=\"5\">\n  <input type=\"hidden\" name=\"u\" value=\"57\" />\n  <input type=\"hidden\" name=\"f\" value=\"57\" />\n  <input type=\"hidden\" name=\"s\" />\n  <input type=\"hidden\" name=\"c\" value=\"0\" />\n  <input type=\"hidden\" name=\"m\" value=\"0\" />\n  <input type=\"hidden\" name=\"act\" value=\"sub\" />\n  <input type=\"hidden\" name=\"v\" value=\"2\" />\n  <input type=\"hidden\" name=\"or\" value=\"18d04c82-b33d-4dc3-b81c-4c86a4f612b2\" />\n  <div class=\"_form-content\">\n    <div class=\"_form_element _field_name _full_width\">\n      <label for=\"fullname\" class=\"_form-label\">Full Name<span class=\"field-required\">*</span></label>\n      <div class=\"_field-wrapper\"><input type=\"text\" id=\"fullname\" name=\"fullname\" placeholder=\"Type your name\" required/></div>\n    </div>\n    <div class=\"_form_element _field_email _full_width\">\n      <label for=\"email\" class=\"_form-label\">Email<span class=\"field-required\">*</span></label>\n      <div class=\"_field-wrapper\"><input type=\"text\" id=\"email\" name=\"email\" placeholder=\"Type your email\" required/></div>\n    </div>\n    <div class=\"_form_element _x32259947 _full_width\">\n      <label for=\"phone\" class=\"_form-label\">Phone<span class=\"field-required\">*</span></label>\n      <div class=\"_field-wrapper\"><input type=\"text\" id=\"phone\" name=\"phone\" placeholder=\"Type your phone number\" required/></div>\n    </div>\n    <label for=\"sms_consent\" class=\"sms_consent_checkbox\">\n      <input type=\"checkbox\" id=\"sms_consent\" name=\"sms_consent\" required />\n      <div class=\"sms_consent_message\">I consent to receive emails and SMS messages regarding my submission and related updates.</div>\n    </label>\n    <div class=\"_button-wrapper _full_width\">\n      <button id=\"_form_57_submit\" class=\"_submit\" type=\"submit\">Watch the free walkthrough</button>\n    </div>\n    <div class=\"_clear-element\"></div>\n  </div>\n  <div class=\"_form-thank-you\" style=\"display:none;\"></div>\n  <div class=\"_form-branding\">\n    <div class=\"_marketing-by\">Marketing by</div>\n    <a href=\"https://www.activecampaign.com/?utm_medium=referral&utm_campaign=acforms\" class=\"_logo\"><span class=\"form-sr-only\">ActiveCampaign</span></a>\n  </div>\n</form>";
