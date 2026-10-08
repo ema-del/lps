@@ -621,6 +621,98 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', addVideo); else addVideo();
 })();
 </script>
+<script>
+/* IPS: every "Book your free Career Call" button opens the JotForm in a pop-up.
+   To connect the form, put the JotForm form ID below (the number at the end of its link). */
+(function () {
+  var JOTFORM_ID = '';   /* e.g. '252807412345678' */
+
+  var CSS =
+    '#ipt-modal{position:fixed;inset:0;z-index:2147483000;display:none}' +
+    '#ipt-modal.is-open{display:flex;align-items:center;justify-content:center;padding:16px}' +
+    '#ipt-modal .ipt-m-backdrop{position:absolute;inset:0;background:rgba(13,20,42,.78);backdrop-filter:blur(3px)}' +
+    '#ipt-modal .ipt-m-box{position:relative;width:100%;max-width:640px;max-height:calc(100vh - 32px);overflow-y:auto;' +
+      'background:#fff;border-radius:16px;border-top:4px solid #dab965;padding:44px 8px 8px;' +
+      'box-shadow:0 30px 80px rgba(0,0,0,.5);animation:ipt-pop .22s ease-out;-webkit-overflow-scrolling:touch}' +
+    '@keyframes ipt-pop{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}' +
+    '#ipt-modal .ipt-m-x{position:absolute;top:8px;right:8px;width:36px;height:36px;border-radius:50%;border:0;' +
+      'background:#f1f3f8;color:#1c2a54;font-size:24px;line-height:1;cursor:pointer;padding:0 0 2px;z-index:2}' +
+    '#ipt-modal .ipt-m-x:hover{background:#e3e7f0}' +
+    '#ipt-modal iframe{display:block;width:100%;min-height:560px;border:0}' +
+    '#ipt-modal .ipt-m-wait{min-height:300px;margin:0 16px 16px;border:2px dashed #cfd5e6;border-radius:12px;background:#f8f9fc;' +
+      'display:flex;align-items:center;justify-content:center;text-align:center;color:#8a91a6;' +
+      'font:600 14px/1.5 "IBM Plex Sans",Helvetica,Arial,sans-serif;padding:24px}' +
+    'html.ipt-m-lock,html.ipt-m-lock body{overflow:hidden!important}';
+
+  var modal, box, lastFocus, handlerLoaded = false;
+
+  function formUrl() {
+    /* pass along ?email= etc. from the page link so JotForm can prefill matching fields */
+    var q = window.location.search ? window.location.search.slice(1) : '';
+    return 'https://form.jotform.com/' + JOTFORM_ID + (q ? '?' + q : '');
+  }
+
+  function build() {
+    if (!document.getElementById('ipt-modal-css')) {
+      var st = document.createElement('style'); st.id = 'ipt-modal-css'; st.textContent = CSS;
+      document.head.appendChild(st);
+    }
+    modal = document.createElement('div');
+    modal.id = 'ipt-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Book your free Career Call');
+    modal.innerHTML = '<div class="ipt-m-backdrop" data-close></div>' +
+      '<div class="ipt-m-box"><button type="button" class="ipt-m-x" aria-label="Close" data-close>&times;</button></div>';
+    document.body.appendChild(modal);
+    box = modal.querySelector('.ipt-m-box');
+    if (JOTFORM_ID) {
+      var f = document.createElement('iframe');
+      f.id = 'JotFormIFrame-' + JOTFORM_ID;
+      f.title = 'Book your free Career Call';
+      f.src = formUrl();
+      f.setAttribute('allow', 'geolocation; microphone; camera; fullscreen');
+      f.setAttribute('scrolling', 'no');
+      box.appendChild(f);
+      /* JotForm's own helper resizes the iframe to fit the form */
+      if (!handlerLoaded) {
+        handlerLoaded = true;
+        var h = document.createElement('script');
+        h.src = 'https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js';
+        h.onload = function () {
+          if (window.jotformEmbedHandler) window.jotformEmbedHandler("iframe[id='JotFormIFrame-" + JOTFORM_ID + "']", 'https://form.jotform.com/');
+        };
+        document.head.appendChild(h);
+      }
+    } else {
+      var w = document.createElement('div');
+      w.className = 'ipt-m-wait';
+      w.innerHTML = 'JOTFORM GOES HERE<br>(waiting for the form ID)';
+      box.appendChild(w);
+    }
+    modal.addEventListener('click', function (e) { if (e.target.hasAttribute('data-close')) close(); });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && modal.classList.contains('is-open')) close(); });
+  }
+  function open() {
+    if (!modal) build();
+    lastFocus = document.activeElement;
+    modal.classList.add('is-open');
+    document.documentElement.classList.add('ipt-m-lock');
+    var x = modal.querySelector('.ipt-m-x'); if (x) x.focus({ preventScroll: true });
+  }
+  function close() {
+    modal.classList.remove('is-open');
+    document.documentElement.classList.remove('ipt-m-lock');
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest && e.target.closest('a[href="#APPLY"]');
+    if (!a) return;
+    e.preventDefault();
+    open();
+  });
+})();
+</script>
 <!-- BODY SCRIPT END -->
 </body>
 </html>
