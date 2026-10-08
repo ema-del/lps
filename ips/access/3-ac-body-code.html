@@ -18,7 +18,7 @@
 </script>
 <script>
 /* IPS: keep the preview loop playing (adds it back if the builder strips <video>),
-   and make a click on it jump to the form */
+   and make a click on it open the form in a pop-up */
 (function () {
   var BASE = 'https://cdn.jsdelivr.net/gh/ema-del/lps@92763173e6e9592574f7dabafc764c565cb594c8/ips/access/media/';
   function setup() {
@@ -36,13 +36,56 @@
     v.muted = true;
     var p = v.play && v.play(); if (p && p.catch) p.catch(function () {});
     box.addEventListener('click', function (e) {
-      var slot = document.getElementById('ips-form-slot');
-      if (!slot) return;
       e.preventDefault();
-      slot.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      var first = document.getElementById('fullname');
-      if (first) setTimeout(function () { first.focus({ preventScroll: true }); }, 500);
+      openPopup();
     });
+  }
+
+  /* pop-up with the form: borrows the real AC form from the page and puts it back on close */
+  var modal, holder, lastFocus;
+  function buildPopup() {
+    modal = document.createElement('div');
+    modal.id = 'ips-modal';
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Get instant access to the free training');
+    modal.innerHTML =
+      '<div class="ips-modal-backdrop" data-close></div>' +
+      '<div class="ips-modal-box">' +
+        '<button type="button" class="ips-modal-x" aria-label="Close" data-close>&times;</button>' +
+        '<h2 class="ips-form-title">Get <em>instant access</em> to the free training</h2>' +
+        '<p class="ips-form-note">Takes 30 seconds.</p>' +
+        '<div class="ips-modal-form"></div>' +
+        '<p class="ips-safe"><svg viewBox="0 0 24 24"><path d="M12 1l9 4v6c0 5.6-3.8 10.7-9 12-5.2-1.3-9-6.4-9-12V5l9-4z"/></svg>Your info is safe with us. Unsubscribe any time.</p>' +
+      '</div>';
+    /* inside #ips-root so the page styles apply */
+    document.getElementById('ips-root').appendChild(modal);
+    holder = modal.querySelector('.ips-modal-form');
+    modal.addEventListener('click', function (e) {
+      if (e.target.hasAttribute('data-close')) closePopup();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closePopup();
+    });
+  }
+  function openPopup() {
+    var form = document.getElementById('_form_57_');
+    if (!form) { var slot = document.getElementById('ips-form-slot'); if (slot) slot.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
+    if (!modal) buildPopup();
+    lastFocus = document.activeElement;
+    holder.appendChild(form);
+    modal.classList.add('is-open');
+    document.documentElement.classList.add('ips-modal-lock');
+    var first = document.getElementById('fullname');
+    if (first) setTimeout(function () { first.focus({ preventScroll: true }); }, 50);
+  }
+  function closePopup() {
+    var form = document.getElementById('_form_57_');
+    var slot = document.getElementById('ips-form-slot');
+    if (form && slot) slot.appendChild(form);
+    modal.classList.remove('is-open');
+    document.documentElement.classList.remove('ips-modal-lock');
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup); else setup();
 })();
