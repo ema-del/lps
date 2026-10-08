@@ -1,0 +1,530 @@
+<!--
+  ============================================================
+  PACOW - VSL HERO + BRANDED POPUP WRAPPING GHL SURVEY  [iframe]  · v2 Oct 8 (matches opt-in page)
+  ============================================================
+  The "Book your free Growth Call" button opens your branded modal.
+  Inside the modal is the GHL SURVEY (iframe). The survey runs itself -
+  its own questions, auto-advance, submit, and redirect (all set in GHL).
+  Other sections call pacowModal('open') - already compatible.
+  Survey ID: Gc4KkJN6IoGNjaCZO256
+  ============================================================
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  .pacow-hero {
+    --pc-purple: #7C3AFF;
+    --pc-purple-hover: #6a2be0;
+    --pc-bg: #0A0A0F;
+    --pc-white: #FDFBFF;
+    --pc-grid: #1E1C2A;
+    --pc-text-muted: rgba(253, 251, 255, 0.55);
+    --pc-font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    position: relative;
+    width: 100vw;
+    max-width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    background-color: var(--pc-bg);
+    background-image:
+      linear-gradient(to right, rgba(30, 28, 42, 0.5) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(30, 28, 42, 0.5) 1px, transparent 1px);
+    background-size: 36px 36px;
+    font-family: var(--pc-font);
+    color: var(--pc-white);
+    overflow: hidden;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .pacow-hero *,
+  .pacow-hero *::before,
+  .pacow-hero *::after { box-sizing: border-box; }
+
+  .pacow-hero::before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 760px;
+    height: 520px;
+    background: radial-gradient(ellipse at center, rgba(124, 58, 255, 0.18), transparent 65%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .pacow-hero__inner {
+    position: relative;
+    z-index: 1;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 36px 24px 64px;
+  }
+
+  /* -- Top bar -- */
+  .pacow-hero__nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 56px;
+  }
+  .pacow-hero__logo-img { height: 22px; width: auto; display: block; }
+
+  .pacow-hero__stepbar {
+    flex: 1; max-width: 560px; margin-left: 28px;
+    position: relative; height: 40px; border-radius: 40px;
+    background: #000000;
+    border: 1px solid rgba(255,255,255,0.10);
+    overflow: hidden;
+  }
+  .pacow-hero__stepbar-fill {
+    position: absolute; left: 0; top: 0; height: 100%; width: 66%;
+    background: var(--pc-purple);
+    border-radius: 40px;
+    overflow: hidden;
+    animation: pacow-stepbar-glow 1.8s ease-in-out infinite;
+  }
+  @keyframes pacow-stepbar-glow {
+    0%, 100% { box-shadow: 0 0 14px rgba(124,58,255,0.40); }
+    50%      { box-shadow: 0 0 26px rgba(124,58,255,0.85); }
+  }
+  .pacow-hero__stepbar-fill::after {
+    content: ''; position: absolute; top: 0; left: -45%;
+    width: 45%; height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,0.45), transparent);
+    transform: skewX(-18deg);
+    animation: pacow-stepbar-sweep 1.6s ease-in-out infinite;
+  }
+  @keyframes pacow-stepbar-sweep {
+    0%   { left: -45%; }
+    70%  { left: 120%; }
+    100% { left: 120%; }
+  }
+  .pacow-hero__stepbar-fill::before {
+    content: ''; position: absolute; right: 0; top: 0; height: 100%; width: 10px;
+    background: rgba(255,255,255,0.55); border-radius: 40px;
+    filter: blur(3px);
+    animation: pacow-stepbar-edge 1.4s ease-in-out infinite;
+  }
+  @keyframes pacow-stepbar-edge {
+    0%, 100% { opacity: 0.35; }
+    50%      { opacity: 1; }
+  }
+  .pacow-hero__stepbar-label {
+    position: absolute; inset: 0; z-index: 1;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13.5px; font-weight: 700; color: var(--pc-white);
+    letter-spacing: 0.01em; text-align: center; padding: 0 14px;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  }
+
+  /* -- Badge -- */
+  .pacow-hero__badge {
+    display: inline-flex; align-items: center; gap: 9px;
+    background: var(--pc-white); color: #14121C;
+    border-radius: 40px; padding: 8px 15px;
+    font-size: 13px; font-weight: 600; margin: 0 auto 32px;
+  }
+  .pacow-hero__badge-dot {
+    width: 8px; height: 8px; background: var(--pc-purple);
+    border-radius: 50%; display: inline-block; position: relative;
+    animation: pacow-pulse 2s ease-in-out infinite;
+  }
+  @keyframes pacow-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(124, 58, 255, 0.6); }
+    70%  { box-shadow: 0 0 0 7px rgba(124, 58, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(124, 58, 255, 0); }
+  }
+
+  /* "You're in" confirmation badge */
+  .pacow-hero__badge--in { font-weight: 700; }
+  .pacow-hero__badge-check {
+    width: 18px; height: 18px; border-radius: 50%; flex: 0 0 18px;
+    background: #16A34A; color: #fff; font-size: 11px; font-weight: 800;
+    display: inline-flex; align-items: center; justify-content: center;
+  }
+
+  /* -- Headline -- */
+  .pacow-hero__headline {
+    text-align: center; font-size: 46px; line-height: 1.22;
+    font-weight: 800; letter-spacing: -0.03em;
+    margin: 0 auto 28px; max-width: 900px; text-wrap: balance;
+  }
+  .pacow-hero__hl-mark {
+    background: var(--pc-purple); color: var(--pc-white);
+    border-radius: 12px; padding: 4px 14px;
+    box-decoration-break: clone; -webkit-box-decoration-break: clone;
+  }
+  .pacow-hero__underline {
+    text-decoration: underline;
+    text-decoration-color: var(--pc-purple);
+    text-decoration-thickness: 4px;
+    text-underline-offset: 6px;
+  }
+  .pacow-hero__tm { font-size: 0.55em; vertical-align: super; font-weight: 700; }
+  .pacow-hero__subhead {
+    text-align: center; font-size: 15px; line-height: 1.5;
+    color: var(--pc-text-muted); font-weight: 500;
+    margin: 0 auto 32px; max-width: 560px;
+  }
+  .pacow-hero__subhead b { color: var(--pc-white); font-weight: 600; }
+  .pacow-hero__watch-wrap { text-align: center; margin: 0 auto 22px; }
+  .pacow-hero__watch {
+    display: inline-flex; align-items: center; gap: 11px;
+    background: rgba(124, 58, 255, 0.16);
+    border: 1px solid rgba(124, 58, 255, 0.5);
+    border-radius: 40px;
+    padding: 11px 22px 11px 14px;
+    font-size: 16px; font-weight: 700; color: var(--pc-white);
+    letter-spacing: 0.01em; line-height: 1.3;
+    box-shadow: 0 0 22px rgba(124, 58, 255, 0.25);
+  }
+  .pacow-hero__watch-ic {
+    width: 28px; height: 28px; border-radius: 50%; flex: 0 0 28px;
+    background: var(--pc-purple);
+    display: flex; align-items: center; justify-content: center;
+    animation: pacow-watch-pulse 2s ease-in-out infinite;
+  }
+  .pacow-hero__watch-ic svg { width: 13px; height: 13px; }
+  @keyframes pacow-watch-pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(124, 58, 255, 0.55); }
+    70%  { box-shadow: 0 0 0 9px rgba(124, 58, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(124, 58, 255, 0); }
+  }
+
+  /* -- Video -- */
+  /* Video is sized from the screen height so the button below it is always above the fold.
+     Everything else keeps its normal size; only the video gets smaller (80% of the fit size). */
+  .pacow-hero__video {
+    position: relative; width: min(80%, calc((100vh - 520px) * 1.4222)); max-width: 100%;
+    margin: 0 auto 34px;
+    border-radius: 24px; overflow: hidden;
+    box-shadow:
+      0 0 60px rgba(124,58,255,0.55),
+      0 0 120px rgba(124,58,255,0.35),
+      0 30px 90px rgba(0,0,0,0.45),
+      0 0 0 1px rgba(124,58,255,0.25);
+    font-size: 0;
+  }
+  .pacow-hero__video video { display: block; width: 100%; height: auto; background:#0A0A0F; }
+  .pacow-hero__video wistia-player { display: block; width: 100%; }
+  .pacow-hero__video wistia-player:not(:defined) {
+    background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/w4rtqundn7/swatch');
+    display: block; filter: blur(5px); padding-top: 56.25%;
+  }
+
+  /* -- CTA -- */
+  .pacow-hero__cta-wrap { text-align: center; }
+  .pacow-hero__cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--pc-purple); color: var(--pc-white); border: none;
+    border-radius: 12px; padding: 14px 27px;
+    font-family: var(--pc-font); font-size: 14px; font-weight: 600;
+    cursor: pointer; position: relative; overflow: hidden;
+    transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    box-shadow: 0 10px 30px rgba(124, 58, 255, 0.35);
+    animation: pacow-cta-glow 2.6s ease-in-out infinite;
+  }
+  .pacow-hero__cta::after {
+    content: ''; position: absolute; top: 0; left: -120%;
+    width: 60%; height: 100%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,0.35), transparent);
+    transform: skewX(-18deg);
+    animation: pacow-cta-shimmer 3.4s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes pacow-cta-glow {
+    0%, 100% { box-shadow: 0 10px 30px rgba(124, 58, 255, 0.30); }
+    50%      { box-shadow: 0 12px 42px rgba(124, 58, 255, 0.60); }
+  }
+  @keyframes pacow-cta-shimmer {
+    0%   { left: -120%; } 55%  { left: 130%; } 100% { left: 130%; }
+  }
+  .pacow-hero__cta:hover {
+    background: var(--pc-purple-hover); transform: translateY(-2px);
+    box-shadow: 0 14px 38px rgba(124, 58, 255, 0.45);
+    animation-play-state: paused;
+  }
+
+  /* -- Mini proof strip (Alex testimonial) - own line, centered under the button -- */
+  .pacow-hero__proof {
+    display: flex; align-items: center; gap: 12px; text-align: left;
+    width: fit-content;
+    margin: 20px auto 0; padding: 12px 18px 12px 12px; max-width: 440px;
+    background: #000000;
+    border: 1px solid rgba(124, 58, 255, 0.30);
+    border-radius: 44px;
+  }
+  .pacow-hero__proof-avatar {
+    width: 42px; height: 42px; border-radius: 50%; flex: 0 0 42px;
+    overflow: hidden; border: 2px solid rgba(124, 58, 255, 0.45);
+  }
+  .pacow-hero__proof-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pacow-hero__proof-stars { display: flex; gap: 1px; margin-bottom: 2px; }
+  .pacow-hero__proof-stars svg { width: 12px; height: 12px; }
+  .pacow-hero__proof-quote {
+    font-size: 13.5px; font-weight: 600; color: var(--pc-white);
+    line-height: 1.32; margin: 0;
+  }
+  .pacow-hero__proof-name {
+    font-size: 12px; color: var(--pc-text-muted); margin: 2px 0 0;
+  }
+
+  /* ======== MODAL (wraps the survey iframe) ======== */
+  .pacow-modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(5, 4, 10, 0.80);
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    z-index: 99999; align-items: flex-start; justify-content: center;
+    padding: 28px 20px; overflow-y: auto;
+  }
+  .pacow-modal-overlay.pacow-modal--open { display: flex; }
+
+  .pacow-modal-card {
+    background: #0E0D16;
+    border: 1px solid rgba(124, 58, 255, 0.22);
+    border-radius: 18px;
+    padding: 22px 20px 20px;
+    max-width: 600px; width: 100%; position: relative;
+    box-shadow: 0 28px 90px rgba(0,0,0,0.7);
+    font-family: var(--pc-font);
+    margin: auto;
+  }
+  .pacow-modal__close {
+    position: absolute; top: 12px; right: 14px;
+    width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(253,251,255,0.7);
+    font-size: 22px; line-height: 1; cursor: pointer; z-index: 3;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+  .pacow-modal__close:hover { background: rgba(255,255,255,0.12); color: var(--pc-white); }
+
+  .pacow-modal__head { text-align: center; padding: 6px 30px 16px; }
+  .pacow-modal__title {
+    font-size: 22px; font-weight: 800; letter-spacing: -0.02em;
+    margin: 0 0 6px; color: var(--pc-white); line-height: 1.2;
+  }
+  .pacow-modal__subtitle {
+    font-size: 13.5px; color: var(--pc-text-muted);
+    margin: 0; line-height: 1.5;
+  }
+  .pacow-modal__start {
+    font-size: 13px; font-weight: 700; color: var(--pc-purple);
+    margin: 14px 0 0;
+  }
+
+  .pacow-modal__survey {
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    min-height: 120px;
+    position: relative;
+  }
+  .pacow-modal__survey::before {
+    content: 'Loading...';
+    position: absolute; top: 24px; left: 0; right: 0;
+    text-align: center;
+    color: #9a93b3; font-size: 14px; font-weight: 600;
+    font-family: var(--pc-font);
+    z-index: 0;
+  }
+  .pacow-modal__survey iframe {
+    position: relative; z-index: 1;
+    border: none; width: 100%; min-height: 120px; height: auto; display: block;
+    background: #ffffff;
+  }
+
+  /* ======== RESPONSIVE ======== */
+  @media (max-width: 768px) {
+    .pacow-hero { background-size: 28px 28px; }
+    .pacow-hero__inner { padding: 26px 18px 50px; }
+    .pacow-hero__nav { margin-bottom: 40px; }
+    .pacow-hero__logo-img { height: 21px; }
+    .pacow-hero__stepbar { margin-left: 14px; height: 36px; }
+    .pacow-hero__stepbar-label { font-size: 11px; }
+    .pacow-hero__headline { font-size: 32px; line-height: 1.25; margin-bottom: 16px; }
+    .pacow-hero__badge { font-size: 11px; padding: 7px 12px; }
+    .pacow-hero__hl-mark { padding: 0 8px; border-radius: 8px; }
+    .pacow-hero__watch-wrap { margin-bottom: 16px; }
+    .pacow-hero__watch { font-size: 13px; gap: 8px; padding: 9px 16px 9px 10px; }
+    .pacow-hero__watch-ic { width: 22px; height: 22px; flex: 0 0 22px; }
+    .pacow-hero__watch-ic svg { width: 10px; height: 10px; }
+    .pacow-hero__video { border-radius: 18px; width: min(80%, calc((100vh - 490px) * 1.4222)); }
+    .pacow-hero__cta { padding: 13px 22px; font-size: 14px; }
+    .pacow-hero__proof { max-width: 100%; padding: 9px 14px 9px 9px; }
+    .pacow-modal-card { padding: 18px 14px 16px; }
+    .pacow-modal__head { padding: 4px 24px 14px; }
+    .pacow-modal__title { font-size: 19px; }
+  }
+  @media (max-width: 390px) {
+    .pacow-hero__headline { font-size: 26px; }
+  }
+</style>
+
+<section class="pacow-hero">
+  <div class="pacow-hero__inner">
+
+    <!-- Top nav -->
+    <div class="pacow-hero__nav">
+      <img class="pacow-hero__logo-img" src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_240/u_https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f11e6b5bad2bee0178341.png" alt="Pacow" width="auto" height="22" decoding="async" fetchpriority="high" />
+      <div class="pacow-hero__stepbar">
+        <div class="pacow-hero__stepbar-fill"></div>
+        <span class="pacow-hero__stepbar-label">Step 2 of 3 - Watch the free training</span>
+      </div>
+    </div>
+
+    <!-- "You're in" confirmation -->
+    <div style="text-align:center;">
+      <span class="pacow-hero__badge pacow-hero__badge--in">
+        <span class="pacow-hero__badge-check">&#10003;</span>
+        You're in! Your free training is below
+      </span>
+    </div>
+
+    <!-- Headline (same promise as the opt-in page) -->
+    <h1 class="pacow-hero__headline">
+      How education brands get <span class="pacow-hero__underline">10-20+ new students</span> every month with Meta ads
+    </h1>
+
+    <!-- Watch prompt (above the video) -->
+    <div class="pacow-hero__watch-wrap">
+      <span class="pacow-hero__watch">
+        <span class="pacow-hero__watch-ic"><svg viewBox="0 0 24 24" fill="#fff"><polygon points="6 4 20 12 6 20 6 4"></polygon></svg></span>
+        Watch the 8-min free training, then book your free Growth Call
+      </span>
+    </div>
+
+    <!-- Video (Wistia) -->
+    <div class="pacow-hero__video">
+      <wistia-player media-id="w4rtqundn7" aspect="1.7777777777777777"></wistia-player>
+    </div>
+
+    <!-- Primary CTA -->
+    <div class="pacow-hero__cta-wrap">
+      <button class="pacow-hero__cta" onclick="pacowModal('open')"><span style="position:relative;z-index:1;">Book your free Growth Call &rarr;</span></button>
+
+      <!-- Mini proof strip -->
+      <div class="pacow-hero__proof">
+        <div class="pacow-hero__proof-avatar"><img src="https://images.leadconnectorhq.com/image/f_webp/q_80/r_96/u_https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a679a949b2aff3b75af507e.png" alt="Alex Willson" width="42" height="42"></div>
+        <div>
+          <div class="pacow-hero__proof-stars"><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg><svg viewBox="0 0 24 24" fill="#F5B544"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+          <p class="pacow-hero__proof-quote">"Paid back my investment in 7 days. Pacow is INCREDIBLE!"</p>
+          <p class="pacow-hero__proof-name">Alex Willson, Founder @ Lingua Verna</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ======== BRANDED MODAL WRAPPING THE GHL SURVEY ======== -->
+  <div class="pacow-modal-overlay" id="modalOverlay">
+    <div class="pacow-modal-card">
+      <button class="pacow-modal__close" onclick="pacowModal('close')" aria-label="Close">&times;</button>
+
+      <div class="pacow-modal__head">
+        <h2 class="pacow-modal__title">Let's See If You Qualify to Work With Us</h2>
+        <p class="pacow-modal__subtitle">This application takes 60 seconds. If you qualify, you'll be invited to book a free call where we'll map out a plan to scale your education business.</p>
+        <p class="pacow-modal__start">Start below 👇</p>
+      </div>
+
+      <!-- GHL SURVEY (runs itself inside the iframe) -->
+      <div class="pacow-modal__survey">
+        <iframe
+          src="https://links.pacowmedia.com/widget/survey/Gc4KkJN6IoGNjaCZO256"
+          id="Gc4KkJN6IoGNjaCZO256"
+          title="survey"
+          scrolling="no"
+          data-cookie-consent="true"
+          data-cookie-consent-provider="auto"
+          style="border:none;width:100%;"></iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wistia player scripts (async - don't block page render) -->
+<script src="https://fast.wistia.com/player.js" async></script>
+<script src="https://fast.wistia.com/embed/w4rtqundn7.js" async type="module"></script>
+
+<script>
+(function() {
+  /* Speed: warm up connections to external domains early */
+  (function preconnect(){
+    var hosts = [
+      'https://links.pacowmedia.com',
+      'https://fonts.googleapis.com',
+      'https://fonts.gstatic.com',
+      'https://assets.cdn.filesafe.space',
+      'https://images.leadconnectorhq.com',
+      'https://fast.wistia.com',
+      'https://fast.wistia.net',
+      'https://embed-cloudfront.wistia.com'
+    ];
+    hosts.forEach(function(h){
+      try {
+        var l = document.createElement('link');
+        l.rel = 'preconnect'; l.href = h; l.crossOrigin = 'anonymous';
+        document.head.appendChild(l);
+        var d = document.createElement('link');
+        d.rel = 'dns-prefetch'; d.href = h;
+        document.head.appendChild(d);
+      } catch(e){}
+    });
+  })();
+
+  /* Modal open/close - global so other sections can call pacowModal('open') */
+  window.pacowModal = function(action) {
+    var overlay = document.getElementById('modalOverlay');
+    if (!overlay) return;
+    if (action === 'open') {
+      overlay.classList.add('pacow-modal--open');
+      document.body.style.overflow = 'hidden';
+      var f = document.getElementById('Gc4KkJN6IoGNjaCZO256');
+      if (f && !f.getAttribute('data-rendered')) {
+        f.setAttribute('data-rendered', '1');
+        var u = f.getAttribute('src');
+        if (u) { f.src = u; }
+      }
+    } else {
+      overlay.classList.remove('pacow-modal--open');
+      document.body.style.overflow = '';
+    }
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var overlay = document.getElementById('modalOverlay');
+    if (overlay) {
+      overlay.addEventListener('click', function(e) {
+        if (e.target === overlay) window.pacowModal('close');
+      });
+    }
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') window.pacowModal('close');
+    });
+  });
+
+  /* One CTA name across the whole page: relabel the "Apply to see if you
+     qualify" buttons in the other sections (they still open the same popup). */
+  function pacowRelabel(){
+    var els = document.querySelectorAll('a, button, span, div');
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      if (el.children.length) continue;
+      var t = (el.textContent || '').trim();
+      if (/^Apply to see if you qualify\s*(→|->|&rarr;)?$/i.test(t)) {
+        el.textContent = 'Book your free Growth Call →';
+      }
+    }
+  }
+  pacowRelabel();
+  document.addEventListener('DOMContentLoaded', pacowRelabel);
+  window.addEventListener('load', pacowRelabel);
+  setTimeout(pacowRelabel, 1500);
+})();
+</script>
+
+<!-- GHL survey embed script - auto-resizes the survey iframe inside the popup -->
+<script src="https://links.pacowmedia.com/js/form_embed.js"></script>
