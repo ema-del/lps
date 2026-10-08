@@ -4,9 +4,6 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IPSP Free Training</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   body { margin: 0; background: #ffffff; }
 </style>
@@ -15,13 +12,35 @@
 
 <!-- ============================================================
      IPS /access opt-in page: middle section only
-     Copy everything between START and END into a custom HTML block.
-     All classes are prefixed "ips-" so nothing clashes with the builder.
+     Paste everything between START and END into the ActiveCampaign Embed block.
+     Also paste ac-custom-code.html into Page Settings > Custom Code (Body)
+     so the Embed box resizes to fit this section on desktop and mobile.
      ============================================================ -->
 
 <!-- START IPS ACCESS SECTION -->
 <style>
-  .ips-wrap {
+  @import url('https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+  /* reset whatever the ActiveCampaign theme applies to these tags */
+  #ips-root, #ips-root h1, #ips-root h2, #ips-root p, #ips-root ul, #ips-root li,
+  #ips-root span, #ips-root div, #ips-root section, #ips-root img {
+    margin: 0; padding: 0; border: 0; max-width: none;
+    text-transform: none; letter-spacing: normal; text-align: inherit;
+    line-height: inherit; color: inherit; font-family: inherit; font-weight: inherit;
+    background: none; box-shadow: none; list-style: none; float: none;
+  }
+  #ips-root { display: block; width: 100%; line-height: 1.5; text-align: left; position: relative; }
+  /* some AC themes force heading/paragraph margins with !important */
+  #ips-root .ips-h1 { margin: 0 0 18px !important; }
+  #ips-root .ips-sub { margin: 0 auto !important; }
+  #ips-root .ips-form-title { margin: 0 0 6px !important; }
+  #ips-root .ips-form-note { margin: 0 0 20px !important; }
+  #ips-root .ips-safe { margin: 14px 0 0 !important; }
+  #ips-root .ips-trust-h { margin: 0 0 6px !important; }
+  #ips-root .ips-eyebrow { margin: 0 0 32px !important; }
+  #ips-root .ips-checks { margin: 0 auto 36px !important; padding: 0 !important; }
+
+  #ips-root {
     --ips-navy: #1c2a54;
     --ips-navy-2: #314994;
     --ips-navy-deep: #131d3c;
@@ -34,10 +53,10 @@
     color: var(--ips-ink);
     -webkit-font-smoothing: antialiased;
   }
-  .ips-wrap *, .ips-wrap *::before, .ips-wrap *::after { box-sizing: border-box; }
+  #ips-root *, #ips-root *::before, #ips-root *::after { box-sizing: border-box; }
 
   /* ---------- HERO ---------- */
-  .ips-hero {
+  #ips-root .ips-hero {
     position: relative;
     overflow: hidden;
     background:
@@ -47,7 +66,7 @@
     color: #fff;
     padding: 64px 20px 80px;
   }
-  .ips-hero::after {
+  #ips-root .ips-hero::after {
     /* soft moon-glow ring, nod to the logo */
     content: "";
     position: absolute;
@@ -57,10 +76,10 @@
     border: 1px solid rgba(218, 185, 101, .18);
     pointer-events: none;
   }
-  .ips-container { max-width: 1120px; margin: 0 auto; position: relative; z-index: 1; }
+  #ips-root .ips-container { max-width: 1120px; margin: 0 auto; position: relative; z-index: 1; }
 
-  .ips-head { text-align: center; max-width: 860px; margin: 0 auto 48px; }
-  .ips-pill {
+  #ips-root .ips-head { text-align: center; max-width: 860px; margin: 0 auto 48px; }
+  #ips-root .ips-pill {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 7px 16px;
     border-radius: 999px;
@@ -70,9 +89,9 @@
     color: #fff;
     margin-bottom: 22px;
   }
-  .ips-pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ips-gold); }
+  #ips-root .ips-pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ips-gold); }
 
-  .ips-h1 {
+  #ips-root .ips-h1 {
     font-family: 'Cardo', Georgia, serif;
     font-weight: 400;
     font-size: clamp(34px, 5vw, 56px);
@@ -80,13 +99,13 @@
     margin: 0 0 18px;
     color: #fff;
   }
-  .ips-h1 em { font-style: italic; }
-  .ips-underline {
+  #ips-root .ips-h1 em { font-style: italic; }
+  #ips-root .ips-underline {
     position: relative;
     white-space: nowrap;
     color: var(--ips-gold);
   }
-  .ips-underline::after {
+  #ips-root .ips-underline::after {
     content: "";
     position: absolute;
     left: 0; right: 0; bottom: -4px;
@@ -95,17 +114,17 @@
     background: var(--ips-gold);
     opacity: .85;
   }
-  .ips-sub {
+  #ips-root .ips-sub {
     font-size: clamp(16px, 1.6vw, 18px);
     line-height: 1.6;
     color: rgba(255, 255, 255, .82);
     margin: 0 auto;
     max-width: 640px;
   }
-  .ips-sub strong { color: #fff; font-weight: 600; }
+  #ips-root .ips-sub strong { color: #fff; font-weight: 600; }
 
   /* two columns */
-  .ips-grid {
+  #ips-root .ips-grid {
     display: grid;
     grid-template-columns: 1.15fr 1fr;
     gap: 40px;
@@ -113,7 +132,7 @@
   }
 
   /* video placeholder */
-  .ips-video {
+  #ips-root .ips-video {
     position: relative;
     aspect-ratio: 16 / 9;
     border-radius: 16px;
@@ -126,36 +145,36 @@
     box-shadow: 0 0 0 6px rgba(218, 185, 101, .08), 0 30px 70px rgba(0, 0, 0, .45);
     display: flex; align-items: center; justify-content: center;
   }
-  .ips-play {
+  #ips-root .ips-play {
     width: 78px; height: 78px; border-radius: 50%;
     background: var(--ips-gold);
     display: flex; align-items: center; justify-content: center;
     box-shadow: 0 0 0 10px rgba(218, 185, 101, .25);
   }
-  .ips-play svg { width: 26px; height: 26px; margin-left: 4px; fill: var(--ips-navy); }
-  .ips-video-tag {
+  #ips-root .ips-play svg { width: 26px; height: 26px; margin-left: 4px; fill: var(--ips-navy); }
+  #ips-root .ips-video-tag {
     position: absolute; left: 16px; bottom: 14px;
     font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
     color: #fff; background: rgba(19, 29, 60, .7);
     padding: 6px 10px; border-radius: 6px;
   }
 
-  .ips-host {
+  #ips-root .ips-host {
     display: flex; align-items: center; justify-content: center; gap: 12px;
     margin-top: 20px;
   }
-  .ips-host img {
+  #ips-root .ips-host img {
     width: 44px; height: 44px; border-radius: 50%;
     object-fit: cover; object-position: 60% 22%;
     border: 2px solid var(--ips-gold);
   }
-  .ips-host span {
+  #ips-root .ips-host span {
     font-size: 12.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
     color: rgba(255, 255, 255, .75);
   }
 
   /* form placeholder */
-  .ips-form-card {
+  #ips-root .ips-form-card {
     background: #fff;
     color: var(--ips-ink);
     border-radius: 16px;
@@ -163,19 +182,19 @@
     border-top: 4px solid var(--ips-gold);
     box-shadow: 0 30px 70px rgba(0, 0, 0, .35);
   }
-  .ips-form-title {
+  #ips-root .ips-form-title {
     font-family: 'Cardo', Georgia, serif;
     font-size: 24px; line-height: 1.25;
     text-align: center;
     margin: 0 0 6px;
     color: var(--ips-navy);
   }
-  .ips-form-title em { font-style: italic; }
-  .ips-form-note {
+  #ips-root .ips-form-title em { font-style: italic; }
+  #ips-root .ips-form-note {
     text-align: center; font-size: 14px; color: var(--ips-muted);
     margin: 0 0 20px;
   }
-  .ips-form-slot {
+  #ips-root .ips-form-slot {
     /* REPLACE this div with the ActiveCampaign form embed */
     min-height: 340px;
     border: 2px dashed #cfd5e6;
@@ -186,20 +205,20 @@
     color: #8a91a6; font-size: 14px; font-weight: 500;
     padding: 20px;
   }
-  .ips-safe {
+  #ips-root .ips-safe {
     display: flex; align-items: center; justify-content: center; gap: 6px;
     margin: 14px 0 0;
     font-size: 13px; color: var(--ips-muted);
   }
-  .ips-safe svg { width: 14px; height: 14px; fill: var(--ips-navy-2); }
+  #ips-root .ips-safe svg { width: 14px; height: 14px; fill: var(--ips-navy-2); }
 
   /* ---------- TRUST ---------- */
-  .ips-trust {
+  #ips-root .ips-trust {
     background: var(--ips-gray);
     padding: 56px 20px 60px;
     text-align: center;
   }
-  .ips-trust-h {
+  #ips-root .ips-trust-h {
     font-family: 'Cardo', Georgia, serif;
     font-weight: 400;
     font-size: clamp(26px, 3.2vw, 36px);
@@ -207,64 +226,64 @@
     margin: 0 0 6px;
     color: var(--ips-ink);
   }
-  .ips-trust-h em { font-style: italic; }
-  .ips-trust-h .ips-gold-num { color: var(--ips-navy-2); }
-  .ips-eyebrow {
+  #ips-root .ips-trust-h em { font-style: italic; }
+  #ips-root .ips-trust-h .ips-gold-num { color: var(--ips-navy-2); }
+  #ips-root .ips-eyebrow {
     font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
     color: var(--ips-muted);
     margin: 0 0 32px;
   }
 
-  .ips-checks {
+  #ips-root .ips-checks {
     display: flex; flex-wrap: wrap; justify-content: center;
     gap: 14px 44px;
     margin: 0 auto 36px;
     padding: 0; list-style: none;
   }
-  .ips-checks li {
+  #ips-root .ips-checks li {
     display: flex; align-items: center; gap: 12px;
     font-size: 16px; color: #333;
   }
-  .ips-check {
+  #ips-root .ips-check {
     width: 30px; height: 30px; flex: none; border-radius: 50%;
     background: var(--ips-gold);
     display: flex; align-items: center; justify-content: center;
   }
-  .ips-check svg { width: 14px; height: 14px; stroke: #fff; stroke-width: 3; fill: none; }
+  #ips-root .ips-check svg { width: 14px; height: 14px; stroke: #fff; stroke-width: 3; fill: none; }
 
-  .ips-logos {
+  #ips-root .ips-logos {
     max-width: 1040px; margin: 0 auto;
     background: #fff;
     border-radius: 14px;
     padding: 24px 28px;
     box-shadow: 0 6px 24px rgba(28, 42, 84, .07);
   }
-  .ips-logos img { display: block; width: 100%; height: auto; }
+  #ips-root .ips-logos img { display: block; width: 100%; height: auto; }
   /* mobile: same strip split into 2 rows */
-  .ips-logos-m { display: none; }
-  .ips-logos-m div {
+  #ips-root .ips-logos-m { display: none; }
+  #ips-root .ips-logos-m div {
     width: 100%;
     background: url("https://instituteofpediatricsleep.com/wp-content/uploads/2025/10/IPSP-Accreditation.png") no-repeat;
   }
-  .ips-logos-m div:first-child { aspect-ratio: 415 / 117; background-size: 236.1% 100%; background-position: 0 0; }
-  .ips-logos-m div + div { aspect-ratio: 565 / 117; background-size: 173.5% 100%; background-position: 100% 0; margin-top: 16px; }
+  #ips-root .ips-logos-m div:first-child { aspect-ratio: 415 / 117; background-size: 236.1% 100%; background-position: 0 0; }
+  #ips-root .ips-logos-m div + div { aspect-ratio: 565 / 117; background-size: 173.5% 100%; background-position: 100% 0; margin-top: 16px; }
 
   /* ---------- MOBILE ---------- */
-  @media (max-width: 900px) {
-    .ips-hero { padding: 44px 16px 56px; }
-    .ips-head { margin-bottom: 32px; }
-    .ips-grid { grid-template-columns: 1fr; gap: 32px; }
-    .ips-form-card { padding: 24px 18px; }
-    .ips-underline { white-space: normal; }
-    .ips-trust { padding: 44px 16px 48px; }
-    .ips-checks { flex-direction: column; align-items: flex-start; width: fit-content; gap: 14px; }
-    .ips-logos { padding: 18px 14px; }
-    .ips-logos img { display: none; }
-    .ips-logos-m { display: block; }
+ @media (max-width: 900px) {
+    #ips-root .ips-hero { padding: 44px 16px 56px; }
+    #ips-root .ips-head { margin-bottom: 32px; }
+    #ips-root .ips-grid { grid-template-columns: 1fr; gap: 32px; }
+    #ips-root .ips-form-card { padding: 24px 18px; }
+    #ips-root .ips-underline { white-space: normal; }
+    #ips-root .ips-trust { padding: 44px 16px 48px; }
+    #ips-root .ips-checks { flex-direction: column; align-items: flex-start; width: fit-content; gap: 14px; }
+    #ips-root .ips-logos { padding: 18px 14px; }
+    #ips-root .ips-logos img { display: none; }
+    #ips-root .ips-logos-m { display: block; }
   }
 </style>
 
-<div class="ips-wrap">
+<div class="ips-wrap" id="ips-root">
 
   <!-- HERO -->
   <section class="ips-hero">
@@ -339,6 +358,40 @@
   </section>
 
 </div>
+
+<script>
+/* IPS section helper:
+   - inside the AC Embed iframe: tells the page its height so the box fits (needs the Custom Code snippet)
+   - placed inline: stretches the section edge to edge */
+(function () {
+  var root = document.getElementById('ips-root');
+  if (!root) return;
+  var framed = window.self !== window.top;
+  if (framed) {
+    document.documentElement.style.margin = '0';
+    document.body.style.margin = '0';
+    document.body.style.overflow = 'hidden';
+    var send = function () {
+      try { parent.postMessage({ ips: 'height', h: Math.ceil(root.getBoundingClientRect().height) }, '*'); } catch (e) {}
+    };
+    if (window.ResizeObserver) new ResizeObserver(send).observe(root);
+    window.addEventListener('load', send);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(send);
+    send();
+  } else {
+    var bleed = function () {
+      root.style.marginLeft = '0';
+      root.style.width = '100%';
+      var left = root.getBoundingClientRect().left;
+      root.style.width = document.documentElement.clientWidth + 'px';
+      root.style.marginLeft = (-left) + 'px';
+    };
+    window.addEventListener('resize', bleed);
+    window.addEventListener('load', bleed);
+    bleed();
+  }
+})();
+</script>
 <!-- END IPS ACCESS SECTION -->
 
 </body>

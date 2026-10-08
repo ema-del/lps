@@ -1,0 +1,33 @@
+<!-- ============================================================
+     IPS: paste this into ActiveCampaign
+     Page Settings > Custom Code > Body
+     It lets the IPS Embed block grow to the section's real height
+     (no cut-off, no inner scrollbar) on desktop and mobile.
+     ============================================================ -->
+<script>
+(function () {
+  window.addEventListener('message', function (e) {
+    var d = e.data;
+    if (!d || d.ips !== 'height' || !d.h) return;
+    var frames = document.getElementsByTagName('iframe');
+    for (var i = 0; i < frames.length; i++) {
+      var f = frames[i];
+      if (f.contentWindow !== e.source) continue;
+      f.style.height = d.h + 'px';
+      f.style.minHeight = d.h + 'px';
+      f.style.width = '100%';
+      f.style.border = '0';
+      f.style.display = 'block';
+      f.setAttribute('scrolling', 'no');
+      // the block wrappers AC puts around the iframe often have a fixed height too
+      var p = f.parentElement, n = 0;
+      while (p && p !== document.body && n < 4) {
+        p.style.height = 'auto';
+        p.style.minHeight = d.h + 'px';
+        p.style.overflow = 'visible';
+        p = p.parentElement; n++;
+      }
+    }
+  });
+})();
+</script>
