@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>IPSP Free Training</title>
 <style>body { margin: 0; background: #ffffff; }</style>
-<!-- preview only. For ActiveCampaign use the 3 numbered files in this folder -->
+<!-- Preview source. build.py merges in the AC form (ac-form-57.*) and writes the 3 numbered files. -->
+<!-- HEADER CSS START -->
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
 
@@ -182,17 +183,7 @@
     text-align: center; font-size: 14px; color: var(--ips-muted);
     margin: 0 0 20px;
   }
-  #ips-root .ips-form-slot {
-    /* REPLACE this div with the ActiveCampaign form embed */
-    min-height: 340px;
-    border: 2px dashed #cfd5e6;
-    border-radius: 12px;
-    background: #f8f9fc;
-    display: flex; align-items: center; justify-content: center;
-    text-align: center;
-    color: #8a91a6; font-size: 14px; font-weight: 500;
-    padding: 20px;
-  }
+  #ips-root .ips-form-slot { min-height: 330px; }
   #ips-root .ips-safe {
     display: flex; align-items: center; justify-content: center; gap: 6px;
     margin: 14px 0 0;
@@ -269,9 +260,73 @@
     #ips-root .ips-logos img { display: none; }
     #ips-root .ips-logos-m { display: block; }
   }
+  /* ---------- AC FORM 57: restyled to match the page ---------- */
+  #ips-root #_form_57_ {
+    margin: 0 !important; padding: 0 !important; max-width: none !important; width: 100% !important;
+    background: transparent !important; font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important; color: var(--ips-ink) !important;
+  }
+  #ips-root #_form_57_ ._form-content { font-family: inherit !important; }
+  #ips-root #_form_57_ ._form_element { margin: 0 0 14px !important; }
+  #ips-root #_form_57_ ._form-label {
+    font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important;
+    font-size: 14px !important; font-weight: 600 !important; color: var(--ips-navy) !important;
+    margin: 0 0 6px !important; display: block !important; line-height: 1.4 !important;
+  }
+  #ips-root #_form_57_ .field-required { color: #c0392b !important; margin-left: 2px; }
+  #ips-root #_form_57_ input[type="text"],
+  #ips-root #_form_57_ input[type="tel"],
+  #ips-root #_form_57_ .iti input {
+    width: 100% !important; height: 48px !important; padding-top: 0 !important; padding-bottom: 0 !important; padding-right: 14px !important;
+    font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important; font-size: 16px !important;
+    color: var(--ips-ink) !important; background: #fff !important;
+    border: 1px solid #d3d8e4 !important; border-radius: 8px !important;
+    box-shadow: none !important; outline: none !important; line-height: normal !important;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+  /* left padding only on plain fields: the phone picker sets its own to make room for the flag and +1 */
+  #ips-root #_form_57_ ._field-wrapper > input[type="text"] { padding-left: 14px !important; }
+  #ips-root #_form_57_ input::placeholder { color: #9aa1b2 !important; }
+  #ips-root #_form_57_ input[type="text"]:focus,
+  #ips-root #_form_57_ input[type="tel"]:focus {
+    border-color: var(--ips-navy-2) !important; box-shadow: 0 0 0 3px rgba(49, 73, 148, .15) !important;
+  }
+  #ips-root #_form_57_ input._has_error { border-color: #e0605e !important; }
+  #ips-root #_form_57_ .iti__country-list { min-width: 0 !important; max-width: 300px; white-space: normal; }
+  #ips-root #_form_57_ .iti__selected-flag,
+  #ips-root #_form_57_ .iti__selected-country { border-radius: 8px 0 0 8px !important; }
+
+  #ips-root #_form_57_ .sms_consent_checkbox { padding: 6px 0 4px !important; gap: 10px; cursor: pointer; }
+  #ips-root #_form_57_ .sms_consent_checkbox input[type="checkbox"] {
+    flex: none; width: 18px !important; height: 18px !important; margin: 2px 0 0 !important;
+    accent-color: var(--ips-navy);
+  }
+  #ips-root #_form_57_ .sms_consent_checkbox .sms_consent_message {
+    font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important;
+    font-size: 12.5px !important; line-height: 1.5 !important; color: var(--ips-muted) !important;
+    margin: 0 !important; float: none !important;
+  }
+
+  #ips-root #_form_57_ ._button-wrapper { margin: 0 !important; }
+  #ips-root #_form_57_ ._submit {
+    width: 100% !important; margin-top: 14px !important; padding: 17px 20px !important;
+    background: var(--ips-gold) !important; color: var(--ips-navy) !important;
+    font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important;
+    font-size: 15px !important; font-weight: 700 !important; letter-spacing: .06em; text-transform: uppercase;
+    border-radius: 8px !important; box-shadow: 0 10px 24px rgba(201, 165, 74, .35);
+    transition: background .15s ease, transform .15s ease;
+  }
+  #ips-root #_form_57_ ._submit:hover { background: #c9a54a !important; transform: translateY(-1px); }
+  #ips-root #_form_57_ ._submit.processing::before {
+    background-image: linear-gradient(var(--ips-gold), var(--ips-gold)), conic-gradient(var(--ips-gold), var(--ips-navy));
+  }
+  #ips-root #_form_57_ ._error-inner { font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important; font-size: 13px !important; }
+  #ips-root #_form_57_ ._form-thank-you { font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important; color: var(--ips-navy) !important; padding: 30px 0; }
+  #ips-root #_form_57_ ._form-branding { display: none !important; }
 </style>
+<!-- HEADER CSS END -->
 </head>
 <body>
+<!-- EMBED START -->
 <div class="ips-wrap" id="ips-root">
   <section class="ips-hero">
     <div class="ips-container">
@@ -306,7 +361,7 @@
           <p class="ips-form-note">Takes 30 seconds.</p>
 
           <div class="ips-form-slot" id="ips-form-slot">
-            FORM GOES HERE<br>(First name, Email, Phone)
+<!-- AC FORM -->
           </div>
 
           <p class="ips-safe">
@@ -337,6 +392,8 @@
   </section>
 
 </div>
+<!-- EMBED END -->
+<!-- BODY SCRIPT START -->
 <script>
 /* IPS: stretches the section edge to edge on the page */
 (function () {
@@ -354,5 +411,6 @@
   document.addEventListener('DOMContentLoaded', bleed);
 })();
 </script>
+<!-- BODY SCRIPT END -->
 </body>
 </html>
