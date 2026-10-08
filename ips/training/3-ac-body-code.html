@@ -1,0 +1,26 @@
+<!-- IPS /training: Page Settings > Custom Code > BODY -->
+<script>
+/* IPS: stretches the section edge to edge + review carousel arrows */
+(function () {
+  function bleed() {
+    var root = document.getElementById('ipt-root');
+    if (!root) return;
+    root.style.marginLeft = '0';
+    root.style.width = '100%';
+    var left = root.getBoundingClientRect().left;
+    root.style.width = document.documentElement.clientWidth + 'px';
+    root.style.marginLeft = (-left) + 'px';
+  }
+  window.addEventListener('resize', bleed);
+  window.addEventListener('load', bleed);
+  document.addEventListener('DOMContentLoaded', bleed);
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest && e.target.closest('#ipt-root .ipt-arrow');
+    if (!btn) return;
+    var track = btn.parentNode.querySelector('.ipt-track');
+    var card = track.querySelector('.ipt-rev');
+    var step = card ? card.getBoundingClientRect().width + 20 : track.clientWidth;
+    track.scrollBy({ left: btn.classList.contains('ipt-prev') ? -step : step, behavior: 'smooth' });
+  });
+})();
+</script>
