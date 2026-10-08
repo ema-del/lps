@@ -639,9 +639,17 @@
       'background:rgba(255,255,255,.92);color:#1c2a54;font-size:24px;line-height:1;cursor:pointer;padding:0 0 2px;z-index:2;box-shadow:0 2px 8px rgba(0,0,0,.15)}' +
     '#ipt-modal .ipt-m-x:hover{background:#e3e7f0}' +
     '#ipt-modal iframe{display:block;width:100%;min-height:560px;border:0}' +
-    '#ipt-modal .ipt-m-wait{min-height:300px;margin:52px 16px 16px;border:2px dashed #cfd5e6;border-radius:12px;background:#f8f9fc;' +
+    '#ipt-modal .ipt-m-wait{min-height:300px;margin:16px;border:2px dashed #cfd5e6;border-radius:12px;background:#f8f9fc;' +
       'display:flex;align-items:center;justify-content:center;text-align:center;color:#8a91a6;' +
       'font:600 14px/1.5 "IBM Plex Sans",Helvetica,Arial,sans-serif;padding:24px}' +
+    '#ipt-modal .ipt-m-head{padding:34px 28px 18px!important;text-align:center!important;font-family:"IBM Plex Sans",Helvetica,Arial,sans-serif!important;color:#5b6275!important;border-bottom:1px solid #e3e6ef}' +
+    '#ipt-modal .ipt-m-head h2{font-family:Cardo,Georgia,serif!important;font-weight:400!important;font-size:27px!important;line-height:1.2!important;color:#1c2a54!important;margin:0 0 10px!important;padding:0 28px!important;text-transform:none!important;letter-spacing:normal!important}' +
+    '#ipt-modal .ipt-m-head h2 em{font-style:italic;color:#314994!important;white-space:nowrap}' +
+    '#ipt-modal .ipt-m-head p{margin:0 0 6px!important;padding:0!important;font-size:15px!important;line-height:1.5!important;color:#5b6275!important;font-family:inherit!important}' +
+    '#ipt-modal .ipt-m-head p.ipt-m-fast{font-weight:700!important;color:#1c2a54!important;font-size:16px!important}' +
+    '#ipt-modal .ipt-m-head p.ipt-m-start{margin:12px 0 0!important;font-weight:700!important;color:#1c2a54!important;display:inline-flex!important;align-items:center;gap:6px}' +
+    '#ipt-modal .ipt-m-head svg{width:17px;height:17px;stroke:#dab965;stroke-width:2.6;fill:none}' +
+    '@media (max-width:600px){#ipt-modal .ipt-m-head{padding:30px 16px 14px!important}#ipt-modal .ipt-m-head h2{font-size:23px!important;padding:0 22px!important}}' +
     'html.ipt-m-lock,html.ipt-m-lock body{overflow:hidden!important}';
 
   var modal, box, lastFocus, handlerLoaded = false;
@@ -663,7 +671,14 @@
     modal.setAttribute('aria-modal', 'true');
     modal.setAttribute('aria-label', 'Book your free Career Call');
     modal.innerHTML = '<div class="ipt-m-backdrop" data-close></div>' +
-      '<div class="ipt-m-box"><button type="button" class="ipt-m-x" aria-label="Close" data-close>&times;</button></div>';
+      '<div class="ipt-m-box"><button type="button" class="ipt-m-x" aria-label="Close" data-close>&times;</button>' +
+        '<div class="ipt-m-head">' +
+          '<h2>Quick questions so we can <em>prepare for you</em></h2>' +
+          '<p class="ipt-m-fast">This takes less than 30 seconds.</p>' +
+          '<p>Once completed, you\'ll unlock access to the calendar to book your call.</p>' +
+          '<p class="ipt-m-start">Start below <svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></p>' +
+        '</div>' +
+      '</div>';
     document.body.appendChild(modal);
     box = modal.querySelector('.ipt-m-box');
     if (JOTFORM_ID) {
