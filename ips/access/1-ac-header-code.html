@@ -136,6 +136,11 @@
     box-shadow: 0 0 0 10px rgba(218, 185, 101, .25);
   }
   #ips-root .ips-play svg { width: 26px; height: 26px; margin-left: 4px; fill: var(--ips-navy); }
+  #ips-root .ips-video { display: block; background: var(--ips-navy-deep) !important; cursor: pointer; }
+  #ips-root .ips-video video {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
+    border: 0; margin: 0; padding: 0; max-width: none;
+  }
   #ips-root .ips-video-tag {
     position: absolute; left: 16px; bottom: 14px;
     font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;

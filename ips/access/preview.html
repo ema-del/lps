@@ -141,6 +141,11 @@
     box-shadow: 0 0 0 10px rgba(218, 185, 101, .25);
   }
   #ips-root .ips-play svg { width: 26px; height: 26px; margin-left: 4px; fill: var(--ips-navy); }
+  #ips-root .ips-video { display: block; background: var(--ips-navy-deep) !important; cursor: pointer; }
+  #ips-root .ips-video video {
+    position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block;
+    border: 0; margin: 0; padding: 0; max-width: none;
+  }
   #ips-root .ips-video-tag {
     position: absolute; left: 16px; bottom: 14px;
     font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
@@ -345,12 +350,12 @@
 
       <div class="ips-grid">
         <div>
-          <div class="ips-video" id="ips-video-slot">
-            <div class="ips-play" aria-hidden="true">
-              <svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg>
-            </div>
-            <span class="ips-video-tag">Free training</span>
-          </div>
+          <a class="ips-video" id="ips-video-slot" href="#ips-form-slot" aria-label="Get instant access to the free training">
+            <video autoplay muted loop playsinline preload="auto" poster="https://cdn.jsdelivr.net/gh/ema-del/lps@92763173e6e9592574f7dabafc764c565cb594c8/ips/access/media/vsl-poster.jpg">
+              <source src="https://cdn.jsdelivr.net/gh/ema-del/lps@92763173e6e9592574f7dabafc764c565cb594c8/ips/access/media/vsl-preview.webm" type="video/webm">
+              <source src="https://cdn.jsdelivr.net/gh/ema-del/lps@92763173e6e9592574f7dabafc764c565cb594c8/ips/access/media/vsl-preview.mp4" type="video/mp4">
+            </video>
+          </a>
           <div class="ips-host">
             <img src="https://instituteofpediatricsleep.com/wp-content/uploads/2026/10/VioletGiannone2.10.24-64-Edited.jpg" alt="Violet Giannone, RN">
             <span>Violet Giannone, RN &middot; Founder of IPSP&reg;</span>
@@ -409,6 +414,37 @@
   window.addEventListener('resize', bleed);
   window.addEventListener('load', bleed);
   document.addEventListener('DOMContentLoaded', bleed);
+})();
+</script>
+<script>
+/* IPS: keep the preview loop playing (adds it back if the builder strips <video>),
+   and make a click on it jump to the form */
+(function () {
+  var BASE = 'https://cdn.jsdelivr.net/gh/ema-del/lps@92763173e6e9592574f7dabafc764c565cb594c8/ips/access/media/';
+  function setup() {
+    var box = document.getElementById('ips-video-slot');
+    if (!box) return;
+    var v = box.querySelector('video');
+    if (!v) {
+      v = document.createElement('video');
+      v.muted = true; v.loop = true; v.autoplay = true; v.playsInline = true;
+      v.setAttribute('muted', ''); v.setAttribute('playsinline', '');
+      v.poster = BASE + 'vsl-poster.jpg';
+      v.src = BASE + 'vsl-preview.mp4';
+      box.appendChild(v);
+    }
+    v.muted = true;
+    var p = v.play && v.play(); if (p && p.catch) p.catch(function () {});
+    box.addEventListener('click', function (e) {
+      var slot = document.getElementById('ips-form-slot');
+      if (!slot) return;
+      e.preventDefault();
+      slot.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      var first = document.getElementById('fullname');
+      if (first) setTimeout(function () { first.focus({ preventScroll: true }); }, 500);
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup); else setup();
 })();
 </script>
 <!-- BODY SCRIPT END -->
