@@ -197,7 +197,7 @@
   /* Video is sized from the screen height so the button below it is always above the fold.
      Everything else keeps its normal size; only the video gets smaller (80% of the fit size). */
   .pacow-hero__video {
-    position: relative; width: min(80%, calc((100vh - 520px) * 1.4222)); max-width: 100%;
+    position: relative; width: max(560px, min(80%, calc((100vh - 520px) * 1.4222))); max-width: 100%;
     margin: 0 auto 34px;
     border-radius: 24px; overflow: hidden;
     box-shadow:
@@ -352,7 +352,7 @@
     .pacow-hero__watch { font-size: 13px; gap: 8px; padding: 9px 16px 9px 10px; }
     .pacow-hero__watch-ic { width: 22px; height: 22px; flex: 0 0 22px; }
     .pacow-hero__watch-ic svg { width: 10px; height: 10px; }
-    .pacow-hero__video { border-radius: 18px; width: min(80%, calc((100vh - 490px) * 1.4222)); }
+    .pacow-hero__video { border-radius: 18px; width: max(280px, min(80%, calc((100vh - 490px) * 1.4222))); }
     .pacow-hero__cta { padding: 13px 22px; font-size: 14px; }
     .pacow-hero__proof { max-width: 100%; padding: 9px 14px 9px 9px; }
     .pacow-modal-card { padding: 18px 14px 16px; }
