@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IPSP Free Training</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cardo:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body { margin: 0; background: #ffffff; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     IPS /access opt-in page: middle section only
+     Copy everything between START and END into a custom HTML block.
+     All classes are prefixed "ips-" so nothing clashes with the builder.
+     ============================================================ -->
+
+<!-- START IPS ACCESS SECTION -->
+<style>
+  .ips-wrap {
+    --ips-navy: #1c2a54;
+    --ips-navy-2: #314994;
+    --ips-navy-deep: #131d3c;
+    --ips-gold: #dab965;
+    --ips-gold-soft: #f3e7c4;
+    --ips-ink: #1a1a1a;
+    --ips-muted: #5b6275;
+    --ips-gray: #f4f4f4;
+    font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif;
+    color: var(--ips-ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  .ips-wrap *, .ips-wrap *::before, .ips-wrap *::after { box-sizing: border-box; }
+
+  /* ---------- HERO ---------- */
+  .ips-hero {
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(900px 420px at 18% 62%, rgba(49, 73, 148, .55), transparent 70%),
+      radial-gradient(700px 380px at 92% 10%, rgba(218, 185, 101, .12), transparent 70%),
+      linear-gradient(180deg, var(--ips-navy-deep) 0%, var(--ips-navy) 100%);
+    color: #fff;
+    padding: 64px 20px 80px;
+  }
+  .ips-hero::after {
+    /* soft moon-glow ring, nod to the logo */
+    content: "";
+    position: absolute;
+    width: 520px; height: 520px;
+    right: -180px; top: -200px;
+    border-radius: 50%;
+    border: 1px solid rgba(218, 185, 101, .18);
+    pointer-events: none;
+  }
+  .ips-container { max-width: 1120px; margin: 0 auto; position: relative; z-index: 1; }
+
+  .ips-head { text-align: center; max-width: 860px; margin: 0 auto 48px; }
+  .ips-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 7px 16px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .08);
+    border: 1px solid rgba(218, 185, 101, .45);
+    font-size: 13px; font-weight: 500; letter-spacing: .02em;
+    color: #fff;
+    margin-bottom: 22px;
+  }
+  .ips-pill-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--ips-gold); }
+
+  .ips-h1 {
+    font-family: 'Cardo', Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(34px, 5vw, 56px);
+    line-height: 1.12;
+    margin: 0 0 18px;
+    color: #fff;
+  }
+  .ips-h1 em { font-style: italic; }
+  .ips-underline {
+    position: relative;
+    white-space: nowrap;
+    color: var(--ips-gold);
+  }
+  .ips-underline::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -4px;
+    height: 4px;
+    border-radius: 4px;
+    background: var(--ips-gold);
+    opacity: .85;
+  }
+  .ips-sub {
+    font-size: clamp(16px, 1.6vw, 18px);
+    line-height: 1.6;
+    color: rgba(255, 255, 255, .82);
+    margin: 0 auto;
+    max-width: 640px;
+  }
+  .ips-sub strong { color: #fff; font-weight: 600; }
+
+  /* two columns */
+  .ips-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 40px;
+    align-items: center;
+  }
+
+  /* video placeholder */
+  .ips-video {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border-radius: 16px;
+    overflow: hidden;
+    background:
+      linear-gradient(135deg, rgba(28, 42, 84, .25), rgba(28, 42, 84, .65)),
+      url("https://instituteofpediatricsleep.com/wp-content/uploads/2021/05/ipsp-hero.jpg") center / cover no-repeat,
+      var(--ips-navy-2);
+    border: 1px solid rgba(218, 185, 101, .5);
+    box-shadow: 0 0 0 6px rgba(218, 185, 101, .08), 0 30px 70px rgba(0, 0, 0, .45);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ips-play {
+    width: 78px; height: 78px; border-radius: 50%;
+    background: var(--ips-gold);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 0 10px rgba(218, 185, 101, .25);
+  }
+  .ips-play svg { width: 26px; height: 26px; margin-left: 4px; fill: var(--ips-navy); }
+  .ips-video-tag {
+    position: absolute; left: 16px; bottom: 14px;
+    font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: #fff; background: rgba(19, 29, 60, .7);
+    padding: 6px 10px; border-radius: 6px;
+  }
+
+  .ips-host {
+    display: flex; align-items: center; justify-content: center; gap: 12px;
+    margin-top: 20px;
+  }
+  .ips-host img {
+    width: 44px; height: 44px; border-radius: 50%;
+    object-fit: cover; object-position: 60% 22%;
+    border: 2px solid var(--ips-gold);
+  }
+  .ips-host span {
+    font-size: 12.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+    color: rgba(255, 255, 255, .75);
+  }
+
+  /* form placeholder */
+  .ips-form-card {
+    background: #fff;
+    color: var(--ips-ink);
+    border-radius: 16px;
+    padding: 28px 26px;
+    border-top: 4px solid var(--ips-gold);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, .35);
+  }
+  .ips-form-title {
+    font-family: 'Cardo', Georgia, serif;
+    font-size: 24px; line-height: 1.25;
+    text-align: center;
+    margin: 0 0 6px;
+    color: var(--ips-navy);
+  }
+  .ips-form-title em { font-style: italic; }
+  .ips-form-note {
+    text-align: center; font-size: 14px; color: var(--ips-muted);
+    margin: 0 0 20px;
+  }
+  .ips-form-slot {
+    /* REPLACE this div with the ActiveCampaign form embed */
+    min-height: 340px;
+    border: 2px dashed #cfd5e6;
+    border-radius: 12px;
+    background: #f8f9fc;
+    display: flex; align-items: center; justify-content: center;
+    text-align: center;
+    color: #8a91a6; font-size: 14px; font-weight: 500;
+    padding: 20px;
+  }
+  .ips-safe {
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    margin: 14px 0 0;
+    font-size: 13px; color: var(--ips-muted);
+  }
+  .ips-safe svg { width: 14px; height: 14px; fill: var(--ips-navy-2); }
+
+  /* ---------- TRUST ---------- */
+  .ips-trust {
+    background: var(--ips-gray);
+    padding: 56px 20px 60px;
+    text-align: center;
+  }
+  .ips-trust-h {
+    font-family: 'Cardo', Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(26px, 3.2vw, 36px);
+    line-height: 1.2;
+    margin: 0 0 6px;
+    color: var(--ips-ink);
+  }
+  .ips-trust-h em { font-style: italic; }
+  .ips-trust-h .ips-gold-num { color: var(--ips-navy-2); }
+  .ips-eyebrow {
+    font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--ips-muted);
+    margin: 0 0 32px;
+  }
+
+  .ips-checks {
+    display: flex; flex-wrap: wrap; justify-content: center;
+    gap: 14px 44px;
+    margin: 0 auto 36px;
+    padding: 0; list-style: none;
+  }
+  .ips-checks li {
+    display: flex; align-items: center; gap: 12px;
+    font-size: 16px; color: #333;
+  }
+  .ips-check {
+    width: 30px; height: 30px; flex: none; border-radius: 50%;
+    background: var(--ips-gold);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .ips-check svg { width: 14px; height: 14px; stroke: #fff; stroke-width: 3; fill: none; }
+
+  .ips-logos {
+    max-width: 1040px; margin: 0 auto;
+    background: #fff;
+    border-radius: 14px;
+    padding: 24px 28px;
+    box-shadow: 0 6px 24px rgba(28, 42, 84, .07);
+  }
+  .ips-logos img { display: block; width: 100%; height: auto; }
+  /* mobile: same strip split into 2 rows */
+  .ips-logos-m { display: none; }
+  .ips-logos-m div {
+    width: 100%;
+    background: url("https://instituteofpediatricsleep.com/wp-content/uploads/2025/10/IPSP-Accreditation.png") no-repeat;
+  }
+  .ips-logos-m div:first-child { aspect-ratio: 415 / 117; background-size: 236.1% 100%; background-position: 0 0; }
+  .ips-logos-m div + div { aspect-ratio: 565 / 117; background-size: 173.5% 100%; background-position: 100% 0; margin-top: 16px; }
+
+  /* ---------- MOBILE ---------- */
+  @media (max-width: 900px) {
+    .ips-hero { padding: 44px 16px 56px; }
+    .ips-head { margin-bottom: 32px; }
+    .ips-grid { grid-template-columns: 1fr; gap: 32px; }
+    .ips-form-card { padding: 24px 18px; }
+    .ips-underline { white-space: normal; }
+    .ips-trust { padding: 44px 16px 48px; }
+    .ips-checks { flex-direction: column; align-items: flex-start; width: fit-content; gap: 14px; }
+    .ips-logos { padding: 18px 14px; }
+    .ips-logos img { display: none; }
+    .ips-logos-m { display: block; }
+  }
+</style>
+
+<div class="ips-wrap">
+
+  <!-- HERO -->
+  <section class="ips-hero">
+    <div class="ips-container">
+
+      <div class="ips-head">
+        <div class="ips-pill"><span class="ips-pill-dot"></span>Free training for moms &amp; baby pros</div>
+        <h1 class="ips-h1">
+          Become a certified sleep consultant<br>
+          <em>in as little as <span class="ips-underline">4 weeks</span>, from home.</em>
+        </h1>
+        <p class="ips-sub">
+          The <strong>3-step process</strong> our graduates use to build a flexible business earning
+          <strong>$60,000 to $160,000 a year</strong>. Taught by Registered Nurses, not gurus.
+        </p>
+      </div>
+
+      <div class="ips-grid">
+
+        <!-- LEFT: video preview placeholder -->
+        <div>
+          <div class="ips-video" id="ips-video-slot">
+            <!-- REPLACE this placeholder with the video preview -->
+            <div class="ips-play" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg>
+            </div>
+            <span class="ips-video-tag">Free training</span>
+          </div>
+          <div class="ips-host">
+            <img src="https://instituteofpediatricsleep.com/wp-content/uploads/2026/10/VioletGiannone2.10.24-64-Edited.jpg" alt="Violet Giannone, RN">
+            <span>Violet Giannone, RN &middot; Founder of IPSP&reg;</span>
+          </div>
+        </div>
+
+        <!-- RIGHT: form placeholder -->
+        <div class="ips-form-card">
+          <h2 class="ips-form-title">Get <em>instant access</em> to the free training</h2>
+          <p class="ips-form-note">Takes 30 seconds.</p>
+
+          <div class="ips-form-slot" id="ips-form-slot">
+            <!-- REPLACE this div with the ActiveCampaign form embed -->
+            FORM GOES HERE<br>(First name, Email, Phone)
+          </div>
+
+          <p class="ips-safe">
+            <svg viewBox="0 0 24 24"><path d="M12 1l9 4v6c0 5.6-3.8 10.7-9 12-5.2-1.3-9-6.4-9-12V5l9-4z"/></svg>
+            Your info is safe with us. Unsubscribe any time.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <section class="ips-trust">
+    <h2 class="ips-trust-h"><em>Trusted by</em> <span class="ips-gold-num">2,000+ students</span> since 2014</h2>
+    <p class="ips-eyebrow">Accredited &amp; recognized by</p>
+
+    <ul class="ips-checks">
+      <li><span class="ips-check"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>Led by Registered Nurses</li>
+      <li><span class="ips-check"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>Accredited certification</li>
+      <li><span class="ips-check"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>6 months of 1:1 mentorship</li>
+      <li><span class="ips-check"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>Self-paced, from home</li>
+    </ul>
+
+    <div class="ips-logos">
+      <img src="https://instituteofpediatricsleep.com/wp-content/uploads/2025/10/IPSP-Accreditation.png"
+           alt="Registered Nurse licensed by the CT Dept of Health, accredited by the American Association of Drugless Practitioners, ICOES International Accreditation, Member of the American Academy of Sleep Medicine, IICT Approved Training Provider, IACSC">
+      <div class="ips-logos-m" aria-hidden="true"><div></div><div></div></div>
+    </div>
+  </section>
+
+</div>
+<!-- END IPS ACCESS SECTION -->
+
+</body>
+</html>
