@@ -24,3 +24,19 @@
   });
 })();
 </script>
+<script>
+/* IPS: adds the training video back if the page builder strips iframes */
+(function () {
+  function addVideo() {
+    var box = document.getElementById('ipt-yt');
+    if (!box || box.querySelector('iframe')) return;
+    var f = document.createElement('iframe');
+    f.src = 'https://drive.google.com/file/d/1anFYqjKENSLUaq_8_gBikBa1bGGRusUD/preview';
+    f.title = 'Free training with Violet Giannone, RN';
+    f.allow = 'autoplay; fullscreen';
+    f.allowFullscreen = true;
+    box.appendChild(f);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', addVideo); else addVideo();
+})();
+</script>
