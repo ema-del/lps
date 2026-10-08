@@ -368,12 +368,13 @@
     display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 10px rgba(218, 185, 101, .2);
   }
   #ipt-root .ipt-done-icon svg { width: 30px; height: 30px; stroke: var(--navy); stroke-width: 3; fill: none; }
-  #ipt-root .ipt-vsl.ipt-vsl-ty {
-    background:
-      linear-gradient(135deg, rgba(28, 42, 84, .3), rgba(28, 42, 84, .7)),
-      url("https://instituteofpediatricsleep.com/wp-content/uploads/2026/10/VioletGiannone2.10.24-64-Edited.jpg") 60% 30% / cover no-repeat,
-      var(--navy-2);
+  #ipt-root .ipt-yt {
+    position: relative; max-width: 860px; margin: 0 auto; aspect-ratio: 16 / 9;
+    border-radius: 16px; overflow: hidden; background: #000;
+    border: 1px solid rgba(218, 185, 101, .5);
+    box-shadow: 0 0 0 6px rgba(218, 185, 101, .08), 0 30px 70px rgba(0, 0, 0, .45);
   }
+  #ipt-root .ipt-yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
 
   #ipt-root .ipt-steps { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 0 0 34px !important; }
   #ipt-root .ipt-steps li {
@@ -425,9 +426,8 @@
     <div class="ipt-done-icon"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
     <h1 class="ipt-h1">Congrats! Your free career call is <em><span class="ipt-underline">booked</span></em></h1>
     <p class="ipt-hero-sub">You're one step closer to becoming a <strong>certified sleep consultant</strong> in as little as 4 weeks. Watch this short message from Violet before your call.</p>
-    <div class="ipt-vsl ipt-vsl-ty">
-      <div class="ipt-play"><svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8z"/></svg></div>
-      <span class="ipt-vsl-tag">Thank you video goes here</span>
+    <div class="ipt-yt" id="ipt-yt">
+      <iframe src="https://drive.google.com/file/d/1NYm5tzMsdvFP4Vc1ebIWxwsDH6u9RGZD/preview" title="Thank you message from Violet" allow="autoplay; fullscreen" allowfullscreen></iframe>
     </div>
   </section>
 
@@ -568,6 +568,22 @@
     var step = card ? card.getBoundingClientRect().width + 20 : track.clientWidth;
     track.scrollBy({ left: btn.classList.contains('ipt-prev') ? -step : step, behavior: 'smooth' });
   });
+})();
+</script>
+<script>
+/* IPS: adds the thank-you video back if the page builder strips iframes */
+(function () {
+  function addVideo() {
+    var box = document.getElementById('ipt-yt');
+    if (!box || box.querySelector('iframe')) return;
+    var f = document.createElement('iframe');
+    f.src = 'https://drive.google.com/file/d/1NYm5tzMsdvFP4Vc1ebIWxwsDH6u9RGZD/preview';
+    f.title = 'Thank you message from Violet';
+    f.allow = 'autoplay; fullscreen';
+    f.allowFullscreen = true;
+    box.appendChild(f);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', addVideo); else addVideo();
 })();
 </script>
 <!-- BODY SCRIPT END -->

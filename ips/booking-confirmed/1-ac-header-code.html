@@ -360,12 +360,13 @@
     display: flex; align-items: center; justify-content: center; box-shadow: 0 0 0 10px rgba(218, 185, 101, .2);
   }
   #ipt-root .ipt-done-icon svg { width: 30px; height: 30px; stroke: var(--navy); stroke-width: 3; fill: none; }
-  #ipt-root .ipt-vsl.ipt-vsl-ty {
-    background:
-      linear-gradient(135deg, rgba(28, 42, 84, .3), rgba(28, 42, 84, .7)),
-      url("https://instituteofpediatricsleep.com/wp-content/uploads/2026/10/VioletGiannone2.10.24-64-Edited.jpg") 60% 30% / cover no-repeat,
-      var(--navy-2);
+  #ipt-root .ipt-yt {
+    position: relative; max-width: 860px; margin: 0 auto; aspect-ratio: 16 / 9;
+    border-radius: 16px; overflow: hidden; background: #000;
+    border: 1px solid rgba(218, 185, 101, .5);
+    box-shadow: 0 0 0 6px rgba(218, 185, 101, .08), 0 30px 70px rgba(0, 0, 0, .45);
   }
+  #ipt-root .ipt-yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
 
   #ipt-root .ipt-steps { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 0 0 34px !important; }
   #ipt-root .ipt-steps li {
