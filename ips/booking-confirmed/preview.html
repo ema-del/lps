@@ -296,6 +296,7 @@
   @media (max-width: 860px) {
     #ipt-root .ipt-sec { padding: 56px 16px; }
     #ipt-root .ipt-hero { padding: 44px 16px 56px; }
+    #ipt-root .ipt-pill { font-size: 11px; letter-spacing: .04em; padding: 7px 13px; }
     #ipt-root .ipt-underline { white-space: normal; }
     #ipt-root .ipt-cards3, #ipt-root .ipt-cards2 { grid-template-columns: 1fr; }
     #ipt-root .ipt-founder { grid-template-columns: 1fr; gap: 32px; }
@@ -563,6 +564,12 @@
     if (!root) return;
     root.style.marginLeft = '0';
     root.style.width = '100%';
+    /* AC's Embed block clips its content (overflow:hidden) and its section adds side
+       padding on phones, which left white strips at the edges: let the section overflow */
+    for (var el = root.parentElement; el && el !== document.body; el = el.parentElement) {
+      if (getComputedStyle(el).overflowX !== 'visible') el.style.overflowX = 'visible';
+      if (getComputedStyle(el).overflowY === 'hidden') el.style.overflowY = 'visible';
+    }
     var left = root.getBoundingClientRect().left;
     root.style.width = document.documentElement.clientWidth + 'px';
     root.style.marginLeft = (-left) + 'px';
