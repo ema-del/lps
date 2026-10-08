@@ -461,8 +461,16 @@
   }
 
   /* pop-up with the form: borrows the real AC form from the page and puts it back on close */
+  var MODAL_CSS = '/*MODAL_CSS*/';
   var modal, holder, lastFocus;
   function buildPopup() {
+    /* the pop-up carries its own styles, so it works even if the Header code is older */
+    if (!document.getElementById('ips-modal-css')) {
+      var st = document.createElement('style');
+      st.id = 'ips-modal-css';
+      st.textContent = MODAL_CSS;
+      document.head.appendChild(st);
+    }
     modal = document.createElement('div');
     modal.id = 'ips-modal';
     modal.setAttribute('role', 'dialog');

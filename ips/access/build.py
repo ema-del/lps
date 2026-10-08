@@ -20,7 +20,12 @@ def between(a, b):
 
 page_css = between("<!-- HEADER CSS START -->", "<!-- HEADER CSS END -->")
 embed = between("<!-- EMBED START -->", "<!-- EMBED END -->")
-body = between("<!-- BODY SCRIPT START -->", "<!-- BODY SCRIPT END -->")
+
+# the pop-up styles also ship inside the Body script (see buildPopup in preview.html)
+modal_css = page_css[page_css.index("  /* ---------- FORM POP-UP"):page_css.index("  /* ---------- AC FORM 57")]
+body_src = s[s.index("<!-- BODY SCRIPT START -->"):s.index("<!-- BODY SCRIPT END -->")]
+assert "'/*MODAL_CSS*/'" in body_src
+body = between("<!-- BODY SCRIPT START -->", "<!-- BODY SCRIPT END -->").replace("'/*MODAL_CSS*/'", json.dumps(modal_css))
 
 embed = embed.replace("<!-- AC FORM -->", form_html)
 embed = re.sub(r"[ \t]*<!--.*?-->\n?", "", embed, flags=re.S)  # AC may print comments
