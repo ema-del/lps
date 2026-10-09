@@ -383,7 +383,7 @@
     display: flex; align-items: center; justify-content: center; cursor: default;
   }
   #ipt-root .ipt-yt-guard svg { width: 24px; height: 24px; }
-  #ipt-root .ipt-yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+  #ipt-root .ipt-yt iframe, #ipt-root .ipt-yt video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; max-width: 100%; background: #000; }
 
   #ipt-root .ipt-steps { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin: 0 0 34px !important; }
   #ipt-root .ipt-steps li {
@@ -432,13 +432,14 @@
 
   <!-- 1. HERO + THANK YOU VIDEO -->
   <section class="ipt-sec-navy ipt-hero ipt-hero-done">
-    <span class="ipt-pill"><i></i>For Moms, Nurses, Nannies &amp; Doulas Only</span>
+    <span class="ipt-pill"><i></i>For Moms &amp; Pros Who Work With Families</span>
     <div class="ipt-done-icon"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
     <h1 class="ipt-h1">Congrats! Your free career call is <em><span class="ipt-underline">booked</span></em></h1>
     <p class="ipt-hero-sub">You're one step closer to becoming a <strong>certified sleep consultant</strong> in as little as 4 weeks. Watch this short message from Violet before your call.</p>
     <div class="ipt-yt" id="ipt-yt">
-      <iframe src="https://drive.google.com/file/d/1NYm5tzMsdvFP4Vc1ebIWxwsDH6u9RGZD/preview" title="Thank you message from Violet" allow="autoplay; fullscreen" allowfullscreen></iframe>
-      <div class="ipt-yt-guard" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14.5 4.2a8 8 0 1 0 0 15.6A9.4 9.4 0 0 1 14.5 4.2z" fill="#dab965"/><path d="M17.6 7.4l.7 1.6 1.7.2-1.3 1.1.4 1.7-1.5-.9-1.5.9.4-1.7-1.3-1.1 1.7-.2z" fill="#dab965"/></svg></div>
+      <video controls playsinline preload="metadata" poster="https://cdn.jsdelivr.net/gh/ema-del/lps@daac71810a31bc42c469f7f3439c79671434c468/ips/booking-confirmed/media/ty-poster.jpg" title="Thank you message from Violet">
+        <source src="https://cdn.jsdelivr.net/gh/ema-del/lps@daac71810a31bc42c469f7f3439c79671434c468/ips/booking-confirmed/media/ty-vsl.mp4" type="video/mp4">
+      </video>
     </div>
   </section>
 
@@ -588,17 +589,16 @@
 })();
 </script>
 <script>
-/* IPS: adds the thank-you video back if the page builder strips iframes */
+/* IPS: adds the thank-you video back if the page builder strips the <video> tag */
 (function () {
   function addVideo() {
     var box = document.getElementById('ipt-yt');
-    if (!box || box.querySelector('iframe')) return;
-    var f = document.createElement('iframe');
-    f.src = 'https://drive.google.com/file/d/1NYm5tzMsdvFP4Vc1ebIWxwsDH6u9RGZD/preview';
-    f.title = 'Thank you message from Violet';
-    f.allow = 'autoplay; fullscreen';
-    f.allowFullscreen = true;
-    box.insertBefore(f, box.firstChild);
+    if (!box || box.querySelector('video')) return;
+    var v = document.createElement('video');
+    v.controls = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.preload = 'metadata';
+    v.poster = 'https://cdn.jsdelivr.net/gh/ema-del/lps@daac71810a31bc42c469f7f3439c79671434c468/ips/booking-confirmed/media/ty-poster.jpg';
+    v.src = 'https://cdn.jsdelivr.net/gh/ema-del/lps@daac71810a31bc42c469f7f3439c79671434c468/ips/booking-confirmed/media/ty-vsl.mp4';
+    box.appendChild(v);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', addVideo); else addVideo();
 })();

@@ -31,17 +31,16 @@
 })();
 </script>
 <script>
-/* IPS: adds the thank-you video back if the page builder strips iframes */
+/* IPS: adds the thank-you video back if the page builder strips the <video> tag */
 (function () {
   function addVideo() {
     var box = document.getElementById('ipt-yt');
-    if (!box || box.querySelector('iframe')) return;
-    var f = document.createElement('iframe');
-    f.src = 'https://drive.google.com/file/d/1NYm5tzMsdvFP4Vc1ebIWxwsDH6u9RGZD/preview';
-    f.title = 'Thank you message from Violet';
-    f.allow = 'autoplay; fullscreen';
-    f.allowFullscreen = true;
-    box.insertBefore(f, box.firstChild);
+    if (!box || box.querySelector('video')) return;
+    var v = document.createElement('video');
+    v.controls = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.preload = 'metadata';
+    v.poster = 'https://cdn.jsdelivr.net/gh/ema-del/lps@daac71810a31bc42c469f7f3439c79671434c468/ips/booking-confirmed/media/ty-poster.jpg';
+    v.src = 'https://cdn.jsdelivr.net/gh/ema-del/lps@daac71810a31bc42c469f7f3439c79671434c468/ips/booking-confirmed/media/ty-vsl.mp4';
+    box.appendChild(v);
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', addVideo); else addVideo();
 })();
