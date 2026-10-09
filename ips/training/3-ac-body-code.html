@@ -31,19 +31,43 @@
 })();
 </script>
 <script>
-/* IPS: adds the training video back if the page builder strips iframes */
+/* IPS: plays the training video stream. iPhones/Safari play it natively;
+   other browsers use hls.js (free, open source). Re-adds the player if the builder strips it. */
 (function () {
-  function addVideo() {
+  var BASE = 'https://cdn.jsdelivr.net/gh/ema-del/lps@fba5e6b92b773878e1e3fb7e758521ef07ec8e6c/ips/training/media/vsl/';
+  var SRC = BASE + 'vsl.m3u8';
+  function setup() {
     var box = document.getElementById('ipt-yt');
-    if (!box || box.querySelector('iframe')) return;
-    var f = document.createElement('iframe');
-    f.src = 'https://drive.google.com/file/d/1anFYqjKENSLUaq_8_gBikBa1bGGRusUD/preview';
-    f.title = 'Free training with Violet Giannone, RN';
-    f.allow = 'autoplay; fullscreen';
-    f.allowFullscreen = true;
-    box.insertBefore(f, box.firstChild);
+    if (!box) return;
+    var v = box.querySelector('video');
+    if (!v) {
+      v = document.createElement('video');
+      v.controls = true; v.playsInline = true; v.setAttribute('playsinline', ''); v.preload = 'metadata';
+      v.poster = BASE + 'poster.jpg';
+      box.insertBefore(v, box.firstChild);
+    }
+    var btn = box.querySelector('.ipt-vsl-play');
+    v.addEventListener('play', function () { box.classList.add('is-playing'); });
+    if (btn) btn.addEventListener('click', function () { var p = v.play(); if (p && p.catch) p.catch(function () {}); });
+
+    if (v.canPlayType('application/vnd.apple.mpegurl')) {
+      if (!v.currentSrc) v.src = SRC;           /* Safari / iPhone: native */
+      return;
+    }
+    var s = document.createElement('script');
+    s.src = 'https://cdn.jsdelivr.net/npm/hls.js@1.5.15/dist/hls.min.js';
+    s.onload = function () {
+      if (window.Hls && window.Hls.isSupported()) {
+        var hls = new window.Hls({ capLevelToPlayerSize: true });
+        hls.loadSource(SRC);
+        hls.attachMedia(v);
+      } else {
+        v.src = SRC;
+      }
+    };
+    document.head.appendChild(s);
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', addVideo); else addVideo();
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup); else setup();
 })();
 </script>
 <script>
