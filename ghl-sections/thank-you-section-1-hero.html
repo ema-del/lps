@@ -69,6 +69,10 @@
   }
   .pacow-ty__video-frame{position:relative; width:100%; padding-top:56.25%; background:#101019;}
   .pacow-ty__video-frame iframe{position:absolute; inset:0; width:100%; height:100%; border:none; display:block;}
+  /* Blocks Drive's built-in "open in new window" pop-out icon (top-right of its
+     player chrome) - Drive gives no URL param to remove it, so this intercepts
+     clicks on that corner instead of letting them escape the page. */
+  .pacow-ty__video-guard{position:absolute; top:0; right:0; width:68px; height:50px; z-index:2; background:transparent;}
 
   /* divider spacing between hero and step 1 (no seam — same grid continues) */
   .pacow-ty__step{margin-top:88px; text-align:center;}
@@ -172,6 +176,7 @@
           allow="autoplay"
           allowfullscreen
           loading="lazy"></iframe>
+        <div class="pacow-ty__video-guard"></div>
       </div>
     </div>
 
