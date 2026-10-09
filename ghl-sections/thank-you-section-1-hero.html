@@ -1,0 +1,230 @@
+<!--
+  ============================================================
+  PACOW — THANK YOU PAGE (HERO + STEP 1 COMBINED)
+  ONE continuous dark void-black grid (no seam) · logo · confetti
+  burst · celebratory headline · thank-you video · next-steps copy ·
+  Step 1 SMS confirmation with bubble visual. Self-contained — single
+  section.
+
+  VIDEO: embedded via Google Drive's iframe-preview URL (the only way
+  to embed a Drive-hosted video directly, since Drive doesn't serve a
+  raw/CDN link). Source: https://drive.google.com/file/d/10cVNXW8WPoORw_0iNyl-W0lx-Zh0Tmt5/view
+  If this ever needs to be swapped for a Wistia/CDN-hosted version
+  instead (more reliable playback, no Drive quota limits), replace the
+  .pacow-ty__video-frame iframe with the same markup pattern used in
+  the other sections' Wistia embeds.
+  ============================================================
+-->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  .pacow-ty {
+    --pc-purple:#7C3AFF; --pc-bg:#0A0A0F; --pc-white:#FDFBFF;
+    --pc-text-muted:rgba(253,251,255,0.6);
+    --pc-font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+    position:relative; width:100vw; max-width:100vw;
+    margin-left:calc(50% - 50vw); margin-right:calc(50% - 50vw);
+    background-color:var(--pc-bg);
+    background-image:linear-gradient(to right,rgba(30,28,42,0.5) 1px,transparent 1px),linear-gradient(to bottom,rgba(30,28,42,0.5) 1px,transparent 1px);
+    background-size:36px 36px;
+    font-family:var(--pc-font); color:var(--pc-white); overflow:hidden; box-sizing:border-box;
+  }
+  .pacow-ty *,.pacow-ty *::before,.pacow-ty *::after{box-sizing:border-box;}
+  .pacow-ty::before{
+    content:''; position:absolute; top:-6%; left:50%; transform:translateX(-50%);
+    width:820px; height:560px;
+    background:radial-gradient(ellipse at center, rgba(124,58,255,0.18), transparent 65%);
+    pointer-events:none; z-index:0;
+  }
+  .pacow-ty__inner{position:relative; z-index:2; max-width:860px; margin:0 auto; padding:28px 24px 80px;}
+
+  /* nav */
+  .pacow-ty__nav{display:flex; align-items:center; justify-content:flex-start; margin-bottom:54px;}
+  .pacow-ty__logo{height:22px; width:auto; display:block;}
+
+  /* headline */
+  .pacow-ty__headline{
+    text-align:center; font-size:56px; line-height:1.08; font-weight:800;
+    letter-spacing:-0.03em; margin:0 auto 18px; max-width:760px;
+  }
+  .pacow-ty__hl{color:var(--pc-purple);}
+  .pacow-ty__confetti-emoji{display:inline-block; animation:pacow-ty-tada 2.6s ease-in-out infinite; transform-origin:70% 70%;}
+  @keyframes pacow-ty-tada{0%,55%,100%{transform:rotate(0) scale(1);}10%{transform:rotate(-8deg) scale(1.12);}20%{transform:rotate(10deg) scale(1.12);}30%{transform:rotate(-6deg) scale(1.08);}40%{transform:rotate(6deg) scale(1.08);}}
+
+  .pacow-ty__sub{
+    text-align:center; font-size:18px; line-height:1.55; color:var(--pc-text-muted);
+    font-weight:500; max-width:600px; margin:0 auto;
+  }
+  .pacow-ty__sub b{color:var(--pc-white); font-weight:700;}
+
+  /* thank-you video (Google Drive embed) */
+  .pacow-ty__video{
+    position:relative; width:100%; max-width:640px; margin:40px auto 0;
+    border-radius:24px; overflow:hidden;
+    box-shadow:
+      0 0 60px rgba(124,58,255,0.5),
+      0 0 120px rgba(124,58,255,0.3),
+      0 30px 90px rgba(0,0,0,0.45),
+      0 0 0 1px rgba(124,58,255,0.25);
+  }
+  .pacow-ty__video-frame{position:relative; width:100%; padding-top:56.25%; background:#101019;}
+  .pacow-ty__video-frame iframe{position:absolute; inset:0; width:100%; height:100%; border:none; display:block;}
+
+  /* divider spacing between hero and step 1 (no seam — same grid continues) */
+  .pacow-ty__step{margin-top:88px; text-align:center;}
+
+  .pacow-ty__eyebrow{display:inline-flex; align-items:center; gap:9px; margin-bottom:16px;}
+  .pacow-ty__dot{width:8px;height:8px;background:var(--pc-purple);border-radius:50%;animation:pacow-ty-pulse 2s ease-in-out infinite;}
+  @keyframes pacow-ty-pulse{0%{box-shadow:0 0 0 0 rgba(124,58,255,.6);}70%{box-shadow:0 0 0 7px rgba(124,58,255,0);}100%{box-shadow:0 0 0 0 rgba(124,58,255,0);}}
+  .pacow-ty__eyebrow span{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--pc-text-muted);}
+
+  .pacow-ty__step-headline{
+    font-size:48px; line-height:1.1; font-weight:800; letter-spacing:-0.03em; margin:0 auto 16px;
+  }
+  .pacow-ty__step-sub{
+    font-size:18px; line-height:1.55; color:var(--pc-text-muted); font-weight:500;
+    max-width:660px; margin:0 auto 44px;
+  }
+  .pacow-ty__step-sub b{color:var(--pc-white); font-weight:700;}
+
+  /* SMS visual */
+  .pacow-ty__phone{
+    max-width:360px; margin:0 auto; padding:22px 18px 26px;
+    background:#101019; border-radius:26px;
+    border:1.5px solid rgba(124,58,255,0.55);
+    box-shadow:
+      0 0 50px rgba(124,58,255,0.4),
+      0 0 100px rgba(124,58,255,0.22),
+      0 26px 70px rgba(0,0,0,0.45);
+    text-align:left;
+  }
+  .pacow-ty__contact{
+    text-align:center; font-size:13px; font-weight:600; letter-spacing:.04em;
+    color:var(--pc-text-muted); margin-bottom:18px;
+  }
+  .pacow-ty__bubble{
+    display:inline-block; max-width:80%; padding:11px 15px; margin-bottom:12px;
+    font-size:15px; line-height:1.45; font-weight:500; border-radius:18px;
+  }
+  .pacow-ty__bubble--in{background:#23232e; color:var(--pc-white); border-bottom-left-radius:6px;}
+  .pacow-ty__row--out{text-align:right;}
+  .pacow-ty__bubble--out{
+    background:var(--pc-purple); color:#fff; font-weight:700;
+    border-bottom-right-radius:6px; box-shadow:0 6px 18px rgba(124,58,255,0.45);
+  }
+
+  /* confetti */
+  .pacow-ty__confetti{position:absolute; inset:0; z-index:1; pointer-events:none; overflow:hidden;}
+  .pacow-ty__confetti i{
+    position:absolute; top:14%; left:50%; width:10px; height:14px; opacity:0;
+    border-radius:2px;
+    animation:pacow-ty-boom 2.8s cubic-bezier(0.15,0.6,0.4,1) forwards;
+  }
+  @keyframes pacow-ty-boom{
+    0%   { transform:translate(0,0) rotate(0deg) scale(0.6); opacity:0; }
+    8%   { opacity:1; }
+    100% { transform:translate(var(--dx), var(--dy)) rotate(var(--rot)) scale(1); opacity:0; }
+  }
+
+  @media (max-width:768px){
+    .pacow-ty{background-size:28px 28px;}
+    .pacow-ty__inner{padding:22px 18px 60px;}
+    .pacow-ty__nav{margin-bottom:40px;}
+    .pacow-ty__headline{font-size:33px;}
+    .pacow-ty__sub{font-size:15px;}
+    .pacow-ty__video{margin-top:28px; border-radius:18px;}
+    .pacow-ty__step{margin-top:64px;}
+    .pacow-ty__step-headline{font-size:32px;}
+    .pacow-ty__step-sub{font-size:15px; margin-bottom:34px;}
+    .pacow-ty__phone{border-radius:22px;}
+  }
+  @media (max-width:390px){
+    .pacow-ty__headline{font-size:28px;}
+  }
+</style>
+
+<section class="pacow-ty">
+
+  <!-- confetti layer (filled by JS) -->
+  <div class="pacow-ty__confetti" id="pacowConfetti"></div>
+
+  <div class="pacow-ty__inner">
+
+    <!-- nav -->
+    <div class="pacow-ty__nav">
+      <img class="pacow-ty__logo" src="https://assets.cdn.filesafe.space/0qwvw0jdwrp2PHxMeBiF/media/6a1f11e6b5bad2bee0178341.png" alt="Pacow" />
+    </div>
+
+    <!-- headline -->
+    <h1 class="pacow-ty__headline">
+      Congratulations, your call is <span class="pacow-ty__hl">booked!</span> <span class="pacow-ty__confetti-emoji">🎉</span>
+    </h1>
+    <p class="pacow-ty__sub">
+      You've completed the application. Please complete the <b>quick next steps below</b> so we both show up prepared and make the best possible use of your call.
+    </p>
+
+    <!-- Thank-you video (Google Drive embed) -->
+    <div class="pacow-ty__video">
+      <div class="pacow-ty__video-frame">
+        <iframe
+          src="https://drive.google.com/file/d/10cVNXW8WPoORw_0iNyl-W0lx-Zh0Tmt5/preview"
+          title="Thank you message"
+          allow="autoplay"
+          allowfullscreen
+          loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <!-- STEP 1 — same grid continues, no seam -->
+    <div class="pacow-ty__step">
+      <div class="pacow-ty__eyebrow"><span class="pacow-ty__dot"></span><span>Step 1</span></div>
+      <h2 class="pacow-ty__step-headline">Confirm your call via <span class="pacow-ty__hl">SMS</span></h2>
+      <p class="pacow-ty__step-sub">In a moment you'll get a text from us. Just reply <b>"YES"</b> to lock in your spot so we both show up to the call.</p>
+      <div class="pacow-ty__phone">
+        <div class="pacow-ty__contact">Pacow Media</div>
+        <div class="pacow-ty__bubble pacow-ty__bubble--in">Hey! Reply YES to confirm your booked call with the Pacow team 🎯</div>
+        <div class="pacow-ty__row--out">
+          <div class="pacow-ty__bubble pacow-ty__bubble--out">YES</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+(function(){
+  var holder = document.getElementById('pacowConfetti');
+  if (!holder) return;
+  var colors = ['#7C3AFF','#A982FF','#FDFBFF','#5a1fd0','#C9B6FF'];
+  var COUNT = 120;
+  var html = '';
+  for (var i = 0; i < COUNT; i++) {
+    var angle = Math.random() * Math.PI * 2;
+    var dist = 180 + Math.random() * 520;
+    var dx = Math.cos(angle) * dist;
+    var dy = Math.sin(angle) * dist * 0.7 + (180 + Math.random() * 420);
+    var rot = (Math.random() * 1440 - 720).toFixed(0) + 'deg';
+    var color = colors[Math.floor(Math.random() * colors.length)];
+    var w = (6 + Math.random() * 7).toFixed(0);
+    var h = (9 + Math.random() * 9).toFixed(0);
+    var round = Math.random() < 0.3 ? '50%' : '2px';
+    var delay = (Math.random() * 0.25).toFixed(2);
+    var dur = (2.2 + Math.random() * 1.6).toFixed(2);
+    html += '<i style="' +
+            '--dx:' + dx.toFixed(0) + 'px;' +
+            '--dy:' + dy.toFixed(0) + 'px;' +
+            '--rot:' + rot + ';' +
+            'background:' + color + ';' +
+            'width:' + w + 'px;height:' + h + 'px;border-radius:' + round + ';' +
+            'animation-delay:' + delay + 's;animation-duration:' + dur + 's;"></i>';
+  }
+  holder.innerHTML = html;
+
+  setTimeout(function(){
+    holder.style.transition = 'opacity 0.5s ease';
+    holder.style.opacity = '0';
+    setTimeout(function(){ if (holder && holder.parentNode) holder.parentNode.removeChild(holder); }, 600);
+  }, 5000);
+})();
+</script>
