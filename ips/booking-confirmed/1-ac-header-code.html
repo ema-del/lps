@@ -415,4 +415,8 @@
   #ipt-root .ipt-inv-cursor { position: absolute; right: -16px; bottom: -18px; width: 22px; height: 22px; }
   #ipt-root .ipt-confirm-tip { font-size: 14px; color: var(--muted); margin: 22px auto 0 !important; max-width: 520px; }
   #ipt-root .ipt-sec-tight { padding-bottom: 20px; }
+  /* keep the eyebrow on one line on small phones */
+  @media (max-width: 389px) {
+    #ipt-root .ipt-pill { font-size: 10px !important; letter-spacing: .02em !important; padding: 6px 11px !important; gap: 6px; }
+  }
 </style>

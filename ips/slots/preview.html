@@ -361,6 +361,10 @@
   @media (min-width: 861px) and (max-width: 1100px) {
     #ipt-root .ipt-revgrid { grid-template-columns: repeat(2, 1fr); }
   }
+  /* keep the eyebrow on one line on small phones */
+  @media (max-width: 389px) {
+    #ipt-root .ipt-pill { font-size: 10px !important; letter-spacing: .02em !important; padding: 6px 11px !important; gap: 6px; }
+  }
 </style>
 <!-- HEADER CSS END -->
 </head>
@@ -370,7 +374,7 @@
 
   <!-- 1. HERO + CALENDAR -->
   <section class="ipt-sec-navy ipt-hero ipt-hero-slots">
-    <span class="ipt-pill"><i></i>For Moms &amp; Pros Who Work With Families</span>
+    <span class="ipt-pill"><i></i>For Moms, Caregivers &amp; Pediatric Professionals</span>
     <h1 class="ipt-h1">Book your free <em><span class="ipt-underline">career call</span></em> with our team</h1>
     <p class="ipt-pick">Pick a time that works for you below <svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></p>
 

@@ -353,4 +353,8 @@
   @media (min-width: 861px) and (max-width: 1100px) {
     #ipt-root .ipt-revgrid { grid-template-columns: repeat(2, 1fr); }
   }
+  /* keep the eyebrow on one line on small phones */
+  @media (max-width: 389px) {
+    #ipt-root .ipt-pill { font-size: 10px !important; letter-spacing: .02em !important; padding: 6px 11px !important; gap: 6px; }
+  }
 </style>

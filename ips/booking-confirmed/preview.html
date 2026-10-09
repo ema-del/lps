@@ -423,6 +423,10 @@
   #ipt-root .ipt-inv-cursor { position: absolute; right: -16px; bottom: -18px; width: 22px; height: 22px; }
   #ipt-root .ipt-confirm-tip { font-size: 14px; color: var(--muted); margin: 22px auto 0 !important; max-width: 520px; }
   #ipt-root .ipt-sec-tight { padding-bottom: 20px; }
+  /* keep the eyebrow on one line on small phones */
+  @media (max-width: 389px) {
+    #ipt-root .ipt-pill { font-size: 10px !important; letter-spacing: .02em !important; padding: 6px 11px !important; gap: 6px; }
+  }
 </style>
 <!-- HEADER CSS END -->
 </head>
@@ -432,7 +436,7 @@
 
   <!-- 1. HERO + THANK YOU VIDEO -->
   <section class="ipt-sec-navy ipt-hero ipt-hero-done">
-    <span class="ipt-pill"><i></i>For Moms &amp; Pros Who Work With Families</span>
+    <span class="ipt-pill"><i></i>For Moms, Caregivers &amp; Pediatric Professionals</span>
     <div class="ipt-done-icon"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
     <h1 class="ipt-h1">Congrats! Your free career call is <em><span class="ipt-underline">booked</span></em></h1>
     <p class="ipt-hero-sub">You're one step closer to becoming a <strong>certified sleep consultant</strong> in as little as 4 weeks. Watch this short message from Violet before your call.</p>
