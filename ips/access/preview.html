@@ -513,7 +513,7 @@
     holder.appendChild(form);
     modal.classList.add('is-open');
     document.documentElement.classList.add('ips-modal-lock');
-    var first = document.getElementById('fullname');
+    var first = document.getElementById('firstname');
     if (first) setTimeout(function () { first.focus({ preventScroll: true }); }, 50);
   }
   function closePopup() {
@@ -536,7 +536,7 @@
     if (!form || form.id !== '_form_57_') return;
     try {
       var val = function (sel) { var el = form.querySelector(sel); return el ? String(el.value || '').trim() : ''; };
-      var full = val('#fullname');
+      var full = val('#firstname');
       var lead = { firstName: full.split(/\s+/)[0] || '', email: val('#email'), area: '', phone: '', t: Date.now() };
       var tel = form.querySelector('#phone');
       var iti = tel && window.intlTelInput && window.intlTelInput.getInstance ? window.intlTelInput.getInstance(tel) : null;
