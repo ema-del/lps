@@ -45,6 +45,14 @@ Put the ad and the page side by side and check each item. Quote both exactly.
 - How to run them: based on weekly clicks, how long each test needs (about 150 visitors per version), which tests to bundle into one version when traffic is low, and Clarity labels (T1-A / T1-B, T2-A / T2-B).
 - Questions for Ema or the client (e.g. "was this form field added when LPCR dropped?").
 
+## What worked (Ema's feedback, Oct 2026: keep doing this)
+- Re-pull the live ads fresh every time. Read the primary text AND look at the creative images (download them and view each one, including carousel slides). Match the page to them word for word.
+- Write every test as "Change: <exact current page copy> / To: <exact new copy>". Build the new copy from the ad's own words, so B is never invented.
+- Order: LPCR numbers, then "Fix first" (wrong stats, guarantee mismatch, broken buttons, tracking, phone country), then 5 tests (biggest lift first), then a short run plan.
+- Get the page yourself (Playwright, desktop plus 390x844 phone screenshot) when Ema hasn't pasted it.
+- Leave out unproven claims (e.g. "1400+ SAT") and draft guarantees, and say why.
+- When asked for headlines, give one per live ad, matched to that ad's headline, and recommend the one for the ad with the most spend.
+
 ## Rules
 - Quote real copy, use real numbers, don't invent results or guarantees.
 - Check the client's offer in their profile before writing any client-facing copy.
