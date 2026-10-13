@@ -1,4 +1,4 @@
-window.cfields = [];
+window.cfields = {"45":"utm_campaign","48":"utm_content","47":"utm_medium","46":"utm_source"};
 window._show_thank_you = function(id, message, trackcmp_url, email) {
     var form = document.getElementById('_form_' + id + '_'), thank_you = form.querySelector('._form-thank-you');
     form.querySelector('._form-content').style.display = 'none';
