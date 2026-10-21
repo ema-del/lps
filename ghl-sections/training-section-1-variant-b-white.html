@@ -132,13 +132,11 @@
   }
 
   /* ---------- native GHL field labels/options/consent text: dark theme's muted-gray
-     reads fine on #0A0A0F but washes out on this white background, so force it dark ---------- */
-  .c-column:has(> .inner > .c-form) #_builder-form label,
-  .c-column:has(> .inner > .c-form) #_builder-form .field-label{
+     reads fine on #0A0A0F but washes out on this white background, so force everything
+     dark regardless of which tag/class GHL wraps it in, then restore the submit button ---------- */
+  .c-column:has(> .inner > .c-form) #_builder-form,
+  .c-column:has(> .inner > .c-form) #_builder-form *{
     color:var(--pc-ink) !important;
-  }
-  .c-column:has(> .inner > .c-form) #_builder-form p{
-    color:var(--pc-muted) !important;
   }
   .c-column:has(> .inner > .c-form) #_builder-form .form-builder--btn-submit,
   .c-column:has(> .inner > .c-form) #_builder-form .form-builder--btn-submit *{
