@@ -131,6 +131,20 @@
     box-shadow:0 0 0 3px rgba(124,58,255,0.18), 0 0 40px rgba(124,58,255,0.25), 0 10px 40px rgba(10,10,15,0.08) !important;
   }
 
+  /* ---------- native GHL field labels/options/consent text: dark theme's muted-gray
+     reads fine on #0A0A0F but washes out on this white background, so force it dark ---------- */
+  .c-column:has(> .inner > .c-form) #_builder-form label,
+  .c-column:has(> .inner > .c-form) #_builder-form .field-label{
+    color:var(--pc-ink) !important;
+  }
+  .c-column:has(> .inner > .c-form) #_builder-form p{
+    color:var(--pc-muted) !important;
+  }
+  .c-column:has(> .inner > .c-form) #_builder-form .form-builder--btn-submit,
+  .c-column:has(> .inner > .c-form) #_builder-form .form-builder--btn-submit *{
+    color:#FFFFFF !important;
+  }
+
   /* ---------- hidden native GHL "Open Popup" button (very top of the page) ---------- */
   [id^="button-"].c-button{
     position:absolute !important; width:1px !important; height:1px !important;
