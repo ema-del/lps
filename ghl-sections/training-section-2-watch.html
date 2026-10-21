@@ -36,7 +36,12 @@
     overflow: hidden;
     padding: 0;
     box-sizing: border-box;
+    /* Soft fade-in on load so this dark page doesn't hard-cut in behind a
+       lighter page that led here (e.g. the white opt-in split-test variant) -
+       reads as a page loading, not a jarring theme flip. */
+    animation: pacow-hero-pagefade .45s ease-out;
   }
+  @keyframes pacow-hero-pagefade { from { opacity: 0; } to { opacity: 1; } }
   .pacow-hero *,
   .pacow-hero *::before,
   .pacow-hero *::after { box-sizing: border-box; }
