@@ -1,0 +1,97 @@
+/* IPS opt-in (JotForm 262984250929368)
+   Paste into JotForm: Form Designer > Styles > Inject Custom CSS.
+   Makes the form match the /access page: IBM Plex Sans, navy labels,
+   rounded full-width fields, choice cards and a gold button. */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap');
+
+html, body { background: transparent !important; }
+body, .form-all, .form-all * { font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important; }
+
+.form-all {
+  width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important;
+  background: transparent !important; box-shadow: none !important; border: 0 !important;
+}
+.form-all .form-section { padding: 0 !important; margin: 0 !important; width: 100% !important; }
+.form-all .form-line {
+  padding: 0 !important; margin: 0 0 16px !important; width: 100% !important;
+  border: 0 !important; background: transparent !important;
+}
+.form-all .form-line.form-line-active, .form-all .form-line:hover { background: transparent !important; }
+
+/* labels */
+.form-all .form-label, .form-all .form-label-top {
+  display: block !important; width: 100% !important; float: none !important;
+  margin: 0 0 6px !important; padding: 0 !important;
+  font-size: 14px !important; font-weight: 600 !important; line-height: 1.4 !important; color: #1c2a54 !important;
+}
+.form-all .form-required { color: #c0392b !important; }
+.form-all .form-input, .form-all .form-input-wide { width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
+
+/* text fields */
+.form-all .form-textbox, .form-all input[type="email"], .form-all input[type="tel"] {
+  width: 100% !important; max-width: 100% !important; min-width: 0 !important; height: 48px !important;
+  padding: 0 14px !important; box-sizing: border-box !important;
+  font-size: 16px !important; color: #1a1a1a !important; background: #fff !important;
+  border: 1px solid #d3d8e4 !important; border-radius: 8px !important; box-shadow: none !important;
+}
+.form-all .form-textbox:focus { border-color: #314994 !important; box-shadow: 0 0 0 3px rgba(49, 73, 148, .15) !important; outline: none !important; }
+.form-all .form-textbox::placeholder { color: #9aa1b2 !important; }
+
+/* the email hint and the "Area Code / Phone Number" captions */
+.form-all .form-sub-label {
+  font-size: 11.5px !important; color: #8a91a6 !important; margin-top: 4px !important; line-height: 1.3 !important;
+}
+.form-all #id_58 .form-sub-label { display: none !important; }
+.form-all #id_58 .form-sub-label-container { width: 100% !important; }
+
+/* phone: area code + number side by side, both inside the form */
+.form-all #id_53 .form-input-wide > div,
+.form-all #id_53 .form-input > div { display: flex !important; gap: 10px !important; width: 100% !important; }
+.form-all #id_53 .form-sub-label-container { display: block !important; margin: 0 !important; }
+.form-all #id_53 .form-sub-label-container:first-child { flex: 0 0 34% !important; max-width: 34% !important; }
+.form-all #id_53 .form-sub-label-container:last-child { flex: 1 1 auto !important; min-width: 0 !important; }
+.form-all #id_53 .phone-separate { display: none !important; }
+
+/* the qualifying question: answers as tappable cards */
+.form-all #id_56 .form-label { margin-bottom: 10px !important; }
+.form-all .form-single-column, .form-all .form-multiple-column { width: 100% !important; }
+.form-all .form-radio-item {
+  position: relative !important; display: flex !important; align-items: flex-start !important; gap: 10px !important;
+  width: 100% !important; box-sizing: border-box !important; margin: 0 0 8px !important; padding: 12px 14px !important;
+  background: #fff !important; border: 1px solid #d3d8e4 !important; border-radius: 10px !important;
+  cursor: pointer !important; transition: border-color .15s ease, background .15s ease;
+}
+.form-all .form-radio-item .dragger-item { display: none !important; }
+.form-all .form-radio-item:hover { border-color: #b8c0d6 !important; }
+.form-all .form-radio-item:has(input:checked) { border-color: #dab965 !important; background: #fbf7ec !important; box-shadow: 0 0 0 1px #dab965 inset !important; }
+.form-all .form-radio-item label {
+  font-size: 14.5px !important; line-height: 1.45 !important; color: #1a1a1a !important; font-weight: 500 !important;
+  padding: 0 !important; margin: 0 !important; cursor: pointer !important;
+}
+.form-all .form-radio-item input.form-radio { accent-color: #1c2a54 !important; margin: 3px 0 0 !important; flex: none !important; width: 17px !important; height: 17px !important; }
+
+/* SMS consent text */
+.form-all #id_38 { margin: 4px 0 12px !important; }
+.form-all #id_38 .form-html, .form-all #id_38 .form-html * {
+  font-size: 12.5px !important; line-height: 1.5 !important; color: #5b6275 !important; font-style: normal !important; margin: 0 !important;
+}
+
+/* gold button, full width */
+.form-all #id_55, .form-all #id_55 .form-buttons-wrapper { margin: 0 !important; padding: 0 !important; text-align: center !important; }
+.form-all .form-submit-button {
+  display: block !important; width: 100% !important; margin: 4px 0 0 !important; padding: 17px 20px !important; height: auto !important;
+  background: #dab965 !important; color: #1c2a54 !important; border: 0 !important; border-radius: 8px !important;
+  font-size: 15px !important; font-weight: 700 !important; letter-spacing: .06em !important; text-transform: uppercase !important;
+  box-shadow: 0 10px 24px rgba(201, 165, 74, .35) !important; cursor: pointer !important; transition: background .15s ease;
+}
+.form-all .form-submit-button:hover { background: #c9a54a !important; }
+
+/* error messages */
+.form-all .form-error-message {
+  font-size: 12.5px !important; border-radius: 6px !important; margin-top: 6px !important;
+}
+.form-all .form-line-error .form-textbox { border-color: #e0605e !important; }
+
+/* no JotForm branding strip inside the card */
+.formFooter, .formFooter-wrapper { display: none !important; }
