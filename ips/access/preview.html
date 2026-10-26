@@ -189,8 +189,7 @@
     text-align: center; font-size: 14px; color: var(--ips-muted);
     margin: 0 0 20px;
   }
-  #ips-root .ips-form-slot { min-height: 330px; }
-  #ips-root .ips-safe {
+    #ips-root .ips-safe {
     display: flex; align-items: center; justify-content: center; gap: 6px;
     margin: 14px 0 0;
     font-size: 13px; color: var(--ips-muted);
@@ -285,68 +284,12 @@
   #ips-root .ips-modal-x:hover { background: #e3e7f0; }
   html.ips-modal-lock, html.ips-modal-lock body { overflow: hidden !important; }
   @media (max-width: 900px) { #ips-root .ips-modal-box { padding: 26px 18px 20px; } }
-  /* ---------- AC FORM 57: restyled to match the page ---------- */
-  #ips-root #_form_57_ {
-    margin: 0 !important; padding: 0 !important; max-width: none !important; width: 100% !important;
-    background: transparent !important; font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important; color: var(--ips-ink) !important;
-  }
-  #ips-root #_form_57_ ._form-content { font-family: inherit !important; }
-  #ips-root #_form_57_ ._form_element { margin: 0 0 14px !important; }
-  #ips-root #_form_57_ ._form-label {
-    font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important;
-    font-size: 14px !important; font-weight: 600 !important; color: var(--ips-navy) !important;
-    margin: 0 0 6px !important; display: block !important; line-height: 1.4 !important;
-  }
-  #ips-root #_form_57_ .field-required { color: #c0392b !important; margin-left: 2px; }
-  #ips-root #_form_57_ input[type="text"],
-  #ips-root #_form_57_ input[type="tel"],
-  #ips-root #_form_57_ .iti input {
-    width: 100% !important; height: 48px !important; padding-top: 0 !important; padding-bottom: 0 !important; padding-right: 14px !important;
-    font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important; font-size: 16px !important;
-    color: var(--ips-ink) !important; background: #fff !important;
-    border: 1px solid #d3d8e4 !important; border-radius: 8px !important;
-    box-shadow: none !important; outline: none !important; line-height: normal !important;
-    transition: border-color .15s ease, box-shadow .15s ease;
-  }
-  /* left padding only on plain fields: the phone picker sets its own to make room for the flag and +1 */
-  #ips-root #_form_57_ ._field-wrapper > input[type="text"] { padding-left: 14px !important; }
-  #ips-root #_form_57_ input::placeholder { color: #9aa1b2 !important; }
-  #ips-root #_form_57_ input[type="text"]:focus,
-  #ips-root #_form_57_ input[type="tel"]:focus {
-    border-color: var(--ips-navy-2) !important; box-shadow: 0 0 0 3px rgba(49, 73, 148, .15) !important;
-  }
-  #ips-root #_form_57_ input._has_error { border-color: #e0605e !important; }
-  #ips-root #_form_57_ .iti__country-list { min-width: 0 !important; max-width: 300px; white-space: normal; }
-  #ips-root #_form_57_ .iti__selected-flag,
-  #ips-root #_form_57_ .iti__selected-country { border-radius: 8px 0 0 8px !important; }
-
-  #ips-root #_form_57_ .sms_consent_checkbox { padding: 6px 0 4px !important; gap: 10px; cursor: pointer; }
-  #ips-root #_form_57_ .sms_consent_checkbox input[type="checkbox"] {
-    flex: none; width: 18px !important; height: 18px !important; margin: 2px 0 0 !important;
-    accent-color: var(--ips-navy);
-  }
-  #ips-root #_form_57_ .sms_consent_checkbox .sms_consent_message {
-    font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important;
-    font-size: 12.5px !important; line-height: 1.5 !important; color: var(--ips-muted) !important;
-    margin: 0 !important; float: none !important;
+  /* ---------- JOTFORM opt-in ---------- */
+  #ips-root .ips-form-slot { min-height: 420px; }
+  #ips-root .ips-form-slot iframe, #ips-root .ips-modal-form iframe {
+    display: block; width: 100% !important; min-width: 100%; max-width: 100%; height: 520px; border: 0; background: transparent;
   }
 
-  #ips-root #_form_57_ ._button-wrapper { margin: 0 !important; }
-  #ips-root #_form_57_ ._submit {
-    width: 100% !important; margin-top: 14px !important; padding: 17px 20px !important;
-    background: var(--ips-gold) !important; color: var(--ips-navy) !important;
-    font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important;
-    font-size: 15px !important; font-weight: 700 !important; letter-spacing: .06em; text-transform: uppercase;
-    border-radius: 8px !important; box-shadow: 0 10px 24px rgba(201, 165, 74, .35);
-    transition: background .15s ease, transform .15s ease;
-  }
-  #ips-root #_form_57_ ._submit:hover { background: #c9a54a !important; transform: translateY(-1px); }
-  #ips-root #_form_57_ ._submit.processing::before {
-    background-image: linear-gradient(var(--ips-gold), var(--ips-gold)), conic-gradient(var(--ips-gold), var(--ips-navy));
-  }
-  #ips-root #_form_57_ ._error-inner { font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important; font-size: 13px !important; }
-  #ips-root #_form_57_ ._form-thank-you { font-family: 'IBM Plex Sans', Helvetica, Arial, sans-serif !important; color: var(--ips-navy) !important; padding: 30px 0; }
-  #ips-root #_form_57_ ._form-branding { display: none !important; }
   /* keep the eyebrow on one line on small phones */
   @media (max-width: 389px) {
     #ips-root .ips-pill { font-size: 10px !important; letter-spacing: .02em !important; padding: 6px 11px !important; gap: 6px; }
@@ -388,9 +331,7 @@
           <h2 class="ips-form-title">Get <em>instant access</em> to the free training</h2>
           <p class="ips-form-note">Takes 30 seconds.</p>
 
-          <div class="ips-form-slot" id="ips-form-slot">
-<!-- AC FORM -->
-          </div>
+          <div class="ips-form-slot" id="ips-form-slot"></div>
 
           <p class="ips-safe">
             <svg viewBox="0 0 24 24"><path d="M12 1l9 4v6c0 5.6-3.8 10.7-9 12-5.2-1.3-9-6.4-9-12V5l9-4z"/></svg>
@@ -447,7 +388,7 @@
 </script>
 <script>
 /* IPS: keep the preview loop playing (adds it back if the builder strips <video>),
-   and make a click on it open the form in a pop-up */
+   and make a click on it open the form in a pop-up. Also loads the JotForm opt-in. */
 (function () {
   var BASE = 'https://cdn.jsdelivr.net/gh/ema-del/lps@92763173e6e9592574f7dabafc764c565cb594c8/ips/access/media/';
   function setup() {
@@ -470,7 +411,47 @@
     });
   }
 
-  /* pop-up with the form: borrows the real AC form from the page and puts it back on close */
+  /* ---------- JotForm opt-in (on the page + in the video pop-up) ---------- */
+  var JF_ID = '262984250929368';
+  var handlerState = 0, handlerQueue = [];
+  function formUrl() {
+    /* pass ?utm_source=... etc. from the page link into the form's hidden UTM fields */
+    var q = window.location.search ? window.location.search.slice(1) : '';
+    return 'https://form.jotform.com/' + JF_ID + (q ? '?' + q : '');
+  }
+  function autoHeight(id) {
+    /* JotForm's own helper resizes each frame to fit the form */
+    handlerQueue.push(id);
+    var run = function () {
+      while (handlerQueue.length) {
+        var x = handlerQueue.shift();
+        if (window.jotformEmbedHandler) window.jotformEmbedHandler("iframe[id='" + x + "']", 'https://form.jotform.com/');
+      }
+    };
+    if (handlerState === 2) return run();
+    if (handlerState === 1) return;
+    handlerState = 1;
+    var h = document.createElement('script');
+    h.src = 'https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js';
+    h.onload = function () { handlerState = 2; run(); };
+    document.head.appendChild(h);
+  }
+  function makeFrame(parent, id) {
+    if (!parent || parent.querySelector('iframe')) return;
+    var f = document.createElement('iframe');
+    f.id = id;
+    f.title = 'Get instant access to the free training';
+    f.src = formUrl();
+    f.setAttribute('allow', 'geolocation; microphone; camera; fullscreen; payment');
+    f.setAttribute('allowtransparency', 'true');
+    f.setAttribute('scrolling', 'no');
+    f.setAttribute('frameborder', '0');
+    parent.appendChild(f);
+    autoHeight(id);
+  }
+  function inlineForm() { makeFrame(document.getElementById('ips-form-slot'), 'JotFormIFrame-' + JF_ID); }
+
+  /* pop-up: opens its own copy of the form (moving a JotForm would reload it and wipe what was typed) */
   var MODAL_CSS = '/*MODAL_CSS*/';
   var modal, holder, lastFocus;
   function buildPopup() {
@@ -506,49 +487,20 @@
     });
   }
   function openPopup() {
-    var form = document.getElementById('_form_57_');
-    if (!form) { var slot = document.getElementById('ips-form-slot'); if (slot) slot.scrollIntoView({ behavior: 'smooth', block: 'center' }); return; }
     if (!modal) buildPopup();
+    makeFrame(holder, 'JotFormIFrame-' + JF_ID + '-popup');
     lastFocus = document.activeElement;
-    holder.appendChild(form);
     modal.classList.add('is-open');
     document.documentElement.classList.add('ips-modal-lock');
-    var first = document.getElementById('firstname');
-    if (first) setTimeout(function () { first.focus({ preventScroll: true }); }, 50);
+    var x = modal.querySelector('.ips-modal-x'); if (x) x.focus({ preventScroll: true });
   }
   function closePopup() {
-    var form = document.getElementById('_form_57_');
-    var slot = document.getElementById('ips-form-slot');
-    if (form && slot) slot.appendChild(form);
     modal.classList.remove('is-open');
     document.documentElement.classList.remove('ips-modal-lock');
     if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', setup); else setup();
-})();
-</script>
-<script>
-/* IPS: when the AC form is submitted, remember name/email/phone in this browser
-   so the JotForm on /training can prefill them (same website, so it can read them). */
-(function () {
-  document.addEventListener('submit', function (e) {
-    var form = e.target;
-    if (!form || form.id !== '_form_57_') return;
-    try {
-      var val = function (sel) { var el = form.querySelector(sel); return el ? String(el.value || '').trim() : ''; };
-      var full = val('#firstname');
-      var lead = { firstName: full.split(/\s+/)[0] || '', email: val('#email'), area: '', phone: '', t: Date.now() };
-      var tel = form.querySelector('#phone');
-      var iti = tel && window.intlTelInput && window.intlTelInput.getInstance ? window.intlTelInput.getInstance(tel) : null;
-      var num = iti ? iti.getNumber() : val('#phone');            /* e.g. +12015550123 */
-      var cc = iti && iti.getSelectedCountryData ? String(iti.getSelectedCountryData().dialCode || '') : '';
-      var digits = String(num || '').replace(/\D/g, '');
-      if (cc && digits.indexOf(cc) === 0) digits = digits.slice(cc.length);
-      if (cc === '1' && digits.length === 10) { lead.area = digits.slice(0, 3); lead.phone = digits.slice(3); }
-      else if (digits) { lead.area = cc; lead.phone = digits; }   /* country code without '+': a '+' turns into a space in the form link */
-      localStorage.setItem('ips_lead', JSON.stringify(lead));
-    } catch (err) { /* storage blocked: the form still submits normally */ }
-  }, true);
+  function start() { setup(); inlineForm(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
 </script>
 <!-- BODY SCRIPT END -->
