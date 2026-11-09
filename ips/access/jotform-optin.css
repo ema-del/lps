@@ -103,8 +103,8 @@ body, .form-all, .form-all * { font-family: 'IBM Plex Sans', Helvetica, Arial, s
 .form-all ul.form-section > li { grid-column: 1 / -1; }
 .form-all ul.form-section > li#id_60, .form-all ul.form-section > li#id_58,
 .form-all ul.form-section > li#id_56, .form-all ul.form-section > li#id_61 { grid-column: span 1; }
-.form-all ul.form-section > li#id_56, .form-all ul.form-section > li#id_61 { display: grid !important; grid-row: span 2; grid-template-rows: subgrid; row-gap: 0; align-content: start; }
-.form-all li#id_56 > .form-label, .form-all li#id_61 > .form-label { align-self: end; }
+.form-all ul.form-section { align-items: start; }
+.form-all ul.form-section > li#id_56, .form-all ul.form-section > li#id_61 { display: block !important; }
 .form-all li#id_56 .form-single-column, .form-all li#id_61 .form-single-column,
 .form-all li#id_56 .form-multiple-column, .form-all li#id_61 .form-multiple-column { display: flex !important; flex-direction: column !important; width: 100% !important; }
 .form-all li#id_56 .form-radio-item, .form-all li#id_61 .form-radio-item { width: 100% !important; float: none !important; }
@@ -114,5 +114,5 @@ body, .form-all, .form-all * { font-family: 'IBM Plex Sans', Helvetica, Arial, s
 .form-all .form-radio-item input.form-radio { margin: 0 !important; }
 .form-all .form-label-top { font-size: 13.5px !important; }
 @media (max-width: 420px) {
-  .form-all ul.form-section > li#id_56, .form-all ul.form-section > li#id_61 { grid-column: 1 / -1; grid-row: auto; display: block !important; }
+  .form-all ul.form-section > li#id_56, .form-all ul.form-section > li#id_61 { grid-column: 1 / -1; }
 }
