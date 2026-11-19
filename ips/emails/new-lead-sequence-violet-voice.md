@@ -270,4 +270,3 @@ Quick one %FIRSTNAME% 😊 Finish this sentence for me: "I want to become a slee
 
 - **Andria:** Violet's own email says "a global team of eight", her DM screenshot says "a team of 9". I wrote "her own team" so it's true either way.
 - **Removed the Day 10 "confirming spots for this cycle" email.** If spots aren't actually limited each cycle, it reads as fake urgency. I replaced it with Violet's "how to spot a fake program" angle. Add it back only if there's a real deadline.
-- **Calendly:** her signature links still use the old `sleep-consultant-info-call` link. Swap in `https://calendly.com/info-lniy/free-career-call` if that's the one she wants now.
