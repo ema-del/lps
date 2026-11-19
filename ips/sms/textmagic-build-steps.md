@@ -25,7 +25,6 @@ Start from Violet's Zap "Meta Ads Jotform to Textmagic". **Delete "Delay Until" 
 1. **Trigger:** JotForm, New Submission, form **262984250929368** (the /access opt-in)
 2. **Filter** (add between 1 and 2), only continue if:
    - "Are you ready to invest in it?" **does not contain** "only looking for free info"
-   - **AND** "When do you want to start…" **does not contain** "just exploring"
 3. **Formatter → Text → Default value / compose phone:** `+1{{Area Code}}{{Phone Number}}` (no spaces or dashes)
 4. **TextMagic → Create Contact**
    - Phone: the output of step 3
