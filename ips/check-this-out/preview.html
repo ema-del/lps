@@ -420,6 +420,16 @@
   #ipt-root .ipt-dq-text { font-size: 17px; color: rgba(255, 255, 255, .85); max-width: 680px; margin: 0 auto 14px !important; }
   #ipt-root .ipt-dq-cta { display: block; font-size: 16px; font-weight: 600; color: #fff; margin: 10px auto 30px !important; max-width: 680px; }
   #ipt-root .ipt-dq-cta svg { display: inline-block; vertical-align: -3px; margin-left: 6px; width: 18px; height: 18px; stroke: var(--gold); stroke-width: 2.5; fill: none; }
+  #ipt-root .ipt-kit { max-width: 640px; margin: 26px auto 34px; padding: 28px 28px 24px; text-align: left; background: rgba(255, 255, 255, .06); border: 1px solid rgba(218, 185, 101, .45); border-radius: 14px; }
+  #ipt-root .ipt-kit-tag { margin: 0 0 8px !important; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
+  #ipt-root .ipt-kit-title { margin: 0 0 12px !important; font-family: 'Cardo', Georgia, serif; font-size: 28px; line-height: 1.2; font-weight: 600; color: #fff; }
+  #ipt-root .ipt-kit-text { margin: 0 0 12px !important; font-size: 16px; line-height: 1.55; color: rgba(255, 255, 255, .85); }
+  #ipt-root .ipt-kit-text strong { color: #fff; }
+  #ipt-root .ipt-kit-list { list-style: none; margin: 0 0 16px !important; padding: 0 !important; }
+  #ipt-root .ipt-kit-list li { position: relative; margin: 0 0 8px; padding-left: 26px; font-size: 15.5px; line-height: 1.5; color: rgba(255, 255, 255, .9); }
+  #ipt-root .ipt-kit-list li::before { content: ''; position: absolute; left: 2px; top: 6px; width: 12px; height: 7px; border-left: 2.5px solid var(--gold); border-bottom: 2.5px solid var(--gold); transform: rotate(-45deg); }
+  #ipt-root .ipt-kit-tip { margin: 0 !important; padding-top: 14px; border-top: 1px solid rgba(255, 255, 255, .12); font-size: 13.5px; line-height: 1.5; color: rgba(255, 255, 255, .65); }
+  @media (max-width: 600px) { #ipt-root .ipt-kit { padding: 22px 18px 18px; } #ipt-root .ipt-kit-title { font-size: 24px; } }
   #ipt-root .ipt-yt {
     position: relative; max-width: 860px; margin: 0 auto; aspect-ratio: 16 / 9;
     border-radius: 16px; overflow: hidden; background: #000;
@@ -441,9 +451,21 @@
   <section class="ipt-sec-navy ipt-hero ipt-hero-dq">
     <span class="ipt-pill"><i></i>For Moms, Caregivers &amp; Pediatric Professionals</span>
     <h1 class="ipt-h1">You're not quite ready <em>for the program <span class="ipt-underline">just yet</span></em></h1>
-    <p class="ipt-dq-text">Based on what you shared, it's too early for a career call. But we didn't want to leave you empty-handed.</p>
-    <p class="ipt-dq-text">Keep an eye on your inbox. We'll send you free resources so you can learn what sleep consultants really do, and get ready for when the timing is right.</p>
-    <p class="ipt-dq-cta">Watch this sneak peek inside IPSP&reg;, then check your email <svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></p>
+    <p class="ipt-dq-text">Based on what you shared, now isn't the right time for a career call. That's okay. Most of our students started right where you are.</p>
+    <div class="ipt-kit">
+      <p class="ipt-kit-tag">Check your inbox</p>
+      <h2 class="ipt-kit-title">Your free Sleep Consultant Starter Kit is on its way</h2>
+      <p class="ipt-kit-text">Violet is sending it to your email now. It covers everything you need to know about becoming a sleep consultant, so you're ready when the timing is right.</p>
+      <p class="ipt-kit-text"><strong>Over the next few days, you'll also get:</strong></p>
+      <ul class="ipt-kit-list">
+        <li>A sneak peek inside the IPSP&reg; course</li>
+        <li>How our 6-month 1:1 mentorship works</li>
+        <li>Real stories from IPSP&reg; grads</li>
+        <li>How to spot a fake sleep consultant program (yes, that's a thing now)</li>
+      </ul>
+      <p class="ipt-kit-tip">Don't see it in a few minutes? Check your Promotions or Spam folder and move it to your inbox.</p>
+    </div>
+    <p class="ipt-dq-cta">While you wait, watch this sneak peek inside IPSP&reg; <svg viewBox="0 0 24 24"><path d="M12 5v14M6 13l6 6 6-6"/></svg></p>
     <div class="ipt-yt" id="ipt-yt" data-src="https://www.youtube.com/embed/GO-tqeW6PEI?rel=0">
       <iframe src="https://www.youtube.com/embed/GO-tqeW6PEI?rel=0" title="Institute of Pediatric Sleep and Parenting Sneak Peek" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
     </div>
