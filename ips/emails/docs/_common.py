@@ -1,0 +1,20 @@
+SLOTS='https://violetsleepbabysleep.ac-page.com/slots'
+TRAIN='https://violetsleepbabysleep.ac-page.com/training/?email=%EMAIL%'
+KIT='https://instituteofpediatricsleep.com/wp-content/uploads/2026/05/Starter-Kit-2026.pdf'
+PEEK='https://youtu.be/GO-tqeW6PEI'
+REVIEWS='https://instituteofpediatricsleep.com/institute-of-pediatric-sleep-and-parenting-reviews/'
+FB='https://www.facebook.com/groups/905751107596199'
+IG='https://www.instagram.com/instituteofpediatricsleep/'
+BOOK='https://amzn.to/3WVPoVG'
+WA='https://wa.me/message/AC5OFAHLD4OOD1'
+CONF='https://violetsleepbabysleep.ac-page.com/booking-confirmed'
+V='<p>Warmly,<br>Violet Giannone, RN<br>Founder, IPSP&reg;</p>'
+M='<p>Warmly,<br>Missy<br>Institute of Pediatric Sleep and Parenting&reg;</p>'
+def a(url,txt): return f'<a href="{url}">{txt}</a>'
+def page(title,intro,items,notes):
+    h=f'<html><head><meta charset="utf-8"></head><body><h1>{title}</h1>{intro}'
+    for it in items: h+=it
+    h+='<h2>Check before sending</h2><ul>'+''.join(f'<li>{n}</li>' for n in notes)+'</ul></body></html>'
+    return h
+def email(label,subject,preview,body): return f'<h2>{label}</h2><p><b>Subject:</b> {subject}<br><b>Preview:</b> {preview}</p>{body}<hr>'
+def sms(label,text,who='TextMagic'): return f'<h3>{label} · SMS ({who})</h3><p>{text}</p>'
