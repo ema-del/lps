@@ -4,6 +4,16 @@ Goal: Zapier puts each lead on the right TextMagic list. TextMagic Flows send th
 
 Before you start, have open: TextMagic, Zapier, JotForm, Calendly.
 
+## STATUS (updated)
+
+- [x] Part 1 · Lists made
+- [x] Part 2 · Zaps updated (AC + Calendly changes now update the TextMagic lists)
+- [ ] **BLOCKED:** TextMagic number not verified yet
+- [ ] Part 3 · Flows 1–3 (about 10 min, once the number is verified)
+- [ ] Part 4 · Test (about 10 min)
+- [ ] Turn off the old AC SMS steps
+- [ ] Relaunch ads
+
 ---
 
 ## PART 1 · TextMagic lists (3 min)
