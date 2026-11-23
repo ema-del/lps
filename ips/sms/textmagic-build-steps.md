@@ -37,7 +37,7 @@ Start from Violet's Zap "Meta Ads Jotform to Textmagic". **Delete "Delay Until" 
 Copy Zap A (⋮ → Duplicate), then change:
 
 1. **Trigger:** JotForm, New Submission, form **262803770587365** (the /training application)
-2. **Filter:** only continue if the answers are **not** the disqualifying ones (match whatever is live on that form, e.g. "Things are really tight…" or "Under $2,000", and "never heard of a sleep consultant")
+2. **Filter:** only continue if the new disqualifier question **does not contain** the ❌ answer (e.g. "I don't have a way"). Copy the exact wording from JotForm.
 3. Phone formatter: same as Zap A (this form calls the field "Phone Number")
 4. **TextMagic → Create Contact** (or **Update Contact** if they already exist from the opt-in)
    - List: **IPS Qualified**
@@ -107,6 +107,32 @@ Trigger: Contact is added to a list → **IPS No Show**
 - [ ] Book a test call → **check that no more Qualified texts arrive.** If they still come, add a condition before each SMS in Flow 2: "Contact is NOT in list IPS Booked" (if TextMagic has it), or tell me and we'll find another way
 - [ ] Pick a disqualifying answer → no text at all
 - [ ] Turn off the old ActiveCampaign SMS steps once all of this works
+
+---
+
+## Suppression: who stops getting texts, and when
+
+Same rules as GHL. Once someone replies or moves to the next step, the old texts stop.
+
+| What happens | Stops | How |
+|---|---|---|
+| They reply to any SMS | The rest of that Flow | "Wait for reply & split" Path X ends the Flow |
+| They fill the application (qualified) | Flow 1 (New Lead) | Zap B removes them from IPS New Lead |
+| They fill the application (disqualified) | Flow 1 | Zap B2: same trigger, opposite filter, remove from IPS New Lead (Violet's AC sequence takes over) |
+| They book a call | Flows 1 and 2 | Zap C removes them from IPS New Lead and IPS Qualified, adds IPS Booked |
+| They no-show | Nothing old is running | Zap D moves them to IPS No Show |
+| They rebook after a no-show | Flow 3 | Zap C also removes them from IPS No Show |
+
+**Before each SMS step in Flows 1–3, add a check** (Split / Condition: "Contact is in list"):
+- Flow 1: end the Flow if the contact is in IPS Qualified, IPS Booked or IPS Replied
+- Flow 2: end it if they're in IPS Booked
+- Flow 3: end it if they're in IPS Booked
+
+Why: removing someone from a list may not stop a Flow that's already running. The check makes sure it does.
+
+**Optional: IPS Replied list.** On Path X, add "Add to list → IPS Replied". Then Flow 1's check also covers someone who replied to an earlier message.
+
+**Test it:** opt in, then book right away. No New Lead texts should arrive after the booking.
 
 ## Watch-outs
 
